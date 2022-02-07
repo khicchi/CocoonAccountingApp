@@ -573,7 +573,7 @@
       // document.documentElement.style.setProperty('--vh', vh + 'px');
   });
 
-  // TODO : Tabs dropdown fix, remove this code once fixed in bootstrap 4.
+  // HODO : Tabs dropdown fix, remove this code once fixed in bootstrap 4.
   $('.nav.nav-tabs a.dropdown-item').on('click', function () {
       var $this = $(this),
           href = $this.attr('href');

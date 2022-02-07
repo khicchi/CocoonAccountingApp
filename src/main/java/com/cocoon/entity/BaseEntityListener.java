@@ -12,14 +12,14 @@ public class BaseEntityListener extends AuditingEntityListener {
 
     @PrePersist
     public void onPrePersist(BaseEntity baseEntity) {
-        baseEntity.setCreatedBy("1");//todo @kicchi this will be changed with the logged in user id at security level
+        baseEntity.setCreatedBy(1L);//todo @kicchi this will be changed with the logged in user id at security level
         baseEntity.setCreatedTime(LocalDateTime.now());
         onPreUpdate(baseEntity);
     }
 
     @PreUpdate
     public void onPreUpdate(BaseEntity baseEntity) {
-        baseEntity.setUpdatedBy("1");//todo @kicchi this will be changed with the logged in user id at security level
+        baseEntity.setUpdatedBy(1L);//todo @kicchi this will be changed with the logged in user id at security level
         baseEntity.setUpdatedTime(LocalDateTime.now());
     }
 }

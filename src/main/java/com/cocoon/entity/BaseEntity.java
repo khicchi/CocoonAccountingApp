@@ -15,11 +15,11 @@ public class BaseEntity {
     private Long id;
 
     @Column(name = "created_by", nullable = false,updatable = false)
-    private String createdBy;
+    private Long createdBy;
     @Column(name = "created_time", nullable = false,updatable = false)
     private LocalDateTime createdTime;
     @Column(name = "updated_by", nullable = false)
-    private String updatedBy;
+    private Long updatedBy;
     @Column(name = "updated_time", nullable = false)
     private LocalDateTime updatedTime;
 }
