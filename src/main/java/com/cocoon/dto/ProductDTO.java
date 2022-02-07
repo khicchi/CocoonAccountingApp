@@ -1,35 +1,31 @@
-package com.cocoon.entity;
+package com.cocoon.dto;
 
+import com.cocoon.entity.Category;
+import com.cocoon.entity.Company;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-@Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@Table(name="product")
-public class Product extends BaseEntity{
+public class ProductDTO {
 
+    private Long id;
     private String name;
     private String description;
     private int qty;
     private int price;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
     private Category categoryId;
-
     private String unit;
     private int lowLimitAlert;
     private int tax;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
     private Company companyId;
-
     private boolean enabled;
-
 }
