@@ -3,6 +3,7 @@ package com.cocoon.dto;
 import com.cocoon.entity.Category;
 import com.cocoon.entity.Company;
 import com.cocoon.enums.Status;
+import com.cocoon.enums.Unit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class ProductDTO {
     private int qty;
     private int price;
     private Category categoryId;
-    private String unit;
+    private Unit unit;
     private int lowLimitAlert;
     private int tax;
     private Company companyId;

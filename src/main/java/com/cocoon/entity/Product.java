@@ -1,6 +1,7 @@
 package com.cocoon.entity;
 
 import com.cocoon.enums.Status;
+import com.cocoon.enums.Unit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +24,7 @@ public class Product extends BaseEntity{
     @JoinColumn(name = "category_id")
     private Category categoryId;
 
-    private String unit;
+    private Unit unit;
     private int lowLimitAlert;
     private int tax;
 
