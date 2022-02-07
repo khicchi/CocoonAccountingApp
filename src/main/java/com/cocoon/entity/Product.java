@@ -1,5 +1,6 @@
 package com.cocoon.entity;
 
+import com.cocoon.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,5 +32,8 @@ public class Product extends BaseEntity{
     private Company companyId;
 
     private boolean enabled;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
 }
