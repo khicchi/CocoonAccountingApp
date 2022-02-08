@@ -46,7 +46,7 @@ public class ProductController {
         return "/product/product-edit";
     }
 
-    @PostMapping()
+    //@PostMapping()
 
 
 }
