@@ -48,10 +48,10 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr >
-                                                            <td class="text-truncate" ></td>
-                                                            <td class="text-truncate" ></td>
-                                                            <td class="text-truncate" ></td>
+                                                        <tr th:each="invoice : ${invoices}">
+                                                            <td class="text-truncate" th:text="${invoice.getInvoiceNo()}" ></td>
+                                                            <td class="text-truncate" th:text="${invoice.getInvoiceDate()}"></td>
+                                                            <td class="text-truncate" th:text="${invoice.getClientVendor().getCompanyName()}"></td>
                                                             <td class="text-truncate" ></td>
                                                             <td class="text-truncate" ></td>
                                                             <td class="text-truncate" ></td>
@@ -60,7 +60,7 @@
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                <form action="#" data-th-action="@{/invoice/approveDeleteToInvoice/{id}(id=${salesInvoice.getInvoiceNo()})}"
+                                                                <form action="#"
                                                                       method="post">
                                                                     <button
                                                                             class="btn btn-success mb-2 mb-sm-0 mr-sm-2"

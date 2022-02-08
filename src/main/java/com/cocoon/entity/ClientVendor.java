@@ -4,21 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+@Table(name = "client_vendor_list")
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@Table(name = "test")
-public class TestEntity {
+public class ClientVendor extends BaseEntity {
 
-    @Id
-    private Integer id;
-    private String testval;
-    //this line
-
+    private String companyName;
 }
