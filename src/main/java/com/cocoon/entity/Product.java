@@ -1,6 +1,6 @@
 package com.cocoon.entity;
 
-import com.cocoon.enums.Status;
+import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class Product extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private Category categoryId;
+    private Category category;
 
     private Unit unit;
     private int lowLimitAlert;
@@ -30,11 +30,11 @@ public class Product extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    private Company companyId;
+    private Company company;
 
     private boolean enabled;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private ProductStatus productStatus;
 
 }

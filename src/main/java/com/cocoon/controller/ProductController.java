@@ -29,7 +29,7 @@ public class ProductController {
     @GetMapping("/create")
     public String getCreateProductPage(Model model){
         model.addAttribute("product", new ProductDTO());
-        //model.addAttribute("category", categoryRepository.getAll()); todo @otto updated here after category repository created.
+        //model.addAttribute("category", categoryRepository.getAll()); TODO @otto updated here after category repository created.
         return "/product/product-add";
     }
 
@@ -42,7 +42,7 @@ public class ProductController {
     @GetMapping("/update/{id}")
     public String getUpdateProductPage(@PathVariable("id") Long id, Model model) throws CocoonException {
         model.addAttribute("product", productService.getProductById(id));
-        //model.addAttribute("category", categoryRepository.getAll()); todo @otto updated here after category repository created.
+        //model.addAttribute("category", categoryRepository.getAll()); TODO @otto updated here after category repository created.
         return "/product/product-edit";
     }
 

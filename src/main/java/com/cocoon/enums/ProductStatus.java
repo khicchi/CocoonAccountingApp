@@ -1,11 +1,11 @@
 package com.cocoon.enums;
 
-public enum Status {
+public enum ProductStatus {
     ACTIVE("Active"), PASSIVE("Passive");
 
     private final String value;
 
-    private Status(String value){
+    private ProductStatus(String value){
         this.value = value;
     }
 
