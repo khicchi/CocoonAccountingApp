@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,8 +17,11 @@ import java.time.LocalDateTime;
 public class Category extends BaseEntity {
 
     private String description;
-    @Column(name = "company_id")
-    private int companyId;
+
+    @JoinColumn(name = "company_id",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Company company;
+
     private boolean enabled;
 
 

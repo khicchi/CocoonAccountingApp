@@ -70,7 +70,7 @@
                                                         <td th:text="${eachCompany.email}"></td>
                                                         <td th:text="${eachCompany.phone}"></td>
                                                         <td th:text="${eachCompany.zip}"></td>
-                                                        <td th:text="${eachCompany.state}"></td>
+                                                        <td th:text="${eachCompany.state.stateName}"></td>
                                                         <td>
                                                             <span
                                                                 th:if="${eachCompany.isEnabled()}"
