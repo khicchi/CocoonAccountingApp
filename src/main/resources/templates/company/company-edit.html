@@ -33,7 +33,6 @@
                     <!-- Filter starts -->
                     <div class="users-list-filter px-2">
 
-
                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
                             <a class="btn btn-primary bg-light-primary mb-1" ><i
                                     class="fa fa-list mr-1"></i>Company List</a>
@@ -42,7 +41,6 @@
                     <!-- Filter ends -->
 
                     <!-- Table starts -->
-
 
                     <div class="row">
                         <div class="col-12">
@@ -56,7 +54,7 @@
                                                  aria-labelledby="account-tab">
 
                                                 <!-- Account form starts -->
-                                                <form class="needs-validation" novalidate>
+                                                <form class="needs-validation" novalidate >
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
@@ -103,7 +101,7 @@
                                                                     <label for="state">State</label>
                                                                     <select id="state" class="form-control"
                                                                             required >
-                                                                        <option selected></option>
+<!--                                                                        <option ></option>-->
                                                                         <option ></option>
                                                                     </select>
                                                                 </div>
@@ -148,7 +146,7 @@
                                                                 Close Company</a>
                                                             <a type="button" class="btn btn-success mb-2 mb-sm-0 mr-sm-2" data-toggle="tooltip" data-placement="top" title="All the people are allowed by the Company can get access the system again">
                                                                 Re-Open Company</a>
-                                                            <button type="reset" class="btn btn-secondary">Cancel
+                                                            <button  class="btn btn-secondary" th:onclick="'javascript:Window.open('company-list.html','_top')'">Cancel
                                                             </button>
                                                         </div>
                                                     </div>

@@ -32,8 +32,8 @@
                     <!-- Filter starts -->
                     <div class="users-list-filter px-2">
                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                            <a class="btn btn-success bg-light-success mb-1" ><i
-                                    class="fa fa-plus mr-1"></i>Add Company</a>
+                            <a class="btn btn-success bg-light-success mb-1" th:href="@{/company/create}"><i
+                                    class="fa fa-plus mr-1" ></i>Add Company</a>
                         </div>
                     </div>
 
@@ -63,25 +63,25 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr >
-                                                        <td ></td>
-                                                        <td  class="text-truncate"></td>
-                                                        <td ></td>
-                                                        <td ></td>
-                                                        <td ></td>
-                                                        <td ></td>
-                                                        <td ></td>
+                                                    <tr th:each="eachCompany : ${companies}">
+                                                        <td th:text="${eachCompany.id}"></td>
+                                                        <td th:text="${eachCompany.title}" class="text-truncate"></td>
+                                                        <td th:text="${eachCompany.representative}"></td>
+                                                        <td th:text="${eachCompany.email}"></td>
+                                                        <td th:text="${eachCompany.phone}"></td>
+                                                        <td th:text="${eachCompany.zip}"></td>
+                                                        <td th:text="${eachCompany.state}"></td>
                                                         <td>
                                                             <span
-
-                                                                    class="badge bg-light-success"></span>
+                                                                th:if="${eachCompany.isEnabled()}"
+                                                                    class="badge bg-light-success">Enabled</span>
                                                             <span
-
-                                                                    class="badge bg-light-DANGER"></span>
+                                                                th:unless="${eachCompany.isEnabled()}"
+                                                                    class="badge bg-light-DANGER">Disabled</span>
                                                         </td>
                                                         <!--<td></td>-->
                                                         <td>
-                                                            <a >
+                                                            <a th:href="@{/company/update/{id}(id=${eachCompany.id})}">
                                                                 <i class="ft-edit"></i>
                                                             </a>
                                                         </td>

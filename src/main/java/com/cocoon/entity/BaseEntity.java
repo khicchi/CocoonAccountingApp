@@ -1,5 +1,6 @@
 package com.cocoon.entity;
 
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(BaseEntityListener.class)
 @Setter
+@Getter
 public class BaseEntity {
 
     @Id
