@@ -5,14 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Table(name = "client_vendor_list")
+@Where(clause = "is_deleted=false")
 public class ClientVendor extends BaseEntity {
 
     private String companyName;
