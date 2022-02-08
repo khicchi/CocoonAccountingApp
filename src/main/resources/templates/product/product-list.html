@@ -68,18 +68,17 @@
                                                     </thead>
                                                     <tbody>
 
-                                                    <tr
-                                                    >
-
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td><span  class="badge bg-light-success" ></span>
-                                                            <span  class="badge bg-light-danger" ></span>
-                                                        </td>
+                                                    <tr th:each="eachProduct : ${products}" >
+                                                        <td th:text="${eachProduct.id}" ></td>
+                                                        <td th:text="${eachProduct.name}" ></td>
+                                                        <td th:text="${eachProduct.description}" ></td>
+                                                        <td th:text="${eachProduct.qty}" ></td>
+                                                        <td th:text="${eachProduct.unit}" ></td>
+                                                        <td th:text="${eachProduct.categoryId}" ></td>
+                                                        <td th:text="${eachProduct.status}" ></td>
+<!--                                                        <td><span  class="badge bg-light-success" ></span>-->
+<!--                                                            <span  class="badge bg-light-danger" ></span>-->
+<!--                                                        </td>-->
                                                         <td>
                                                             <a >
                                                                 <i class="ft-edit" type="submit"></i>
