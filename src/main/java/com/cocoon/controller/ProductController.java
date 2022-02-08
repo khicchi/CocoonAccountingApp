@@ -47,7 +47,7 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String updateCompany(ProductDTO productDTO){
+    public String updateProduct(ProductDTO productDTO){
         productService.save(productDTO);
         return "/product/product-list";
     }
