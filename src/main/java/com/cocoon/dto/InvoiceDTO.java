@@ -30,4 +30,8 @@ public class InvoiceDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate invoiceDate;
 
+    private int InvoiceCostWithoutTax;
+    private int InvoiceCostWithTax;
+    private int totalCost;
+
 }
