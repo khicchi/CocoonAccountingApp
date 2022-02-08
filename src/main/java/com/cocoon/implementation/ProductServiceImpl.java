@@ -31,14 +31,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void save(ProductDTO productDTO) {
-        productRepository.save(productDTO);
+        Product product = mapperUtil.convert(productDTO, new Product());
+        productRepository.save(product);
     }
+
 
     @Override
     public ProductDTO getProductById(Long id) throws CocoonException {
         Optional<Product> product = productRepository.findById(id);
         if(!product.isPresent()){
-            throw new CocoonException("There is no product belobgs to this id " + id);
+            throw new CocoonException("There is no product belongs to this id " + id);
         }
         return mapperUtil.convert(product.get(), new ProductDTO());
     }
