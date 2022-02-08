@@ -18,9 +18,8 @@ public class ProductDTO {
     private Long id;
     private String name;
     private String description;
-    private int qty;
-    private int price;
     private Category category;
+    private int qty;
     private Unit unit;
     private int lowLimitAlert;
     private int tax;

@@ -17,14 +17,16 @@ public class Product extends BaseEntity{
 
     private String name;
     private String description;
-    private int qty;
-    private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
+    private int qty;
+
+    @Enumerated(EnumType.STRING)
     private Unit unit;
+
     private int lowLimitAlert;
     private int tax;
 

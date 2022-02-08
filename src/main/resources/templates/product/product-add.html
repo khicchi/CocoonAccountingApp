@@ -59,8 +59,9 @@
                                                                 <div class="controls">
                                                                     <label for="company-name">Company Name</label>
                                                                     <select disabled id="company-name"
-                                                                            class="form-control"
-                                                                            th:field="*{product.getCompany().getTitle()}">
+                                                                            class="form-control">
+<!--                                                                            th:field="*{product.getCompany().getTitle()}"-->
+
 
                                                                         <option
                                                                                 selected="selected"
@@ -103,7 +104,7 @@
 <!--                                                                            required-->
                                                                             th:field="*{productStatus}" aria-invalid="false" >
                                                                         <option th:value=" ''">Select Status</option>
-                                                                        <option th:each="eachStatus : ${status}" th:value="${eachStatus.getValue()}" th:text="${eachState.getValue()}" >
+                                                                        <option th:each="eachStatus : ${productStatus}" th:value="${eachStatus.getValue()}" th:text="${eachStatus.getValue()}" >
                                                                         </option>
 
                                                                     </select>
