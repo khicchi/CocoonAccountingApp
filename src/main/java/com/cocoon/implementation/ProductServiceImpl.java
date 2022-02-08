@@ -2,12 +2,14 @@ package com.cocoon.implementation;
 
 import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Product;
+import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.ProductService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +30,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(Product product) {
+    public void save(ProductDTO productDTO) {
+        productRepository.save(productDTO);
+    }
+
+    @Override
+    public ProductDTO getProductById(Long id) throws CocoonException {
+        Optional<Product> product = productRepository.findById(id);
+        if(!product.isPresent()){
+            throw new CocoonException("There is no product belobgs to this id " + id);
+        }
+        return mapperUtil.convert(product.get(), new ProductDTO());
+    }
+
+    @Override
+    public void update(ProductDTO productDTO) {
+        Product product = mapperUtil.convert(productDTO, new Product());
         productRepository.save(product);
     }
 }
