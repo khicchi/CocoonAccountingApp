@@ -109,7 +109,7 @@
                                                                     <select id="state" class="form-control"
                                                                             required th:field="*{state}">
                                                                         <option th:value=" ''" ></option>
-                                                                        <option th:each="eachState : ${states}" th:value="${eachState.getStateName()}" th:text="${eachState.getStateName()}"></option>
+                                                                        <option th:each="eachState : ${states}" th:value="${eachState.getId()}" th:text="${eachState.getStateName()}"></option>
                                                                     </select>
                                                                 </div>
                                                             </div>

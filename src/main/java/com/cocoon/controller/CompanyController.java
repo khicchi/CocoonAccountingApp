@@ -39,7 +39,7 @@ public class CompanyController {
     @PostMapping("/create")
     public String saveCompany(CompanyDTO companyDTO) throws CocoonException {
         companyService.save(companyDTO);
-        return "company/company-list";
+        return "redirect:/company/list";
     }
 
     @GetMapping("/update/{id}")

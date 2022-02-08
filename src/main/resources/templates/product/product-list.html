@@ -32,7 +32,8 @@
                     <!-- Filter starts -->
                     <div class="users-list-filter px-2">
                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                            <a class="btn btn-success bg-light-success mb-1" ><i
+                            <a th:href="@{/product/create}"
+                                    class="btn btn-success bg-light-success mb-1" ><i
                                     class="fa fa-plus mr-1"></i>Add Product</a>
                         </div>
                     </div>
@@ -67,18 +68,17 @@
                                                     </thead>
                                                     <tbody>
 
-                                                    <tr
-                                                    >
-
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td><span  class="badge bg-light-success" ></span>
-                                                            <span  class="badge bg-light-danger" ></span>
-                                                        </td>
+                                                    <tr th:each="eachProduct : ${products}" >
+                                                        <td th:text="${eachProduct.id}" ></td>
+                                                        <td th:text="${eachProduct.name}" ></td>
+                                                        <td th:text="${eachProduct.description}" ></td>
+                                                        <td th:text="${eachProduct.qty}" ></td>
+                                                        <td th:text="${eachProduct.unit}" ></td>
+                                                        <td th:text="${eachProduct.category}" ></td>
+                                                        <td th:text="${eachProduct.productStatus}" ></td>
+<!--                                                        <td><span  class="badge bg-light-success" ></span>-->
+<!--                                                            <span  class="badge bg-light-danger" ></span>-->
+<!--                                                        </td>-->
                                                         <td>
                                                             <a >
                                                                 <i class="ft-edit" type="submit"></i>

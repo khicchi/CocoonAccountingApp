@@ -1,5 +1,6 @@
 package com.cocoon.dto;
 
+import com.cocoon.entity.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class CompanyDTO {
     private String title;
     private String address1;
     private String address2;
-    private String state;
+    private State state;
     private String zip;
     private String representative;
     private String email;
