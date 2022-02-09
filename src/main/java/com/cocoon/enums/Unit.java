@@ -7,7 +7,7 @@ public enum Unit {
 
     private final String value;
 
-    private Unit(String value){
+    Unit(String value){
         this.value = value;
     }
 
