@@ -18,15 +18,10 @@
                 <section class="users-list-wrapper">
                     <!-- SALES INVOICE LIST LINK -->
                     <div class="users-list-filter px-2">
-                        <form action="#" data-th-action="@{/invoice/invoiceListLink/{id}(id=${invoice.getInvoiceNo()})}"
-                              method="post">
-                            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                                <button class="btn btn-primary bg-light-primary mb-1"
-                                        type="submit" name="action" value="cancel">
-                                   <i class="fa fa-list mr-1"></i>Sales Invoice List
-                                </button>
-                            </div>
-                        </form>
+                        <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
+                            <a class="btn btn-primary bg-light-primary mb-1" th:href="@{/sales-invoice/list}"
+                            ><i class="fa fa-list mr-1"></i>Sales Invoices list</a>
+                        </div>
                     </div>
                     <!-- SALES INVOICE LIST LINK END-->
                     <!-- FORMS BEGIN -->
@@ -39,51 +34,77 @@
                                             <div class="tab-pane fade mt-2 show active" id="account" role="tabpanel"
                                                  aria-labelledby="account-tab">
                                                 <!-- INVOICE PART BEGIN-->
-                                                <form class="needs-validation" novalidate>
+                                                <form class="needs-validation" th:action="@{/sales-invoice/create}" method="post"
+                                                      th:object="${invoice}" novalidate>
                                                     <div class="row">
-                                                        <div class="col-12 col-md-4">
+                                                        <div class="col-12 col-md-auto">
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Invoice No</label>
                                                                     <a type="text"
-                                                                           class="form-control" required aria-invalid="false"
+                                                                       class="form-control" required aria-invalid="false"
                                                                        readonly></a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12 col-md-4">
+                                                        <div class="col-12 col-md-auto">
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Invoice Date</label>
                                                                     <a type="text"
-                                                                           class="form-control" readonly
+                                                                       class="form-control" readonly
                                                                        required="" aria-invalid="false"></a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12 col-md-4">
-                                                                <div class="form-group">
-                                                                    <div class="controls">
+                                                        <div class="col-12 col-md-auto">
+                                                            <div class="form-group">
+                                                                <div class="controls">
                                                                     <label>Client</label>
-                                                                    <select
-                                                                            class="custom-select" required="required">
-                                                                        <option ></option>
-                                                                        <option
-                                                                        ></option>
+                                                                    <select th:field="*{clientVendor}" class="custom-select" required="required">
+                                                                        <option th:value=" ''" th:text="Select"></option>
+                                                                        <option th:each="client : ${clients}" th:value="${client.id}"
+                                                                                th:text="${client.getCompanyName()}"></option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-12 col-md-auto">
+                                                            <div class="form-group">
+                                                                <div class="controls">
+                                                                    <label>CANCEL</label>
+                                                                    <button class="btn btn-danger d-flex flex-sm-row flex-column justify-content-end"
+                                                                            type="cancel" name="action" value="cancel">Cancel
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-auto">
+                                                            <div class="form-group">
+                                                                <div class="controls">
+                                                                    <label>SUBMIT</label>
+                                                                    <button class="btn btn-success d-flex flex-sm-row flex-column justify-content-end"
+                                                                            type="submit" name="action" >Submit
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
-                                                    <!-- INVOICE PART END -->
-                                                    <!-- INVOICE PRODUCT PART BEGIN -->
+                                                </form>
+                                                <hr class="solid">
+                                                <!-- INVOICE PART END -->
+                                                <form th:object="${product}" th:action="@{/sales-invoice/create-product}" method="post">
                                                     <div class="needs-validation" novalidate>
                                                         <div class="row">
                                                             <div class="col-12 col-md-3">
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Product</label>
-                                                                        <select class="custom-select" required="required" disabled>
+                                                                        <select th:field="*{name}" class="custom-select" required="required" >
+                                                                            <option th:value=" ''" th:text="Select"></option>
+                                                                            <option th:each="theProduct : ${products}" th:value="${theProduct.description}"
+                                                                                    th:text="${theProduct.description}"></option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -92,9 +113,10 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Quantity</label>
-                                                                        <input type="text" disabled
+                                                                        <input type="text"
                                                                                class="form-control"
-                                                                               required aria-invalid="false">
+                                                                               required aria-invalid="false"
+                                                                               th:field="*{qty}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -102,9 +124,10 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Price</label>
-                                                                        <input type="text" disabled
+                                                                        <input type="text"
                                                                                class="form-control"
-                                                                               required aria-invalid="false">
+                                                                               required aria-invalid="false"
+                                                                               th:field="*{price}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -112,21 +135,21 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Tax</label>
-                                                                        <input type="text" disabled
+                                                                        <input type="text"
                                                                                class="form-control"
-                                                                               required aria-invalid="false">
+                                                                               required aria-invalid="false"
+                                                                               th:field="*{tax}">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
                                                                 <button type="submit" name="action" value="addItem"
-                                                                    class="btn btn-warning mb-2 mb-sm-0 mr-sm-2" disabled>Add Item
+                                                                        class="btn btn-warning mb-2 mb-sm-0 mr-sm-2" >Add Item
                                                                 </button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
-                                                <!-- INVOICE PRODUCT PART END -->
+                                                </form><!-- Products Form-->
                                                 <!-- INVOICE PRODUCT LIST BEGIN -->
                                                 <div class="card-content fw-container">
                                                     <div class="card-body fw-body">
@@ -142,10 +165,10 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                <tr>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
+                                                                <tr th:each="product : ${invoiceProducts}">
+                                                                    <td th:text="${product.getName()}"></td>
+                                                                    <td th:text="${product.getPrice()}"></td>
+                                                                    <td th:text="${product.getQty()}"></td>
                                                                     <td></td>
                                                                     <td></td>
                                                                 </tr>
@@ -155,14 +178,8 @@
                                                     </div>
                                                 </div>
                                                 <!-- INVOICE PRODUCT LIST END-->
-                                                <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
-                                                    <form action="#" data-th-action="@{/invoice/cancelOrSave/{id}(id=${invoice.getInvoiceNo()})}"
-                                                          method="post">
-                                                        <button class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
-                                                                type="submit" name="action" value="cancel">Cancel
-                                                        </button>
-                                                    </form>
-                                                </div>
+
+
                                             </div>
                                         </div>
                                     </div>

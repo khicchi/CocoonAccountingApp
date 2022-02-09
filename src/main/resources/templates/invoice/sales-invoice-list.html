@@ -17,13 +17,10 @@
                 <section class="users-list-wrapper">
                     <!-- ADD SALES INVOICE LINK BEGIN -->
                     <div class="users-list-filter px-2">
-                        <form>
-                            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                                <a class="btn btn-success bg-light-success mb-1"
-                                   ><i
-                                        class="fa fa-plus mr-1"></i>Create Sales Invoice</a>
-                            </div>
-                        </form>
+                        <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
+                            <a class="btn btn-success bg-light-success mb-1" th:href="@{/sales-invoice/create}"
+                               ><i class="fa fa-plus mr-1"></i>Create Sales Invoice</a>
+                        </div>
                     </div>
                     <!-- ADD SALES INVOICE LINK END -->
                     <!-- LIST BEGIN -->
@@ -41,7 +38,7 @@
                                                         <th>Invoice Date</th>
                                                         <th>Vendor</th>
                                                         <th>Cost</th>
-                                                        <th>Tax(Avg)</th>
+                                                        <th>Tax</th>
                                                         <th>Total</th>
                                                         <th>Add Line Item</th>
                                                         <th></th>
@@ -53,8 +50,8 @@
                                                             <td class="text-truncate" th:text="${invoice.getInvoiceDate()}"></td>
                                                             <td class="text-truncate" th:text="${invoice.getClientVendor().getCompanyName()}"></td>
                                                             <td class="text-truncate" th:text="${invoice.getInvoiceCostWithoutTax()}"></td>
-                                                            <td class="text-truncate" th:text="${tax}"></td>
-                                                            <td class="text-truncate" th:text="${tax}"></td>
+                                                            <td class="text-truncate" th:text="${invoice.getInvoiceCostWithTax()}"></td>
+                                                            <td class="text-truncate" th:text="${invoice.getTotalCost()}"></td>
                                                             <td>
                                                                 <a class="ft-list" >
                                                                 </a>
