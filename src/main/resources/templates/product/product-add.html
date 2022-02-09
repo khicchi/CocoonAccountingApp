@@ -59,8 +59,9 @@
                                                                 <div class="controls">
                                                                     <label for="company-name">Company Name</label>
                                                                     <select disabled id="company-name"
-                                                                            class="form-control"
-                                                                            th:field="*{product.getCompany().getTitle()}">
+                                                                            class="form-control">
+<!--                                                                            th:field="*{product.getCompany().getTitle()}"-->
+
 
                                                                         <option
                                                                                 selected="selected"
@@ -99,11 +100,10 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-status">Status</label>
                                                                     <select id="users-edit-status"
-                                                                            class="form-control"
+                                                                            class="form-control" th:field="*{productStatus}" aria-invalid="false" >
 <!--                                                                            required-->
-                                                                            th:field="*{productStatus}" aria-invalid="false" >
                                                                         <option th:value=" ''">Select Status</option>
-                                                                        <option th:each="eachStatus : ${status}" th:value="${eachStatus.getValue()}" th:text="${eachState.getValue()}" >
+                                                                        <option th:each="eachStatus : ${productStatus}" th:value="${eachStatus}" th:text="${eachStatus.getValue()}" >
                                                                         </option>
 
                                                                     </select>
@@ -147,7 +147,7 @@
 <!--                                                                            required-->
 
                                                                         <option th:value=" ''">Select Unit</option>
-                                                                        <option th:each="eachUnit : ${unit}" th:value="${eachUnit.getValue()}" th:text="${eachUnit.getValue()}"> </option>
+                                                                        <option th:each="eachUnit : ${unit}" th:value="${eachUnit}" th:text="${eachUnit.getValue()}"> </option>
                                                                     </select>
                                                                 </div>
                                                             </div>

@@ -1,6 +1,8 @@
 package com.cocoon.controller;
 
 import com.cocoon.dto.ProductDTO;
+import com.cocoon.enums.ProductStatus;
+import com.cocoon.enums.Unit;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -29,14 +31,16 @@ public class ProductController {
     @GetMapping("/create")
     public String getCreateProductPage(Model model){
         model.addAttribute("product", new ProductDTO());
+        model.addAttribute("productStatus", ProductStatus.values());
+        model.addAttribute("unit", Unit.values());
         //model.addAttribute("category", categoryRepository.getAll()); TODO @otto updated here after category repository created.
-        return "/product/product-add";
+        return "product/product-add";
     }
 
     @PostMapping("/create")
     public String saveProduct(ProductDTO productDTO){
         productService.save(productDTO);
-        return "/product/product-list";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/update/{id}")
@@ -49,7 +53,7 @@ public class ProductController {
     @PostMapping("/update")
     public String updateProduct(ProductDTO productDTO){
         productService.save(productDTO);
-        return "/product/product-list";
+        return "redirect:/product/list";
     }
 
 

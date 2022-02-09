@@ -18,13 +18,13 @@ public class ProductDTO {
     private Long id;
     private String name;
     private String description;
+    private Category category;
     private int qty;
     private int price;
-    private Category category;
     private Unit unit;
     private int lowLimitAlert;
     private int tax;
     private Company company;
-    private boolean enabled;
+    private Byte enabled;
     private ProductStatus productStatus;
 }

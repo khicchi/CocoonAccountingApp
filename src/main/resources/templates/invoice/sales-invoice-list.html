@@ -41,7 +41,7 @@
                                                         <th>Invoice Date</th>
                                                         <th>Vendor</th>
                                                         <th>Cost</th>
-                                                        <th>Tax</th>
+                                                        <th>Tax(Avg)</th>
                                                         <th>Total</th>
                                                         <th>Add Line Item</th>
                                                         <th></th>
@@ -52,9 +52,9 @@
                                                             <td class="text-truncate" th:text="${invoice.getInvoiceNo()}" ></td>
                                                             <td class="text-truncate" th:text="${invoice.getInvoiceDate()}"></td>
                                                             <td class="text-truncate" th:text="${invoice.getClientVendor().getCompanyName()}"></td>
-                                                            <td class="text-truncate" ></td>
-                                                            <td class="text-truncate" ></td>
-                                                            <td class="text-truncate" ></td>
+                                                            <td class="text-truncate" th:text="${invoice.getInvoiceCostWithoutTax()}"></td>
+                                                            <td class="text-truncate" th:text="${tax}"></td>
+                                                            <td class="text-truncate" th:text="${tax}"></td>
                                                             <td>
                                                                 <a class="ft-list" >
                                                                 </a>
