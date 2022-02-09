@@ -1,4 +1,10 @@
 package com.cocoon.service;
 
-public class ClientVendorService {
+import com.cocoon.dto.ClientVendorDTO;
+
+import java.util.List;
+
+public interface ClientVendorService {
+
+    List<ClientVendorDTO> getAllClientsVendors();
 }
