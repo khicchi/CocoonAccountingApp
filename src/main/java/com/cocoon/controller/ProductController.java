@@ -39,6 +39,7 @@ public class ProductController {
         model.addAttribute("productStatus", ProductStatus.values());
         model.addAttribute("unit", Unit.values());
         model.addAttribute("categories", categoryService.getAllCategories());
+        // TODO @otto There should be an attribute to call user's company, this has to be done after security portion
         return "product/product-add";
     }
 
