@@ -1,5 +1,9 @@
 package com.cocoon.service;
 
-public interface CategoryService {
+import com.cocoon.dto.CategoryDTO;
 
+import java.util.List;
+
+public interface CategoryService {
+    List<CategoryDTO> getAllCategories();
 }
