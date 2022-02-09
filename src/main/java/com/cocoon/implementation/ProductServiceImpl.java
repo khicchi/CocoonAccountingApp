@@ -62,4 +62,5 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findProductsByInvoiceId2(id);
         return products.stream().map(product -> mapperUtil.convert(product, new ProductDTO())).collect(Collectors.toList());
     }
+
 }

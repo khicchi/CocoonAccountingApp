@@ -5,6 +5,7 @@ import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.service.CategoryService;
+import com.cocoon.service.CompanyService;
 import com.cocoon.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ public class ProductController {
 
     private ProductService productService;
     private CategoryService categoryService;
+    private CompanyService companyService;
 
     public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
