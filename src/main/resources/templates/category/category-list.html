@@ -32,7 +32,7 @@
                     <!-- Filter starts -->
                     <div class="users-list-filter px-2">
                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                            <a class="btn btn-success bg-light-success mb-1" ><i
+                            <a class="btn btn-success bg-light-success mb-1" th:href="@{/category/create}"><i
                                     class="fa fa-plus mr-1"></i>Add Product Category</a>
                         </div>
                     </div>
@@ -58,13 +58,11 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr >
-                                                        <td ></td>
-                                                        <td  class="text-truncate">
-                                                            Food
+                                                    <tr th:each="eachCategory : ${categories}">
+                                                        <td th:text="${eachCategory.id}"></td>
+                                                        <td  class="text-truncate" th:text="${eachCategory.description}">
                                                         </td>
-                                                        <td>
-                                                            category status
+                                                        <td th:text="${eachCategory.enabled}">
                                                         </td>
                                                         <td>
                                                             <a >
