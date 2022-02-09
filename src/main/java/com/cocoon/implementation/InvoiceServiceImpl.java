@@ -7,6 +7,7 @@ import com.cocoon.service.InvoiceService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,5 +32,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     public List<InvoiceDTO> getAllInvoices() {
         List<Invoice> invoices = invoiceRepository.findAll();
         return invoices.stream().map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InvoiceDTO> getInvoiceById(Long id) {
+        List<Invoice> invoices = invoiceRepository.findAllById(Collections.singleton(id));
+        return invoices.stream().map(invoice -> mapperUtil.convert(invoice,new InvoiceDTO())).collect(Collectors.toList());
     }
 }
