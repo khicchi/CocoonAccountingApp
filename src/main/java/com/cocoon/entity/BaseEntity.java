@@ -24,4 +24,6 @@ public class BaseEntity {
     private Long updatedBy;
     @Column(name = "updated_time", nullable = false)
     private LocalDateTime updatedTime;
+
+    private Boolean isDeleted=false;
 }
