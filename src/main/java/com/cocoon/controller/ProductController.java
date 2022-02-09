@@ -40,7 +40,7 @@ public class ProductController {
     @PostMapping("/create")
     public String saveProduct(ProductDTO productDTO){
         productService.save(productDTO);
-        return "/product/product-list";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/update/{id}")
@@ -53,7 +53,7 @@ public class ProductController {
     @PostMapping("/update")
     public String updateProduct(ProductDTO productDTO){
         productService.save(productDTO);
-        return "/product/product-list";
+        return "redirect:/product/list";
     }
 
 
