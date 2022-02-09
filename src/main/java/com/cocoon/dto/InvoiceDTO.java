@@ -23,11 +23,15 @@ public class InvoiceDTO {
     private InvoiceStatus invoiceStatus;
     private int invoiceNumber;
     private InvoiceType invoiceType;
-    private boolean enabled;
+    private Byte enabled;
     private Company company;
     private ClientVendor clientVendor;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate invoiceDate;
+
+    private int InvoiceCostWithoutTax;
+    private int InvoiceCostWithTax;
+    private int totalCost;
 
 }
