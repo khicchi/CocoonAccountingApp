@@ -33,6 +33,18 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public CompanyDTO findCompanyByCompanyTitle(String companyTitle) throws CocoonException {
+       Optional<Company> companyOptional1 = companyRepo.findByCompanyTitle(companyTitle);
+        if (!companyOptional1.isPresent())
+            throw new CocoonException("There is no company with this title " + companyTitle);
+
+        return mapperUtil.convert(companyOptional1.get(), new CompanyDTO());
+    }
+
+
+
+
+    @Override
     public List<CompanyDTO> getAllCompanies() {
         List<Company> companyList = companyRepo.findAll();
         return companyList.stream().map(company ->
@@ -62,6 +74,51 @@ public class CompanyServiceImpl implements CompanyService {
 
         //saving to database
         Company savedCompany = companyRepo.save(mapperUtil.convert(companyDTO, new Company()));
+    }
+
+    @Override
+    public CompanyDTO update(CompanyDTO companydto) throws CocoonException {
+
+        //Find current company
+        Optional<Company> company = companyRepo.findByCompanyTitle(companydto.getTitle());
+        //Map update company  dto to entity object
+       Company convertedtoCompany=mapperUtil.convert(companydto,new Company());
+
+       /*  TO DO BY MEMO
+
+        convertedCompany.setPassWord(passwordEncoder.encode(convertedCompany.getPassWord()));
+        convertedCompany.setEnabled(true);
+
+        */
+        //set id to the converted object
+        convertedtoCompany.setId(company.get().getId());
+        //save updated company
+        companyRepo.save(convertedtoCompany);
+        return findCompanyByCompanyTitle(companydto.getTitle());
+
+    }
+
+    @Override
+    public void delete(String companyTitle) throws CocoonException {
+        Company company = companyRepo.findByCompanyTitle(companyTitle);
+
+        if(company == null){
+            throw new CocoonException("User Does Not Exists");
+        }
+
+        /*if(!checkIfCompanyCanBeDeleted(co)){
+            throw new TicketingProjectException("User can not be deleted. It is linked by a project ot task");
+        }*/
+
+        company.setTitle(company.getTitle()+"-Deleted");
+        company.setEnabled(false);
+        companyRepo.save(company);
+    }
+    //hard delete
+    @Override
+    public void deleteByCompanyTitle(String companyTitle) {
+        companyRepo.deleteByCompanyTitle(companyTitle);
+
     }
 
     /**
