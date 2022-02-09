@@ -25,7 +25,7 @@ public class ProductController {
     @GetMapping("/list")
     public String getAllProducts(Model model){
         model.addAttribute("products", productService.getAllProducts());
-        return "/product/product-list";
+        return "product/product-list";
     }
 
     @GetMapping("/create")
@@ -47,7 +47,7 @@ public class ProductController {
     public String getUpdateProductPage(@PathVariable("id") Long id, Model model) throws CocoonException {
         model.addAttribute("product", productService.getProductById(id));
         //model.addAttribute("category", categoryRepository.getAll()); TODO @otto updated here after category repository created.
-        return "/product/product-edit";
+        return "product/product-edit";
     }
 
     @PostMapping("/update")
