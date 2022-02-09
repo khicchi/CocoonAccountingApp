@@ -2,6 +2,7 @@ package com.cocoon.controller;
 
 import com.cocoon.dto.ProductDTO;
 import com.cocoon.enums.ProductStatus;
+import com.cocoon.enums.Unit;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class ProductController {
     public String getCreateProductPage(Model model){
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("productStatus", ProductStatus.values());
+        model.addAttribute("unit", Unit.values());
         //model.addAttribute("category", categoryRepository.getAll()); TODO @otto updated here after category repository created.
         return "product/product-add";
     }

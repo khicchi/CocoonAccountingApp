@@ -23,6 +23,7 @@ public class Product extends BaseEntity{
     private Category category;
 
     private int qty;
+    private int price;
 
     @Enumerated(EnumType.STRING)
     private Unit unit;
