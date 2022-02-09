@@ -8,10 +8,7 @@ import com.cocoon.service.InvoiceService;
 import com.cocoon.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,9 +19,9 @@ public class InvoiceController {
 
     private List<ProductDTO> productsPerInvoice = new ArrayList<>();
 
-    private InvoiceService invoiceService;
-    private ProductService productService;
-    private ClientVendorService clientVendorService;
+    private final InvoiceService invoiceService;
+    private final ProductService productService;
+    private final ClientVendorService clientVendorService;
 
     public InvoiceController(InvoiceService invoiceService, ProductService productService, ClientVendorService clientVendorService) {
         this.invoiceService = invoiceService;
@@ -75,6 +72,7 @@ public class InvoiceController {
 
         productsPerInvoice.add(productDTO);
         model.addAttribute("invoiceProducts", productsPerInvoice);
+        // TODO - invoice number kaybolmayacak...
 
         return "redirect:/sales-invoice/create";
     }
@@ -100,7 +98,18 @@ public class InvoiceController {
         productsPerInvoice = productService.getProductsByInvoiceId(invoiceDTO.getId());
         model.addAttribute("invoiceProducts", productsPerInvoice);
 
-        return "invoice/sales-invoice-create";
+        return "invoice/sales-invoice-update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateInvoice(@PathVariable("id") Long id, InvoiceDTO invoiceDTO){
+
+        InvoiceDTO invoice = invoiceService.getInvoiceById(id);
+        invoice.setProducts(invoiceDTO.getProducts());
+        invoiceService.save(invoice);
+
+        return "redirect:/sales-invoice/list";
+
     }
 
 }
