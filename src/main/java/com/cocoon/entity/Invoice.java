@@ -39,7 +39,7 @@ public class Invoice extends BaseEntity implements Serializable {
     @JoinColumn(name = "sptable_id") //TODO foreign key will be replaced with "client_vendor_id"....
     private ClientVendor clientVendor;
 
-    @ManyToMany(mappedBy = "invoices",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "invoices",cascade = CascadeType.MERGE)
     private Collection<Product> products;
 
 
