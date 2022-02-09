@@ -2,12 +2,14 @@ package com.cocoon.controller;
 
 import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.dto.ProductDTO;
+import com.cocoon.entity.Invoice;
 import com.cocoon.service.ClientVendorService;
 import com.cocoon.service.InvoiceService;
 import com.cocoon.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -77,5 +79,28 @@ public class InvoiceController {
         return "redirect:/sales-invoice/create";
     }
 
+    @PostMapping("/create")
+    public String createInvoice(Model model, InvoiceDTO invoiceDTO){
+
+        invoiceDTO.setProducts(productsPerInvoice);
+        invoiceService.save(invoiceDTO);
+        productsPerInvoice.clear();
+
+        return "redirect:/sales-invoice/list";
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateInvoice(@PathVariable("id") Long id, Model model){
+
+        InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
+        model.addAttribute("invoice", invoiceDTO);
+        model.addAttribute("product", new ProductDTO());
+        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("clients", clientVendorService.getAllClientsVendors());
+        productsPerInvoice = productService.getProductsByInvoiceId(invoiceDTO.getId());
+        model.addAttribute("invoiceProducts", productsPerInvoice);
+
+        return "invoice/sales-invoice-create";
+    }
 
 }

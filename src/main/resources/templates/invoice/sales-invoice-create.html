@@ -37,27 +37,30 @@
                                                 <form class="needs-validation" th:action="@{/sales-invoice/create}" method="post"
                                                       th:object="${invoice}" novalidate>
                                                     <div class="row">
-                                                        <div class="col-12 col-md-auto">
+                                                        <div class="col-12 col-md-3">
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Invoice No</label>
-                                                                    <a type="text"
-                                                                       class="form-control" required aria-invalid="false"
-                                                                       readonly></a>
+                                                                    <input type="text"
+                                                                           class="form-control" required
+                                                                           aria-invalid="false"
+                                                                           th:field="*{invoiceNo}"
+                                                                    />
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12 col-md-auto">
+                                                        <div class="col-12 col-md-3">
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Invoice Date</label>
-                                                                    <a type="text"
-                                                                       class="form-control" readonly
-                                                                       required="" aria-invalid="false"></a>
+                                                                    <input type="date"
+                                                                       class="form-control"
+                                                                       th:field="*{invoiceDate}"
+                                                                       required="" aria-invalid="false">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12 col-md-auto">
+                                                        <div class="col-12 col-md-3">
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Client</label>
@@ -69,21 +72,21 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12 col-md-auto">
+                                                        <div class="col-12 col-md-1">
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>CANCEL</label>
-                                                                    <button class="btn btn-danger d-flex flex-sm-row flex-column justify-content-end"
-                                                                            type="cancel" name="action" value="cancel">Cancel
-                                                                    </button>
+                                                                    <a class="btn btn-danger" th:href="@{/sales-invoice/list}"
+                                                                            type="cancel" value="cancel">Cancel
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12 col-md-auto">
+                                                        <div class="col-12 col-md-1">
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>SUBMIT</label>
-                                                                    <button class="btn btn-success d-flex flex-sm-row flex-column justify-content-end"
+                                                                    <button class="btn btn-success"
                                                                             type="submit" name="action" >Submit
                                                                     </button>
                                                                 </div>

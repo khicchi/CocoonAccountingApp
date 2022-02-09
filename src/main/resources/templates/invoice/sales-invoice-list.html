@@ -53,7 +53,7 @@
                                                             <td class="text-truncate" th:text="${invoice.getInvoiceCostWithTax()}"></td>
                                                             <td class="text-truncate" th:text="${invoice.getTotalCost()}"></td>
                                                             <td>
-                                                                <a class="ft-list" >
+                                                                <a class="ft-list" th:href="@{/sales-invoice/update/{id}(id=${invoice.id})}">
                                                                 </a>
                                                             </td>
                                                             <td>
