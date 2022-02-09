@@ -20,7 +20,7 @@ public class CategoryCotroller {
 
     @PostMapping("/create")
     public String createCategory(){
-     return "/category/category-add";
+     return "category/category-add";
     }
 
 
