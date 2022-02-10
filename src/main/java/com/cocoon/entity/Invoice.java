@@ -2,6 +2,7 @@ package com.cocoon.entity;
 
 import com.cocoon.enums.InvoiceStatus;
 import com.cocoon.enums.InvoiceType;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,12 +11,15 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "invoice")
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Invoice extends BaseEntity implements Serializable {
 
     private String invoiceNo; //TODO - invoice number will be evaluated somewhere else...
@@ -40,7 +44,7 @@ public class Invoice extends BaseEntity implements Serializable {
     private ClientVendor clientVendor;
 
     @ManyToMany(mappedBy = "invoices",cascade = CascadeType.MERGE)
-    private Collection<Product> products;
+    private Set<Product> products = new HashSet<>();
 
 
 }

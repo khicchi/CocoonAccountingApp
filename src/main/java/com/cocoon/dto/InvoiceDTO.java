@@ -12,12 +12,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class InvoiceDTO {
+
+    private static final AtomicInteger count = new AtomicInteger(0);
 
     private Long id;
     private String invoiceNo;
@@ -36,4 +39,8 @@ public class InvoiceDTO {
     private int InvoiceCostWithTax;
     private int totalCost;
 
+    public InvoiceDTO(LocalDate invoiceDate) {
+        this.invoiceNo = "INV-"+ count.incrementAndGet();
+        this.invoiceDate = invoiceDate;
+    }
 }

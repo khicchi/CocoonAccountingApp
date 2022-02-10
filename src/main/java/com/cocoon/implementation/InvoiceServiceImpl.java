@@ -44,4 +44,14 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = invoiceRepository.getById(id);
         return mapperUtil.convert(invoice, new InvoiceDTO());
     }
+
+    @Override
+    public void update(InvoiceDTO dto) {
+        Invoice invoice = invoiceRepository.getById(dto.getId());
+        Invoice convertedInvoice = mapperUtil.convert(dto, new Invoice());
+        convertedInvoice.setInvoiceNo(invoice.getInvoiceNo());
+        convertedInvoice.setInvoiceStatus(invoice.getInvoiceStatus());
+        convertedInvoice.setProducts(invoice.getProducts());
+        invoiceRepository.save(convertedInvoice);
+    }
 }

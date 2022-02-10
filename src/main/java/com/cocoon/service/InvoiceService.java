@@ -9,4 +9,5 @@ public interface InvoiceService {
     void save(InvoiceDTO invoice);
     List<InvoiceDTO> getAllInvoices();
     InvoiceDTO getInvoiceById(Long id);
+    void update(InvoiceDTO dto);
 }
