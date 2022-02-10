@@ -47,4 +47,5 @@ public class Invoice extends BaseEntity implements Serializable {
     private Set<Product> products = new HashSet<>();
 
 
+
 }

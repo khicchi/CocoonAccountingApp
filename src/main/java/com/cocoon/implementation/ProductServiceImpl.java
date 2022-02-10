@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,9 +61,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProductsByInvoiceId(Long id) {
+    public Set<ProductDTO> getProductsByInvoiceId(Long id) {
         List<Product> products = productRepository.findProductsByInvoiceId2(id);
-        return products.stream().map(product -> mapperUtil.convert(product, new ProductDTO())).collect(Collectors.toList());
+        return products.stream().map(product -> mapperUtil.convert(product, new ProductDTO())).collect(Collectors.toSet());
     }
 
     @Override

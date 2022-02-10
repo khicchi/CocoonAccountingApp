@@ -97,17 +97,17 @@
                                                 </form>
                                                 <hr class="solid">
                                                 <!-- INVOICE PART END -->
-                                                <form th:object="${product}" th:action="@{/sales-invoice/create-product}" method="post">
+                                                <form th:object="${product}" th:action="@{/sales-invoice/create-product-update/{id}(id=${invoice.id})}" method="post">
                                                     <div class="needs-validation" novalidate>
                                                         <div class="row">
                                                             <div class="col-12 col-md-3">
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Product</label>
-                                                                        <select th:field="*{name}" class="custom-select" required="required" >
+                                                                        <select th:field="*{id}" class="custom-select" required="required" >
                                                                             <option th:value=" ''" th:text="Select"></option>
-                                                                            <option th:each="theProduct : ${products}" th:value="${theProduct.description}"
-                                                                                    th:text="${theProduct.description}"></option>
+                                                                            <option th:each="theProduct : ${products}" th:value="${theProduct.id}"
+                                                                                    th:text="${theProduct.name}"></option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -116,10 +116,9 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Quantity</label>
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               required aria-invalid="false"
-                                                                               th:field="*{qty}">
+                                                                        <select th:field="*{qty}" class="custom-select" required="required" >
+                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="${i}"></option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -127,10 +126,9 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Price</label>
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               required aria-invalid="false"
-                                                                               th:field="*{price}">
+                                                                        <select th:field="*{price}" class="custom-select" required="required" >
+                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i * 5}" th:text="${i * 5}"></option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -138,10 +136,9 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Tax</label>
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               required aria-invalid="false"
-                                                                               th:field="*{tax}">
+                                                                        <select th:field="*{tax}" class="custom-select" required="required" >
+                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="${i}"></option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
