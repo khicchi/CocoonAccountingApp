@@ -4,6 +4,7 @@ import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.Product;
 import com.cocoon.enums.ProductStatus;
+import com.cocoon.enums.Unit;
 import com.cocoon.exception.CocoonException;
 
 import java.util.Collection;
@@ -17,5 +18,5 @@ public interface ProductService {
     void update(ProductDTO productDTO);
     List<ProductDTO> getProductsByInvoiceId(Long id);
     ProductStatus getProductStatusById(Long id) throws CocoonException;
-
+    Unit getUnitById(Long id) throws CocoonException;
 }

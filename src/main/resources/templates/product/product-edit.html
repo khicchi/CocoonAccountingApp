@@ -134,11 +134,10 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-role">Unit</label>
-                                                                    <select  id="users-edit-role"
+                                                                    <select name="*{unit}" id="users-edit-role"
                                                                             class="form-control"
                                                                             required>
-                                                                        <option >
-                                                                        </option>
+                                                                        <option th:each="eachUnit : ${units}" th:value="${eachUnit}" th:text="${eachUnit.getValue()}" th:selected="(${eachUnit.getValue()} == *{unit.getValue()})"></option>
 
                                                                     </select>
                                                                 </div>

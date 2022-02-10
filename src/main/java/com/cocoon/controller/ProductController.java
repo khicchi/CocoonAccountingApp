@@ -54,6 +54,8 @@ public class ProductController {
         model.addAttribute("product", productService.getProductById(id));
         model.addAttribute("productStatuses", ProductStatus.values());
         model.addAttribute("productStatus", productService.getProductStatusById(id));
+        model.addAttribute("units", Unit.values());
+        model.addAttribute("unit", productService.getUnitById(id));
         return "product/product-edit";
     }
 
