@@ -59,14 +59,8 @@
                                                                 <div class="controls">
                                                                     <label for="company-name">Company Name</label>
                                                                     <select disabled id="company-name"
-                                                                            class="form-control">
-<!--                                                                            th:field="*{product.getCompany().getTitle()}"-->
-
-
-                                                                        <option
-                                                                                selected="selected"
-                                                                        ></option>
-
+                                                                            class="form-control" >
+                                                                        <option selected="selected" ></option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -79,8 +73,7 @@
                                                                            placeholder="Product Name"
                                                                            value="" required
                                                                            th:field="*{name}"
-                                                                           aria-invalid="false"
-                                                                           >
+                                                                           aria-invalid="false">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -91,8 +84,7 @@
                                                                            placeholder="Quantity"
                                                                            value="" required
                                                                            th:field="*{qty}"
-                                                                           aria-invalid="false"
-                                                                           >
+                                                                           aria-invalid="false">
                                                                 </div>
                                                             </div>
 
@@ -100,8 +92,7 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-status">Status</label>
                                                                     <select id="users-edit-status"
-                                                                            class="form-control" th:field="*{productStatus}" aria-invalid="false" >
-<!--                                                                            required-->
+                                                                            class="form-control" th:field="*{productStatus}" aria-invalid="false" required>
                                                                         <option th:value=" ''">Select Status</option>
                                                                         <option th:each="eachStatus : ${productStatus}" th:value="${eachStatus}" th:text="${eachStatus.getValue()}" >
                                                                         </option>
@@ -116,8 +107,8 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-status">Category</label>
-                                                                    <select id="users-edit-status1" class="form-control" th:field="*{category}">
-<!--                                                                            required-->
+                                                                    <select id="users-edit-status1" class="form-control" required th:field="*{category}">
+
 
 
                                                                         <option th:value=" ''" >Select Category</option>
@@ -142,8 +133,8 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-role">Unit</label>
                                                                     <select  id="users-edit-role"
-                                                                            class="form-control" th:field="*{unit}">
-<!--                                                                            required-->
+                                                                            class="form-control" required th:field="*{unit}">
+
 
                                                                         <option th:value=" ''">Select Unit</option>
                                                                         <option th:each="eachUnit : ${unit}" th:value="${eachUnit}" th:text="${eachUnit.getValue()}"> </option>
