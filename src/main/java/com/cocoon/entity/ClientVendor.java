@@ -28,5 +28,9 @@ public class ClientVendor extends BaseEntity {
     @JoinColumn(name = "state_id")
     private State state;
 
-    private boolean enabled;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    private Byte enabled;
 }

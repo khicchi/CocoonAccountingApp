@@ -4,6 +4,7 @@ import com.cocoon.dto.ProductDTO;
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
 import com.cocoon.exception.CocoonException;
+import com.cocoon.service.CategoryService;
 import com.cocoon.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProductController {
 
     private ProductService productService;
+    private CategoryService categoryService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/list")
     public String getAllProducts(Model model){
         model.addAttribute("products", productService.getAllProducts());
-        return "/product/product-list";
+        return "product/product-list";
     }
 
     @GetMapping("/create")
@@ -33,7 +36,7 @@ public class ProductController {
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("productStatus", ProductStatus.values());
         model.addAttribute("unit", Unit.values());
-        //model.addAttribute("category", categoryRepository.getAll()); TODO @otto updated here after category repository created.
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "product/product-add";
     }
 
@@ -46,8 +49,8 @@ public class ProductController {
     @GetMapping("/update/{id}")
     public String getUpdateProductPage(@PathVariable("id") Long id, Model model) throws CocoonException {
         model.addAttribute("product", productService.getProductById(id));
-        //model.addAttribute("category", categoryRepository.getAll()); TODO @otto updated here after category repository created.
-        return "/product/product-edit";
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "product/product-edit";
     }
 
     @PostMapping("/update")
