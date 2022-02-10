@@ -52,6 +52,8 @@ public class ProductController {
     @GetMapping("/update/{id}")
     public String getUpdateProductPage(@PathVariable("id") Long id, Model model) throws CocoonException {
         model.addAttribute("product", productService.getProductById(id));
+        model.addAttribute("productStatuses", ProductStatus.values());
+        model.addAttribute("productStatus", productService.getProductStatusById(id));
         return "product/product-edit";
     }
 

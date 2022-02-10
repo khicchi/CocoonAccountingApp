@@ -92,8 +92,7 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-status">Status</label>
                                                                     <select id="users-edit-status"
-                                                                            class="form-control" required th:field="*{productStatus}" aria-invalid="false" >
-
+                                                                            class="form-control" th:field="*{productStatus}" aria-invalid="false" required>
                                                                         <option th:value=" ''">Select Status</option>
                                                                         <option th:each="eachStatus : ${productStatus}" th:value="${eachStatus}" th:text="${eachStatus.getValue()}" >
                                                                         </option>
