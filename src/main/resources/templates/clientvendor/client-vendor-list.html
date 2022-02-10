@@ -54,25 +54,32 @@
                                                         <th>Company Name</th>
                                                         <th>Phone</th>
                                                         <th>Email</th>
-                                                        <th>State</th>
                                                         <th>Type</th>
+                                                        <th>ZipCode</th>
+                                                        <th>Address</th>
+                                                        <th>State</th>
+                                                        <th>Status</th>
                                                         <th>Edit</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr >
-                                                        <td ></td>
-                                                        <td  class="text-truncate"></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  ></td>
-                                                        <td  >
-
-                                                            <span class="badge bg-light-success"
-
-                                                            ></span>
+                                                    <tr th:each="eachClientVendor : ${clientVendorList}">
+                                                        <td th:text="${eachClientVendor.getId()}"></td>
+                                                        <td th:text="${eachClientVendor.getCompanyName()}" class="text-truncate"></td>
+                                                        <td th:text="${eachClientVendor.getPhone()}" ></td>
+                                                        <td th:text="${eachClientVendor.getEmail()}" ></td>
+                                                        <td th:text="${eachClientVendor.getType()}" ></td>
+                                                        <td th:text="${eachClientVendor.getZipCode()}"></td>
+                                                        <td th:text="${eachClientVendor.getAddress()}"></td>
+                                                        <td th:text="${eachClientVendor.getState().getStateCode()}" ></td>
+                                                        <td>
+                                                            <span
+                                                                    th:if="${eachClientVendor.isEnabled()}"
+                                                                    class="badge bg-light-success">Active</span>
+                                                            <span
+                                                                    th:unless="${eachClientVendor.isEnabled()}"
+                                                                    class="badge bg-light-DANGER">Passive</span>
                                                         </td>
-<!--                                                        <td><span class="badge bg-light-success">Active</span></td>-->
                                                         <td>
                                                             <a >
                                                                 <i class="ft-edit" type="submit" ></i>
