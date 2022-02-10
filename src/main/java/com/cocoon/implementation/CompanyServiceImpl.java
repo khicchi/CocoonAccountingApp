@@ -33,13 +33,16 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyDTO findCompanyByCompanyTitle(String companyTitle) throws CocoonException {
-       Optional<Company> companyOptional1 = companyRepo.findByCompanyTitle(companyTitle);
-        if (!companyOptional1.isPresent())
-            throw new CocoonException("There is no company with this title " + companyTitle);
+    public CompanyDTO update(CompanyDTO companyDTO) throws CocoonException {
 
-        return mapperUtil.convert(companyOptional1.get(), new CompanyDTO());
+       Company company=companyRepo.getById(companyDTO.getId());
+       Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
+       convertedCompanyEntity.setId(company.getId());
+       convertedCompanyEntity.setEnabled(company.isEnabled());
+       companyRepo.save(convertedCompanyEntity);
+       return getCompanyById(companyDTO.getId());
     }
+
 
 
 
@@ -75,7 +78,7 @@ public class CompanyServiceImpl implements CompanyService {
         //saving to database
         Company savedCompany = companyRepo.save(mapperUtil.convert(companyDTO, new Company()));
     }
-
+/*
     @Override
     public CompanyDTO update(CompanyDTO companydto) throws CocoonException {
 
@@ -84,12 +87,12 @@ public class CompanyServiceImpl implements CompanyService {
         //Map update company  dto to entity object
        Company convertedtoCompany=mapperUtil.convert(companydto,new Company());
 
-       /*  TO DO BY MEMO
+        TO DO BY MEMO
 
         convertedCompany.setPassWord(passwordEncoder.encode(convertedCompany.getPassWord()));
         convertedCompany.setEnabled(true);
 
-        */
+
         //set id to the converted object
         convertedtoCompany.setId(company.get().getId());
         //save updated company
@@ -108,7 +111,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         /*if(!checkIfCompanyCanBeDeleted(co)){
             throw new TicketingProjectException("User can not be deleted. It is linked by a project ot task");
-        }*/
+
 
         company.setTitle(company.getTitle()+"-Deleted");
         company.setEnabled(false);
@@ -119,7 +122,7 @@ public class CompanyServiceImpl implements CompanyService {
     public void deleteByCompanyTitle(String companyTitle) {
         companyRepo.deleteByCompanyTitle(companyTitle);
 
-    }
+    }*/
 
     /**
      * checks whether the provided companyDTO object's establishment date is at a time in the future

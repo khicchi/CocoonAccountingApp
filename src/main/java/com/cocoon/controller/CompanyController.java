@@ -51,6 +51,12 @@ public class CompanyController {
         return "company/company-edit";
     }
 
+    @PostMapping("/update/{id}")
+    public String updateCompany(@PathVariable("id") Long id,CompanyDTO companyDTO,Model model) throws CocoonException {
+        companyService.update(companyDTO);
+        return "redirect:/company/list";
+    }
+
     /*
     @GetMapping("/delete/{id}")
     public String deleteCompany(@PathVariable("id") String id, Model model) throws CocoonException{
@@ -58,12 +64,12 @@ public class CompanyController {
         model.addAttribute("states", stateRepo.findAll());
         return "company/company-edit";
     }*/
-
+/*
     @GetMapping("/delete/{username}")
     public String deleteUser(@PathVariable("username") String username) throws CocoonException {
         companyService.delete(username);
 
         return "company/company-add";
-    }
+    }*/
 
 }
