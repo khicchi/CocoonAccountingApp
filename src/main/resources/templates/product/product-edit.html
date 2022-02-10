@@ -29,8 +29,9 @@
                     <!-- Filter starts -->
                     <div class="users-list-filter px-2">
                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                            <a class="btn btn-primary bg-light-primary mb-1" ><i
-                                    class="fa fa-list mr-1"></i>Product Edit</a>
+                            <a th:href="@{/product/list}"
+                                    class="btn btn-primary bg-light-primary mb-1" ><i
+                                    class="fa fa-list mr-1"></i>Product List</a>
                         </div>
                     </div>
 
@@ -51,9 +52,7 @@
                                                  aria-labelledby="account-tab">
 
                                                 <!-- Account form starts -->
-                                                <form novalidate
-                                                       method="post"
-                                                      >
+                                                <form novalidate th:method="post" th:action="@{/product/update}" th:object="${product}" >
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
@@ -77,6 +76,7 @@
                                                                            placeholder="Product Name"
                                                                            value="" required
                                                                            aria-invalid="false"
+                                                                           th:field="*{name}"
                                                                            >
                                                                 </div>
                                                             </div>
@@ -87,6 +87,7 @@
                                                                            class="form-control"
                                                                            placeholder="Quantity"
                                                                            value="" required aria-invalid="false"
+                                                                           th:field="*{qty}"
                                                                            >
                                                                 </div>
                                                             </div>
@@ -126,6 +127,8 @@
                                                                     <input type="text" id="users-edit-company"
                                                                            class="form-control"
                                                                            placeholder="Ex: Home product, Kitchen Tools "
+                                                                           required
+                                                                           th:field="*{description}"
                                                                            >
                                                                 </div>
                                                             </div>
@@ -150,6 +153,7 @@
                                                                            class="form-control"
                                                                            placeholder="Quantity for low limit Alert"
                                                                            required
+                                                                           th:field="*{lowLimitAlert}"
 
                                                                     >
                                                                 </div>
