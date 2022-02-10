@@ -56,12 +56,13 @@ public class ProductController {
         model.addAttribute("productStatus", productService.getProductStatusById(id));
         model.addAttribute("units", Unit.values());
         model.addAttribute("unit", productService.getUnitById(id));
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "product/product-edit";
     }
 
     @PostMapping("/update")
     public String updateProduct(ProductDTO productDTO){
-        productService.save(productDTO);
+        productService.update(productDTO);
         return "redirect:/product/list";
     }
 

@@ -110,11 +110,11 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-status">Category</label>
-                                                                    <select
+                                                                    <select name="*{category}"
                                                                             id="users-edit-status1"
                                                                             class="form-control"
                                                                             required>
-                                                                        <option ></option>
+                                                                        <option th:each="eachCategory : ${categories}" th:value="${eachCategory.id}" th:text="${eachCategory.description}" th:selected="(${eachCategory.description} == *{category.description})"></option>
 
                                                                     </select>
                                                                 </div>
