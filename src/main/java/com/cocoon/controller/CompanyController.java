@@ -1,6 +1,7 @@
 package com.cocoon.controller;
 
 import com.cocoon.dto.CompanyDTO;
+import com.cocoon.enums.ProductStatus;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.StateRepo;
 import com.cocoon.service.CompanyService;
@@ -32,6 +33,7 @@ public class CompanyController {
     public String getCreatePage(Model model){
         model.addAttribute("company", new CompanyDTO());
         model.addAttribute("states", stateRepo.findAll());
+        model.addAttribute("statuses", ProductStatus.values());
 
         return "company/company-add";
     }

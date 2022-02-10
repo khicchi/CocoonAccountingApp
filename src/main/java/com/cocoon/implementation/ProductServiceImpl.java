@@ -4,6 +4,8 @@ import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.Product;
+import com.cocoon.enums.ProductStatus;
+import com.cocoon.enums.Unit;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.InvoiceService;
@@ -61,5 +63,23 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getProductsByInvoiceId(Long id) {
         List<Product> products = productRepository.findProductsByInvoiceId2(id);
         return products.stream().map(product -> mapperUtil.convert(product, new ProductDTO())).collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductStatus getProductStatusById(Long id) throws CocoonException {
+        Optional<Product> product =productRepository.findById(id);
+        if(!product.isPresent()){
+            throw new CocoonException("There is no product belongs to this id " + id);
+        }
+        return product.get().getProductStatus();
+    }
+
+    @Override
+    public Unit getUnitById(Long id) throws CocoonException {
+        Optional<Product> product =productRepository.findById(id);
+        if(!product.isPresent()){
+            throw new CocoonException("There is no product belongs to this id " + id);
+        }
+        return product.get().getUnit();
     }
 }
