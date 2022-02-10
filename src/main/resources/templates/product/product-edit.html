@@ -95,12 +95,10 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-status">Status</label>
-                                                                    <select id="users-edit-status"
+                                                                    <select name="*{productStatus}" id="users-edit-status"
                                                                             class="form-control"
                                                                             required>
-                                                                        <option
-
-                                                                        ></option>
+                                                                        <option th:each="eachStatus : ${productStatuses}" th:value="${eachStatus}" th:text="${eachStatus.getValue()}" th:selected="(${eachStatus.getValue()} == *{productStatus.getValue()})"></option>
 
                                                                     </select>
                                                                 </div>
