@@ -152,14 +152,10 @@
                                                                 Save Changes
                                                             </button>
 
-                                                            <button type="button" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"  th:field="*{setEnabled(false)}" >
-                                                                Close Company
-                                                            </button>
-
-                                                            <a type="button" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"   th:onclick="*{setEnabled(false)} "  data-toggle="tooltip" data-placement="top" title="Any person from this company will not be able to get access again if you closed this COMPANY">
+                                                            <a type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"   th:if="${company.isEnabled()}"  th:href="@{/company/close/{id}(id=${company.id})}"  data-toggle="tooltip" data-placement="top" title="Any person from this company will not be able to get access again if you closed this COMPANY">
 
                                                                 Close Company</a>
-                                                            <a type="button" class="btn btn-success mb-2 mb-sm-0 mr-sm-2"  th:onclick="*{setEnabled(true)} " data-toggle="tooltip" data-placement="top" title="All the people are allowed by the Company can get access the system again">
+                                                            <a type="button" class="btn btn-success mb-2 mb-sm-0 mr-sm-2"  th:if="${!company.isEnabled()}" th:href="@{/company/open/{id}(id=${company.id})}"   data-toggle="tooltip" data-placement="top" title="All the people are allowed by the Company can get access the system again">
                                                                 Re-Open Company</a>
                                                             <button  class="btn btn-secondary" th:onclick="'javascript:Window.open('company-list.html','_top')'">Cancel
                                                             </button>

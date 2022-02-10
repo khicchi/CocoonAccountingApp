@@ -43,8 +43,26 @@ public class CompanyServiceImpl implements CompanyService {
        return getCompanyById(companyDTO.getId());
     }
 
+    @Override
+    public void close(CompanyDTO companyDTO) throws CocoonException {
+        Company company=companyRepo.getById(companyDTO.getId());
+        Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
+        convertedCompanyEntity.setId(company.getId());
+        convertedCompanyEntity.setEnabled(false);
+        companyRepo.save(convertedCompanyEntity);
 
+    }
 
+    @Override
+    public void open(CompanyDTO companyDTO) throws CocoonException {
+
+        Company company=companyRepo.getById(companyDTO.getId());
+        Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
+        convertedCompanyEntity.setId(company.getId());
+        convertedCompanyEntity.setEnabled(true);
+        companyRepo.save(convertedCompanyEntity);
+
+    }
 
 
     @Override
