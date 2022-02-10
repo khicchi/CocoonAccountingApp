@@ -43,7 +43,7 @@ public class UserController {
     @GetMapping("/addUser")
     public String getCreatePage(Model model){
         model.addAttribute("users", new UserDTO());
-        model.addAttribute("role", RoleService.findAllRoles());
+        model.addAttribute("role", roleService.findAllRoles());
 
         return "user/user-add";
     }
