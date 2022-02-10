@@ -31,13 +31,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void save(InvoiceDTO dto) {
+    public InvoiceDTO save(InvoiceDTO dto) {
         dto.setInvoiceStatus(InvoiceStatus.PENDING);
         dto.setEnabled((byte) 1);
         dto.setInvoiceType(InvoiceType.SALE);
         invoiceNumberRepo.save(new InvoiceNumber(count.getAndIncrement()));
         Invoice invoice = mapperUtil.convert(dto,new Invoice());
-        invoiceRepository.save(invoice);
+        return mapperUtil.convert(invoiceRepository.save(invoice), new InvoiceDTO());
     }
 
     @Override
@@ -53,8 +53,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void update(InvoiceDTO dto) {
-        Invoice invoice = invoiceRepository.getById(dto.getId());
+    public void update(InvoiceDTO dto, Long id) {
+        Invoice invoice = invoiceRepository.getById(id);
         Invoice convertedInvoice = mapperUtil.convert(dto, new Invoice());
         convertedInvoice.setInvoiceNo(invoice.getInvoiceNo());
         convertedInvoice.setInvoiceStatus(invoice.getInvoiceStatus());

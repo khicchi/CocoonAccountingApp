@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/sales-invoice")
@@ -62,7 +60,8 @@ public class InvoiceController {
     @GetMapping("/create")
     public String invoiceCreateGet(Model model){
 
-        model.addAttribute("invoice", new InvoiceDTO(invoiceService.getInvoiceNumber(),LocalDate.now()));
+        InvoiceDTO invoiceDTO = new InvoiceDTO(invoiceService.getInvoiceNumber(),LocalDate.now());
+        model.addAttribute("invoice", invoiceService.save(invoiceDTO));
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("clients", clientVendorService.getAllClientsVendors());
@@ -72,10 +71,11 @@ public class InvoiceController {
         return "invoice/sales-invoice-create";
     }
 
-    @GetMapping("/addition")
-    public String invoiceCreateMore(Model model){
+    @GetMapping("/addition/{id}")
+    public String invoiceCreateMore(@PathVariable("id") Long id, Model model){
 
-        model.addAttribute("invoice", new InvoiceDTO(invoiceService.getInvoiceNumber(),LocalDate.now()));
+        InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
+        model.addAttribute("invoice", invoiceDTO);
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("clients", clientVendorService.getAllClientsVendors());
@@ -84,21 +84,25 @@ public class InvoiceController {
         return "invoice/sales-invoice-create";
     }
 
-    @PostMapping("/create-product")
-    public String productCreateForInvoice(Model model, ProductDTO productDTO) throws CocoonException {
+    @PostMapping("/create-product/{id}")
+    public String productCreateForInvoice(@PathVariable("id") Long id, Model model, ProductDTO productDTO) throws CocoonException {
 
+        InvoiceDTO invoice = invoiceService.getInvoiceById(id);
+        Set<InvoiceDTO> set = new HashSet<>();
+        set.add(invoice);
         ProductDTO dto = productService.getProductById(productDTO.getId());
+        dto.setInvoices(set);
         productsPerInvoice.add(dto);
         model.addAttribute("invoiceProducts", productsPerInvoice);
 
-        return "redirect:/sales-invoice/addition";
+        return "redirect:/sales-invoice/addition/" + id;
     }
 
-    @PostMapping("/create")
-    public String createInvoice(InvoiceDTO invoiceDTO){
+    @PostMapping("/create/{id}")
+    public String createInvoice(@PathVariable("id") Long id, InvoiceDTO dto){
 
-        invoiceDTO.setProducts(productsPerInvoice);
-        invoiceService.save(invoiceDTO);
+        dto.setProducts(productsPerInvoice);
+        invoiceService.update(dto,id);
         productsPerInvoice.clear();
 
         return "redirect:/sales-invoice/list";
@@ -144,7 +148,7 @@ public class InvoiceController {
     @PostMapping("/update/{id}")
     public String updateInvoice(@PathVariable("id") Long id, InvoiceDTO invoiceDTO){
 
-        invoiceService.update(invoiceDTO);
+        invoiceService.update(invoiceDTO, id);
 
         return "redirect:/sales-invoice/list";
 
