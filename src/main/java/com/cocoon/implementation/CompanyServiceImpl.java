@@ -33,6 +33,39 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public CompanyDTO update(CompanyDTO companyDTO) throws CocoonException {
+
+       Company company=companyRepo.getById(companyDTO.getId());
+       Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
+       convertedCompanyEntity.setId(company.getId());
+       convertedCompanyEntity.setEnabled(company.isEnabled());
+       companyRepo.save(convertedCompanyEntity);
+       return getCompanyById(companyDTO.getId());
+    }
+
+    @Override
+    public void close(CompanyDTO companyDTO) throws CocoonException {
+        Company company=companyRepo.getById(companyDTO.getId());
+        Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
+        convertedCompanyEntity.setId(company.getId());
+        convertedCompanyEntity.setEnabled(false);
+        companyRepo.save(convertedCompanyEntity);
+
+    }
+
+    @Override
+    public void open(CompanyDTO companyDTO) throws CocoonException {
+
+        Company company=companyRepo.getById(companyDTO.getId());
+        Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
+        convertedCompanyEntity.setId(company.getId());
+        convertedCompanyEntity.setEnabled(true);
+        companyRepo.save(convertedCompanyEntity);
+
+    }
+
+
+    @Override
     public List<CompanyDTO> getAllCompanies() {
         List<Company> companyList = companyRepo.findAll();
         return companyList.stream().map(company ->
@@ -63,6 +96,51 @@ public class CompanyServiceImpl implements CompanyService {
         //saving to database
         Company savedCompany = companyRepo.save(mapperUtil.convert(companyDTO, new Company()));
     }
+/*
+    @Override
+    public CompanyDTO update(CompanyDTO companydto) throws CocoonException {
+
+        //Find current company
+        Optional<Company> company = companyRepo.findByCompanyTitle(companydto.getTitle());
+        //Map update company  dto to entity object
+       Company convertedtoCompany=mapperUtil.convert(companydto,new Company());
+
+        TO DO BY MEMO
+
+        convertedCompany.setPassWord(passwordEncoder.encode(convertedCompany.getPassWord()));
+        convertedCompany.setEnabled(true);
+
+
+        //set id to the converted object
+        convertedtoCompany.setId(company.get().getId());
+        //save updated company
+        companyRepo.save(convertedtoCompany);
+        return findCompanyByCompanyTitle(companydto.getTitle());
+
+    }
+
+    @Override
+    public void delete(String companyTitle) throws CocoonException {
+        Company company = companyRepo.findByCompanyTitle(companyTitle);
+
+        if(company == null){
+            throw new CocoonException("User Does Not Exists");
+        }
+
+        /*if(!checkIfCompanyCanBeDeleted(co)){
+            throw new TicketingProjectException("User can not be deleted. It is linked by a project ot task");
+
+
+        company.setTitle(company.getTitle()+"-Deleted");
+        company.setEnabled(false);
+        companyRepo.save(company);
+    }
+    //hard delete
+    @Override
+    public void deleteByCompanyTitle(String companyTitle) {
+        companyRepo.deleteByCompanyTitle(companyTitle);
+
+    }*/
 
     /**
      * checks whether the provided companyDTO object's establishment date is at a time in the future

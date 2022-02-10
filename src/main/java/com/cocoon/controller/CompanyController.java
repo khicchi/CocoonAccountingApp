@@ -2,6 +2,7 @@ package com.cocoon.controller;
 
 import com.cocoon.dto.CompanyDTO;
 import com.cocoon.enums.ProductStatus;
+import com.cocoon.entity.Company;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.StateRepo;
 import com.cocoon.service.CompanyService;
@@ -23,17 +24,16 @@ public class CompanyController {
     private StateRepo stateRepo;
 
     @GetMapping("/list")
-    public String getCompanies(Model model){
+    public String getCompanies(Model model) {
         model.addAttribute("companies", companyService.getAllCompanies());
 
         return "company/company-list";
     }
 
     @GetMapping("/create")
-    public String getCreatePage(Model model){
+    public String getCreatePage(Model model) {
         model.addAttribute("company", new CompanyDTO());
         model.addAttribute("states", stateRepo.findAll());
-        model.addAttribute("statuses", ProductStatus.values());
 
         return "company/company-add";
     }
@@ -45,11 +45,45 @@ public class CompanyController {
     }
 
     @GetMapping("/update/{id}")
-    public String getUpdatePage(@PathVariable("id") String id, Model model) throws CocoonException{
+    public String getUpdatePage(@PathVariable("id") String id, Model model) throws CocoonException {
         model.addAttribute("company", companyService.getCompanyById(Long.valueOf(id)));
         model.addAttribute("states", stateRepo.findAll());
-
         return "company/company-edit";
     }
+
+    @PostMapping("/update/{id}")
+    public String updateCompany(@PathVariable("id") Long id, CompanyDTO companyDTO, Model model) throws CocoonException {
+        companyService.update(companyDTO);
+        return "redirect:/company/list";
+    }
+
+    @GetMapping("/close/{id}")
+    public String getClosePage(@PathVariable("id") String id, Model model) throws CocoonException {
+        companyService.close(companyService.getCompanyById(Long.valueOf(id)));
+        return "redirect:/company/list";
+    }
+
+    @GetMapping("/open/{id}")
+    public String getOpenPage(@PathVariable("id") String id, Model model) throws CocoonException {
+        companyService.open(companyService.getCompanyById(Long.valueOf(id)));
+        return "redirect:/company/list";
+    }
+
+
+
+    /*
+    @GetMapping("/delete/{id}")
+    public String deleteCompany(@PathVariable("id") String id, Model model) throws CocoonException{
+        model.addAttribute("company", companyService.getCompanyById(Long.valueOf(id)));
+        model.addAttribute("states", stateRepo.findAll());
+        return "company/company-edit";
+    }*/
+/*
+    @GetMapping("/delete/{username}")
+    public String deleteUser(@PathVariable("username") String username) throws CocoonException {
+        companyService.delete(username);
+
+        return "company/company-add";
+    }*/
 
 }
