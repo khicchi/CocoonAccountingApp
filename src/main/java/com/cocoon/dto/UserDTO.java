@@ -1,7 +1,15 @@
 package com.cocoon.dto;
 
-import com.cocoon.entity.Company;
+import com.cocoon.entity.Role;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class UserDTO {
 
     private Long Id;
@@ -10,10 +18,8 @@ public class UserDTO {
     private String password;
     private String email;
     private String phone;
-
- // private RoleDTO role;
-
-    private Company company;
+    private Role role;
+    private CompanyDTO company;
     private boolean enabled;
 
 
