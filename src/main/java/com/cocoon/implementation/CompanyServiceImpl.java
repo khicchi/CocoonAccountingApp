@@ -38,7 +38,7 @@ public class CompanyServiceImpl implements CompanyService {
        Company company=companyRepo.getById(companyDTO.getId());
        Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
        convertedCompanyEntity.setId(company.getId());
-       convertedCompanyEntity.setEnabled(company.isEnabled());
+       convertedCompanyEntity.setEnabled(company.getEnabled());
        companyRepo.save(convertedCompanyEntity);
        return getCompanyById(companyDTO.getId());
     }
@@ -48,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company company=companyRepo.getById(companyDTO.getId());
         Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
         convertedCompanyEntity.setId(company.getId());
-        convertedCompanyEntity.setEnabled(false);
+        convertedCompanyEntity.setEnabled((byte) 0);
         companyRepo.save(convertedCompanyEntity);
 
     }
@@ -59,7 +59,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company company=companyRepo.getById(companyDTO.getId());
         Company convertedCompanyEntity=mapperUtil.convert(companyDTO,new Company());
         convertedCompanyEntity.setId(company.getId());
-        convertedCompanyEntity.setEnabled(true);
+        convertedCompanyEntity.setEnabled((byte) 1);
         companyRepo.save(convertedCompanyEntity);
 
     }

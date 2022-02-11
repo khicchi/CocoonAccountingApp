@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,5 +32,5 @@ public class ProductDTO {
     private Byte enabled;
     private ProductStatus productStatus;
 
-    private Set<InvoiceDTO> invoices;
+    private Set<InvoiceDTO> invoices = new HashSet<>();
 }

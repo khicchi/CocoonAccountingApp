@@ -35,7 +35,7 @@
                                             <div class="tab-pane fade mt-2 show active" id="account" role="tabpanel"
                                                  aria-labelledby="account-tab">
                                                 <!-- INVOICE PART BEGIN-->
-                                                <form class="needs-validation" th:action="@{/sales-invoice/create/{id}(id=${invoice.id})}" method="post"
+                                                <form class="needs-validation" th:action="@{/sales-invoice/create}" method="post"
                                                       th:object="${invoice}" novalidate>
                                                     <div class="row">
                                                         <div class="col-12 col-md-3">
@@ -57,7 +57,6 @@
                                                                     <input type="date"
                                                                        class="form-control"
                                                                        th:field="*{invoiceDate}"
-
                                                                        required="" aria-invalid="false">
                                                                 </div>
                                                             </div>
@@ -69,7 +68,7 @@
                                                                     <select th:field="*{clientVendor}" class="custom-select" required="required">
                                                                         <option th:value=" ''" th:text="Select"></option>
                                                                         <option th:each="client : ${clients}" th:value="${client.id}"
-                                                                                th:text="${client.getCompanyName()}"></option>
+                                                                                th:text="${client.companyName}"></option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -99,7 +98,7 @@
                                                 </form>
                                                 <hr class="solid">
                                                 <!-- INVOICE PART END -->
-                                                <form th:object="${product}" th:action="@{/sales-invoice/create-product/{id}(id=${invoice.id})}" method="post">
+                                                <form th:object="${product}" th:action="@{/sales-invoice/create-product}" method="post">
                                                     <div class="needs-validation" novalidate>
                                                         <div class="row">
                                                             <div class="col-12 col-md-3">
