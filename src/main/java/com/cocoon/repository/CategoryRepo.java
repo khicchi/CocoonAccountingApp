@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepo extends JpaRepository<Category,Long> {
 
     boolean existsByDescription(String  desc) throws CocoonException;
+
+    Category getByDescription(String description) throws CocoonException;
+
+    Category getById(Long id);
 }

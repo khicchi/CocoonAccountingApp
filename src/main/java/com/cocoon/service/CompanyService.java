@@ -16,6 +16,8 @@ public interface CompanyService {
 
     void open(CompanyDTO companyDTO)throws CocoonException;
 
+    void delete(CompanyDTO companyDTO)throws CocoonException;
+
     List<CompanyDTO> getAllCompanies();
 
     void save(CompanyDTO company) throws CocoonException;

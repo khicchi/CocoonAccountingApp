@@ -95,10 +95,10 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-status">Status</label>
-                                                                    <select name="*{productStatus}" id="users-edit-status"
+                                                                    <select th:field="*{productStatus}" id="users-edit-status"
                                                                             class="form-control"
                                                                             required>
-                                                                        <option th:each="eachStatus : ${productStatuses}" th:value="${eachStatus}" th:text="${eachStatus.getValue()}" th:selected="(${eachStatus.getValue()} == *{productStatus.getValue()})"></option>
+                                                                        <option th:each="eachStatus : ${productStatuses}" th:value="${eachStatus}" th:text="${eachStatus.getValue()}"></option>
 
                                                                     </select>
                                                                 </div>
@@ -110,11 +110,11 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-status">Category</label>
-                                                                    <select name="*{category}"
+                                                                    <select th:field="*{category}"
                                                                             id="users-edit-status1"
                                                                             class="form-control"
                                                                             required>
-                                                                        <option th:each="eachCategory : ${categories}" th:value="${eachCategory.id}" th:text="${eachCategory.description}" th:selected="(${eachCategory.description} == *{category.description})"></option>
+                                                                        <option th:each="eachCategory : ${categories}" th:value="${eachCategory.id}" th:text="${eachCategory.description}"></option>
 
                                                                     </select>
                                                                 </div>
@@ -134,10 +134,10 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-role">Unit</label>
-                                                                    <select name="*{unit}" id="users-edit-role"
+                                                                    <select th:field="*{unit}" id="users-edit-role"
                                                                             class="form-control"
                                                                             required>
-                                                                        <option th:each="eachUnit : ${units}" th:value="${eachUnit}" th:text="${eachUnit.getValue()}" th:selected="(${eachUnit.getValue()} == *{unit.getValue()})"></option>
+                                                                        <option th:each="eachUnit : ${units}" th:value="${eachUnit}" th:text="${eachUnit.getValue()}"></option>
 
                                                                     </select>
                                                                 </div>

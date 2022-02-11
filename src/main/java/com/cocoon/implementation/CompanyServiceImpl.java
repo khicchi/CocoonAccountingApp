@@ -64,6 +64,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     }
 
+    @Override
+    public void delete(CompanyDTO companyDTO) throws CocoonException {
+        companyRepo.delete(companyRepo.getById(companyDTO.getId()));
+    }
+
 
     @Override
     public List<CompanyDTO> getAllCompanies() {

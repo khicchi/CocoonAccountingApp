@@ -144,19 +144,20 @@
                                                             </div>
                                                         </div>
 
-
-
                                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
                                                             <button type="submit"
                                                                     class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">
                                                                 Save Changes
                                                             </button>
-
-                                                            <a type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"   th:if="${company.isEnabled()}"  th:href="@{/company/close/{id}(id=${company.id})}"  data-toggle="tooltip" data-placement="top" title="Any person from this company will not be able to get access again if you closed this COMPANY">
+                                                            <a type="button" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"   th:if="${company.isEnabled()}"  th:href="@{/company/close/{id}(id=${company.id})}"  data-toggle="tooltip" data-placement="top" title="Any person from this company will not be able to get access again if you closed this COMPANY">
 
                                                                 Close Company</a>
                                                             <a type="button" class="btn btn-success mb-2 mb-sm-0 mr-sm-2"  th:if="${!company.isEnabled()}" th:href="@{/company/open/{id}(id=${company.id})}"   data-toggle="tooltip" data-placement="top" title="All the people are allowed by the Company can get access the system again">
                                                                 Re-Open Company</a>
+
+                                                            <a type="button" class="btn btn-outline-danger mb-2 mb-sm-0 mr-sm-2"   th:href="@{/company/delete/{id}(id=${company.id})}"   data-toggle="tooltip" data-placement="top" title="WARNING !!! This button executes HARD DELETE ..">
+                                                                DELETE Company</a>
+
                                                             <button  class="btn btn-secondary" th:onclick="'javascript:Window.open('company-list.html','_top')'">Cancel
                                                             </button>
                                                         </div>
