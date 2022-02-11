@@ -65,8 +65,8 @@
                                                         <td th:text="${eachCategory.enabled}">
                                                         </td>
                                                         <td>
-                                                            <a >
-                                                                <i class="ft-edit"></i>
+                                                            <a th:href="@{/category/edit/{id}(id=${eachCategory.id})}">
+                                                                <i class="ft-edit" ></i>
                                                             </a>
                                                         </td>
                                                     </tr>
