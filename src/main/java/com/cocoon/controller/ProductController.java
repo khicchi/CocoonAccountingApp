@@ -60,8 +60,8 @@ public class ProductController {
         return "product/product-edit";
     }
 
-    @PostMapping("/update")
-    public String updateProduct(ProductDTO productDTO){
+    @PostMapping("/update/{id}")
+    public String updateProduct(@PathVariable("id") Long id, ProductDTO productDTO) throws CocoonException {
         productService.update(productDTO);
         return "redirect:/product/list";
     }

@@ -22,29 +22,29 @@ public class UserController {
     private RoleService roleService;
     private CompanyService companyService;
 
-    public UserController(UserService userService,RoleService roleService, CompanyService companyService) {
+    public UserController(UserService userService, RoleService roleService, CompanyService companyService) {
         this.userService = userService;
         this.roleService = roleService;
         this.companyService = companyService;
     }
 
     @GetMapping("/list")
-    public String findUsers(Model model){
+    public String findUsers(Model model) {
         model.addAttribute("users", userService.findAllUsers());
         return "user/user-list";
     }
 
-    @PostMapping("/addUser")
-    public String createUser(UserDTO userDTO, Model model) throws CocoonException {
+    @PostMapping("/create")
+    public String createUser(UserDTO userDTO) throws CocoonException {
         userService.save(userDTO);
         return "redirect:/user/list";
     }
 
-    @GetMapping("/addUser")
-    public String getCreatePage(Model model){
-        model.addAttribute("users", new UserDTO());
-        model.addAttribute("role", roleService.findAllRoles());
-
+    @GetMapping("/create")
+    public String getCreatePage(Model model) {
+        model.addAttribute("user", new UserDTO());
+        model.addAttribute("roles", roleService.findAllRoles());
+        model.addAttribute("companies", companyService.getAllCompanies());
         return "user/user-add";
     }
 

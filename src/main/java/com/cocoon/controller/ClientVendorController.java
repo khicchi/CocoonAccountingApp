@@ -19,7 +19,7 @@ public class ClientVendorController {
     @GetMapping("/list")
     private String readAllClientVendor(Model model) {
 
-        model.addAttribute("clientVendorList", clientVendorService.getAllClientsVendors());
+        model.addAttribute("clientVendorList", clientVendorService.getAllClientsVendorsActivesFirst());
 
         return "clientvendor/client-vendor-list";
     }

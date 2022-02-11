@@ -69,7 +69,11 @@ public class CompanyController {
         return "redirect:/company/list";
     }
 
-
+    @GetMapping("/delete/{id}")
+    public String deleteCompany(@PathVariable("id") String id, Model model) throws CocoonException {
+        companyService.delete(companyService.getCompanyById(Long.valueOf(id)));
+        return "redirect:/company/list";
+    }
 
     /*
     @GetMapping("/delete/{id}")

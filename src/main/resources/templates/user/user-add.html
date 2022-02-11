@@ -32,7 +32,7 @@
 
 
                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                            <a class="btn btn-primary bg-light-primary mb-1" th:href="@{/user/list}" ><i
+                            <a class="btn btn-primary bg-light-primary mb-1" th:href="@{/user/list}"><i
                                     class="fa fa-list mr-1"></i>User List</a>
                         </div>
                     </div>
@@ -54,7 +54,8 @@
                                                  aria-labelledby="account-tab">
 
                                                 <!-- Account form starts -->
-                                                <form novalidate th:method="post" th:action="@{/user/create}" th:object="${users}">
+                                                <form novalidate th:method="post" th:action="@{/user/create}"
+                                                      th:object="${user}">
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
@@ -62,7 +63,7 @@
                                                                     <label for="users-edit-username">Firstname</label>
                                                                     <input type="text" id="users-edit-username"
                                                                            class="form-control" placeholder="Username"
-                                                                            required
+                                                                           required
                                                                            th:field="*{firstname}"
                                                                            aria-invalid="false">
                                                                 </div>
@@ -74,7 +75,7 @@
                                                                            class="form-control"
                                                                            th:field="*{password}"
                                                                            placeholder="Password"
-                                                                            required
+                                                                           required
                                                                            aria-invalid="false">
                                                                 </div>
                                                             </div>
@@ -83,7 +84,7 @@
                                                                     <label for="users-edit-email2">E-mail</label>
                                                                     <input type="email" id="users-edit-email2"
                                                                            class="form-control" placeholder="Email"
-                                                                            required
+                                                                           required
                                                                            th:field="*{email}"
                                                                            aria-invalid="false">
                                                                 </div>
@@ -92,9 +93,11 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-status3">Company</label>
                                                                     <select id="users-edit-status3" class="form-control"
-                                                                            required th:field="*{}">
-                                                                        <option th:value=" ''" >Select Company</option>
-                                                                        <option th:each="eachState : ${}" th:value="${}" th:text="${}" ></option>
+                                                                            required th:field="*{company}">
+                                                                        <option th:value=" ''">Select Company</option>
+                                                                        <option th:each="eachCompany : ${companies}"
+                                                                                th:value="${eachCompany.id}"
+                                                                                th:text="${eachCompany.getTitle()}"></option>
 
                                                                     </select>
                                                                 </div>
@@ -108,7 +111,7 @@
                                                                     <label for="users-edit-company1">Lastname</label>
                                                                     <input type="text" id="users-edit-company1"
                                                                            class="form-control" placeholder="Lastname"
-                                                                            required
+                                                                           required
                                                                            th:field="*{lastname}">
                                                                 </div>
                                                             </div>
@@ -118,7 +121,7 @@
                                                                     <input type="text" id="users-edit-company"
                                                                            class="form-control"
                                                                            placeholder="9734157843"
-                                                                            required
+                                                                           required
                                                                            th:field="*{phone}"
                                                                     >
                                                                 </div>
@@ -127,38 +130,37 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-role">Role</label>
                                                                     <select id="users-edit-role" class="form-control"
-                                                                            required>
+                                                                            required th:field="*{role}">
                                                                         <option th:value=" ''">Select Role</option>
-                                                                        <option th:each="eachRole : ${}" th:value="${}" th:text="${}"></option>
+                                                                        <option th:each="eachRole : ${roles}"
+                                                                                th:value="${eachRole.id}"
+                                                                                th:text="${eachRole.name}"></option>
 
                                                                     </select>
                                                                 </div>
                                                             </div>
-<!--                                                            <div class="form-group">-->
-<!--                                                                <div class="controls">-->
-<!--                                                                    <label for="users-edit-status">Status</label>-->
-<!--                                                                    <select id="users-edit-status" class="form-control"-->
-<!--                                                                            required>-->
-<!--                                                                        <option value="">Select Status</option>-->
-<!--                                                                        <option value="1">Active</option>-->
-<!--                                                                        <option value="3">Close</option>-->
-<!--                                                                    </select>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
+                                                            <div class="form-group">
+                                                                <div class="controls">
+                                                                    <label for="users-edit-status">Status</label>
+                                                                    <select id="users-edit-status" class="form-control"
+                                                                            required th:field="*{enabled}">
+                                                                        <option th:value=true>Active</option>
+                                                                        <option th:value=false>Passive</option>
+                                                                        <option th:value=false>Select Status</option>
+<!-- TODO @Ali Only ROOT user should be able to assign company to an ADMIN user. -->
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                         </div>
-
 
                                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
                                                             <button type="submit"
                                                                     class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">
                                                                 Save Changes
                                                             </button>
-                                                    <!--        <button type="submit"
-                                                                    class="btn btn-danger mb-2 mb-sm-0 mr-sm-2">
-                                                                Delete User
-                                                            </button> -->
-<!--                                                            <button type="reset" class="btn btn-secondary" th:href="@{/user/list}">Cancel</button>-->
-                                                            <button class="btn btn-secondary" >Cancel</button>
+                                                            <button type="reset" class="btn btn-secondary"
+                                                                    th:href="@{/user/list}">Cancel
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </form>

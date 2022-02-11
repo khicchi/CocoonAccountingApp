@@ -32,7 +32,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO save(UserDTO userDTO) throws CocoonException {
-        return null;
+        User foundUser = userRepo.findByEmail(userDTO.getEmail());
+        if (foundUser != null) throw new CocoonException("User already exists");
+        User user = mapperUtil.convert(userDTO, new User());
+        User savedUser = userRepo.save(user);
+        return mapperUtil.convert(savedUser, new UserDTO());
     }
 
     @Override
@@ -53,6 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findByEmail(String email) throws CocoonException {
-        return null;
+        User foundUser = userRepo.findByEmail(email);
+        return mapperUtil.convert(foundUser, new UserDTO());
     }
 }

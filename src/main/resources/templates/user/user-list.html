@@ -73,17 +73,9 @@
                                                                  <td th:text="${user.role.name}"></td>
                                                                  <td th:text="${user.company.title}"></td>
                                                                  <td>
-                                                                 <span
-                                                                         th:if="${user.userStatus.value} eq 'On Mission'"
-                                                                         class="badge bg-light-success"
-                                                                         th:text="${user.userStatus.value}"
-                                                                         ></span>
-                                                                 <span
-                                                                         th:if="${user.userStatus.value} eq 'Off Duty'"
-                                                                         class ="badge bg-light-DANGER"
-                                                                         th:text="${user.userStatus.value}"
-                                                                         ></span>
-                                                             </td>
+                                                                 <span th:if="${user.isEnabled()}" class="badge bg-light-success">Active</span>
+                                                                 <span th:unless="${user.isEnabled()}" class ="badge bg-light-DANGER">Passive</span>
+                                                                 </td>
                                                              <td>
                                                                  <a >
                                                                      <i class="ft-edit"></i>
