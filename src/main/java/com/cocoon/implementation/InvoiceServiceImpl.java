@@ -1,6 +1,7 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.InvoiceDTO;
+import com.cocoon.entity.Company;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.InvoiceNumber;
 import com.cocoon.enums.InvoiceStatus;

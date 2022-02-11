@@ -96,9 +96,16 @@ public class InvoiceController {
     @PostMapping("/create")
     public String createInvoice(InvoiceDTO dto) throws CocoonException {
 
-        dto.setProducts(currentInvoice.getProducts());
-        invoiceService.save(dto);
-        currentInvoice = null;
+        InvoiceDTO savedInvoice = invoiceService.save(dto);
+
+        for (ProductDTO productDTO : currentInvoice.getProducts()){
+            var eachProduct = productService.getProductById(productDTO.getId());
+            eachProduct.getInvoices().add(savedInvoice);
+            var savedProduct = productService.save(eachProduct);
+            savedInvoice.getProducts().add(savedProduct);
+        }
+        invoiceService.save(savedInvoice);
+        currentInvoice = new InvoiceDTO();
 
         return "redirect:/sales-invoice/list";
     }

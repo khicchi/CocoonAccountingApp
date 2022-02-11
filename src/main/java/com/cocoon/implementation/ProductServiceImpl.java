@@ -40,11 +40,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(ProductDTO productDTO) {
+    public ProductDTO save(ProductDTO productDTO) {
         Product product = mapperUtil.convert(productDTO, new Product());
         product.setEnabled((byte) 1);
         //productRepository.findCompanyIdByUserEmail() TODO implementation after security
         productRepository.save(product);
+        return mapperUtil.convert(product, new ProductDTO());
     }
 
 
