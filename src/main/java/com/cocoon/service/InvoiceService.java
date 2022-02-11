@@ -8,5 +8,6 @@ public interface InvoiceService {
 
     void save(InvoiceDTO invoice);
     List<InvoiceDTO> getAllInvoices();
-    List<InvoiceDTO> getInvoiceById(Long id);
+    InvoiceDTO getInvoiceById(Long id);
+    void update(InvoiceDTO dto);
 }

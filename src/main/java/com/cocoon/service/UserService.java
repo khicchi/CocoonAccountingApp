@@ -9,6 +9,7 @@ public interface UserService {
 
     List<UserDTO> findAllUsers();
 
+
     UserDTO save(UserDTO userDTO) throws CocoonException;
     UserDTO findById(Long id) throws CocoonException;
 

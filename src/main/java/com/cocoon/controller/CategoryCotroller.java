@@ -46,4 +46,5 @@ public class CategoryCotroller {
     public String getEditPage(){
         return "category/category-edit";
     }
+
 }

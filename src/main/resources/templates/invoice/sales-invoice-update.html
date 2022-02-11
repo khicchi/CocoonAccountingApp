@@ -4,7 +4,6 @@
     <head th:replace="fragments :: page_head"><title>Create Sales Invoice</title></head>
     <title>Add-Line | Sales | Invoice</title>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/ico/favicon.ico}">
-    <script type="text/javascript" th:src="@{/js/cssandjs/actions.js}"></script>
 </head>
 
 <body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  navbar-sticky" data-open="hover"
@@ -35,7 +34,7 @@
                                             <div class="tab-pane fade mt-2 show active" id="account" role="tabpanel"
                                                  aria-labelledby="account-tab">
                                                 <!-- INVOICE PART BEGIN-->
-                                                <form class="needs-validation" th:action="@{/sales-invoice/create}" method="post"
+                                                <form class="needs-validation" th:action="@{/sales-invoice/update/{id}(id=${invoice.id})}" method="post"
                                                       th:object="${invoice}" novalidate>
                                                     <div class="row">
                                                         <div class="col-12 col-md-3">
@@ -57,7 +56,6 @@
                                                                     <input type="date"
                                                                        class="form-control"
                                                                        th:field="*{invoiceDate}"
-
                                                                        required="" aria-invalid="false">
                                                                 </div>
                                                             </div>
@@ -106,10 +104,10 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Product</label>
-                                                                        <select th:field="*{id}" class="custom-select" required="required" th:onchange="showAlert()" >
+                                                                        <select th:field="*{name}" class="custom-select" required="required" >
                                                                             <option th:value=" ''" th:text="Select"></option>
-                                                                            <option th:each="theProduct : ${products}" th:value="${theProduct.id}"
-                                                                                    th:text="${theProduct.getName()}"></option>
+                                                                            <option th:each="theProduct : ${products}" th:value="${theProduct.description}"
+                                                                                    th:text="${theProduct.description}"></option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -118,9 +116,10 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Quantity</label>
-                                                                        <select th:field="*{qty}" class="custom-select" required="required" >
-                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="${i}"></option>
-                                                                        </select>
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               required aria-invalid="false"
+                                                                               th:field="*{qty}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -128,9 +127,10 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Price</label>
-                                                                        <select th:field="*{price}" class="custom-select" required="required" >
-                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i * 5}" th:text="${i * 5}"></option>
-                                                                        </select>
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               required aria-invalid="false"
+                                                                               th:field="*{price}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -138,9 +138,10 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Tax</label>
-                                                                        <select th:field="*{tax}" class="custom-select" required="required" >
-                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="${i}"></option>
-                                                                        </select>
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               required aria-invalid="false"
+                                                                               th:field="*{tax}">
                                                                     </div>
                                                                 </div>
                                                             </div>

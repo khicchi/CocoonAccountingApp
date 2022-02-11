@@ -2,6 +2,7 @@ package com.cocoon.entity;
 
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 @Table(name="product")
 public class Product extends BaseEntity implements Serializable {
 
@@ -47,6 +49,6 @@ public class Product extends BaseEntity implements Serializable {
     @JoinTable(name = "invoice_product_rel",
                joinColumns = {@JoinColumn(name = "invoice_id")},
                inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private Collection<Invoice> invoices;
+    private Set<Invoice> invoices = new HashSet<>();
 
 }

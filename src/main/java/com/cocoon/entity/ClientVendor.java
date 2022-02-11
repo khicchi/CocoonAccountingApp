@@ -9,7 +9,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "client_vendor_list")
+@Table(name = "client_vendor")
 @NoArgsConstructor
 @Getter
 @Setter
