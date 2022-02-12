@@ -66,5 +66,13 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
+    @PostMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable("id") Long id, ProductDTO productDTO) throws CocoonException {
+
+        productService.deleteById(id);
+
+        return "redirect:/product/list";
+    }
+
 
 }

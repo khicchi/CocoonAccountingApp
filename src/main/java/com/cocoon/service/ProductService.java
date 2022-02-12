@@ -20,4 +20,6 @@ public interface ProductService {
     void update(ProductDTO productDTO) throws CocoonException;
     ProductStatus getProductStatusById(Long id) throws CocoonException;
     Unit getUnitById(Long id) throws CocoonException;
+
+    void deleteById (Long id) throws CocoonException;
 }

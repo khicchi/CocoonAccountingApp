@@ -4,7 +4,7 @@
 
 <head>
     <head th:replace="fragments :: page_head"/>
-    <title>Add Product</title>
+    <title>Edit Product</title>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logos/logo-color-big.png}">
     <!-- END Page Level CSS-->
 </head>
@@ -156,15 +156,12 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-6 mt-sm-4">
-                                                                <button type="submit"
-                                                                        class="btn btn-success mb-2 mb-sm-0 mr-sm-2">
-                                                                    Save
-                                                                </button>
-                                                                <a class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
-                                                                   >
-                                                                    Delete</a>
-                                                                <button type="reset" class="btn btn-secondary">Cancel
-                                                                </button>
+
+                                                                <form action="#" th:object="${product}" method="post">
+                                                                    <button type="submit" class="btn btn-success mb-2 mb-sm-0 mr-sm-2">Save</button>
+                                                                    <button type="submit" class="btn btn-success mb-2 mb-sm-0 mr-sm-2" name="action" value="Delete" th:formaction="@{/product/delete/{id}(id=${product.id})}">Delete</button>
+                                                                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                                                                </form>
                                                             </div>
                                                         </div>
 

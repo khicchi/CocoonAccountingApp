@@ -90,4 +90,14 @@ public class ProductServiceImpl implements ProductService {
         }
         return product.get().getUnit();
     }
+
+    @Override
+    public void deleteById(Long id) throws CocoonException {
+        Optional<Product> product = productRepository.findById(id);
+        if(!product.isPresent()){
+            throw new CocoonException("There is no product belongs to this id " + id);
+        }
+        product.get().setIsDeleted(true); // soft delete
+        productRepository.save(product.get());
+    }
 }
