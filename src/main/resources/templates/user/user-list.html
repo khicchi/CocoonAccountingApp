@@ -77,7 +77,7 @@
                                                                  <span th:unless="${user.isEnabled()}" class ="badge bg-light-DANGER">Passive</span>
                                                                  </td>
                                                              <td>
-                                                                 <a >
+                                                                 <a th:href="@{/user/update/{id}(id=${user.id})}">
                                                                      <i class="ft-edit"></i>
                                                                  </a>
                                                              </td>
