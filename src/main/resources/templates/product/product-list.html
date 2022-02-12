@@ -68,7 +68,8 @@
                                                     </thead>
                                                     <tbody>
 
-                                                    <tr th:each="eachProduct : ${products}" >
+                                                    <tr th:each="eachProduct : ${products}" th:style="${eachProduct.getQty()}>=${eachProduct.getLowLimitAlert()} ? 'background-color:#eee' : 'background-color:#ff0033'" >
+
                                                         <td th:text="${eachProduct.id}" ></td>
                                                         <td th:text="${eachProduct.name}" ></td>
                                                         <td th:text="${eachProduct.description}" ></td>

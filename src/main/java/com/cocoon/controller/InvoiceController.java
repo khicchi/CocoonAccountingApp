@@ -4,6 +4,7 @@ import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.Product;
+import com.cocoon.exception.CocoonException;
 import com.cocoon.service.ClientVendorService;
 import com.cocoon.service.InvoiceService;
 import com.cocoon.service.ProductService;
@@ -13,14 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/sales-invoice")
 public class InvoiceController {
 
-    private List<ProductDTO> productsPerInvoice = new ArrayList<>();
+    private InvoiceDTO currentInvoice = new InvoiceDTO();
 
     private final InvoiceService invoiceService;
     private final ProductService productService;
@@ -39,7 +38,7 @@ public class InvoiceController {
             model.addAttribute("invoices", invoices);
 
             for (InvoiceDTO invoice : invoices){
-                List<ProductDTO> products = productService.getProductsByInvoiceId(invoice.getId());
+                Set<ProductDTO> products = productService.getProductsByInvoiceId(invoice.getId());
                 int costWithoutTax = products.stream().mapToInt(ProductDTO::getPrice).sum();
                 invoice.setInvoiceCostWithoutTax(costWithoutTax);
                 int costWithTax = calculateTaxedCost(products);
@@ -50,7 +49,7 @@ public class InvoiceController {
         return "invoice/sales-invoice-list";
     }
 
-    private int calculateTaxedCost(List<ProductDTO> products){
+    private int calculateTaxedCost(Set<ProductDTO> products){
         int result = 0;
         for (ProductDTO product : products){
             result += product.getPrice() + (product.getPrice() * product.getTax() * 0.01);
@@ -61,12 +60,13 @@ public class InvoiceController {
     @GetMapping("/create")
     public String invoiceCreateGet(Model model){
 
-        model.addAttribute("invoice", new InvoiceDTO(LocalDate.now()));
+        currentInvoice.setInvoiceNo(invoiceService.getInvoiceNumber());
+        currentInvoice.setInvoiceDate(LocalDate.now());
+        model.addAttribute("invoice", currentInvoice);
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("clients", clientVendorService.getAllClientsVendors());
-        productsPerInvoice.clear();
-        model.addAttribute("invoiceProducts", productsPerInvoice);
+        model.addAttribute("invoiceProducts", currentInvoice.getProducts());
 
         return "invoice/sales-invoice-create";
     }
@@ -74,32 +74,38 @@ public class InvoiceController {
     @GetMapping("/addition")
     public String invoiceCreateMore(Model model){
 
-        model.addAttribute("invoice", new InvoiceDTO(LocalDate.now()));
+        model.addAttribute("invoice", currentInvoice);
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("clients", clientVendorService.getAllClientsVendors());
-        model.addAttribute("invoiceProducts", productsPerInvoice);
+        model.addAttribute("invoiceProducts", currentInvoice.getProducts());
 
         return "invoice/sales-invoice-create";
     }
 
     @PostMapping("/create-product")
-    public String productCreateForInvoice(Model model, ProductDTO productDTO){
+    public String productCreateForInvoice(Model model, ProductDTO productDTO) throws CocoonException {
 
-        productsPerInvoice.add(productDTO);
-        model.addAttribute("invoiceProducts", productsPerInvoice);
-        // TODO - invoice number kaybolmayacak...
+        ProductDTO retrievedProduct = productService.getProductById(productDTO.getId());
+        currentInvoice.getProducts().add(retrievedProduct);
+        model.addAttribute("invoiceProducts", currentInvoice.getProducts());
 
         return "redirect:/sales-invoice/addition";
     }
 
     @PostMapping("/create")
-    public String createInvoice(Model model, InvoiceDTO invoiceDTO){
+    public String createInvoice(InvoiceDTO dto) throws CocoonException {
 
-        invoiceDTO.setProducts(productsPerInvoice);
-        System.out.println(productsPerInvoice.get(0).getId());
-        invoiceService.save(invoiceDTO);
-        productsPerInvoice.clear();
+        InvoiceDTO savedInvoice = invoiceService.save(dto);
+
+        for (ProductDTO productDTO : currentInvoice.getProducts()){
+            var eachProduct = productService.getProductById(productDTO.getId());
+            eachProduct.getInvoices().add(savedInvoice);
+            var savedProduct = productService.save(eachProduct);
+            savedInvoice.getProducts().add(savedProduct);
+        }
+        invoiceService.save(savedInvoice);
+        currentInvoice = new InvoiceDTO();
 
         return "redirect:/sales-invoice/list";
     }
@@ -111,17 +117,39 @@ public class InvoiceController {
         model.addAttribute("invoice", invoiceDTO);
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("clients", clientVendorService.getAllClientsVendors());
-        productsPerInvoice = productService.getProductsByInvoiceId(invoiceDTO.getId());
-        model.addAttribute("invoiceProducts", productsPerInvoice);
+        model.addAttribute("clients", clientVendorService.getAllClientsVendors());// TODO get client
+        model.addAttribute("invoiceProducts", productService.getProductsByInvoiceId(invoiceDTO.getId()));
 
         return "invoice/sales-invoice-update";
+    }
+
+    @GetMapping("/addition-update/{id}")
+    public String invoiceUpdateMore(@PathVariable("id") Long id, Model model){
+
+        InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
+        model.addAttribute("invoice", invoiceDTO);
+        model.addAttribute("product", new ProductDTO());
+        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("clients", clientVendorService.getAllClientsVendors());
+        model.addAttribute("invoiceProducts", productService.getProductsByInvoiceId(invoiceDTO.getId()));
+
+        return "invoice/sales-invoice-update";
+    }
+
+    @PostMapping("/create-product-update/{id}")
+    public String updateProductForInvoice(@PathVariable("id") Long id, Model model, ProductDTO productDTO) throws CocoonException {
+
+        InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
+        invoiceDTO.getProducts().add(productService.getProductById(productDTO.getId()));
+        model.addAttribute("invoiceProducts", invoiceDTO.getProducts());
+
+        return "redirect:/sales-invoice/addition-update/"+id;
     }
 
     @PostMapping("/update/{id}")
     public String updateInvoice(@PathVariable("id") Long id, InvoiceDTO invoiceDTO){
 
-        invoiceService.update(invoiceDTO);
+        invoiceService.update(invoiceDTO, id);
 
         return "redirect:/sales-invoice/list";
 

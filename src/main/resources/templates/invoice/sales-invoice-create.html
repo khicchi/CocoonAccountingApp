@@ -57,7 +57,6 @@
                                                                     <input type="date"
                                                                        class="form-control"
                                                                        th:field="*{invoiceDate}"
-
                                                                        required="" aria-invalid="false">
                                                                 </div>
                                                             </div>
@@ -69,7 +68,7 @@
                                                                     <select th:field="*{clientVendor}" class="custom-select" required="required">
                                                                         <option th:value=" ''" th:text="Select"></option>
                                                                         <option th:each="client : ${clients}" th:value="${client.id}"
-                                                                                th:text="${client.getCompanyName()}"></option>
+                                                                                th:text="${client.companyName}"></option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -109,7 +108,7 @@
                                                                         <select th:field="*{id}" class="custom-select" required="required" th:onchange="showAlert()" >
                                                                             <option th:value=" ''" th:text="Select"></option>
                                                                             <option th:each="theProduct : ${products}" th:value="${theProduct.id}"
-                                                                                    th:text="${theProduct.getName()}"></option>
+                                                                                    th:text="${theProduct.name}"></option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -168,9 +167,9 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr th:each="product : ${invoiceProducts}">
-                                                                    <td th:text="${product.getName()}"></td>
-                                                                    <td th:text="${product.getPrice()}"></td>
-                                                                    <td th:text="${product.getQty()}"></td>
+                                                                    <td th:text="${product.name}"></td>
+                                                                    <td th:text="${product.price}"></td>
+                                                                    <td th:text="${product.qty}"></td>
                                                                     <td></td>
                                                                     <td></td>
                                                                 </tr>

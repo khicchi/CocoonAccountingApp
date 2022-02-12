@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @Table(name="product")
+@Where(clause = "is_deleted=false")
 public class Product extends BaseEntity implements Serializable {
 
     private String name;

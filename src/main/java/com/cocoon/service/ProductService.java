@@ -9,14 +9,17 @@ import com.cocoon.exception.CocoonException;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface ProductService {
 
     List<ProductDTO> getAllProducts();
-    void save(ProductDTO productDTO);
+    ProductDTO save(ProductDTO productDTO);
     ProductDTO getProductById(Long id) throws CocoonException;
+    Set<ProductDTO> getProductsByInvoiceId(Long id);
     void update(ProductDTO productDTO) throws CocoonException;
-    List<ProductDTO> getProductsByInvoiceId(Long id);
     ProductStatus getProductStatusById(Long id) throws CocoonException;
     Unit getUnitById(Long id) throws CocoonException;
+
+    void deleteById (Long id) throws CocoonException;
 }

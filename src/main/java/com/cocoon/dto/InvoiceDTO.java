@@ -11,7 +11,9 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @NoArgsConstructor
@@ -19,8 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Getter
 @Setter
 public class InvoiceDTO {
-
-    private static final AtomicInteger count = new AtomicInteger(0);
 
     private Long id;
     private String invoiceNo;
@@ -33,14 +33,14 @@ public class InvoiceDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate invoiceDate;
 
-    private List<ProductDTO> products;
+    private Set<ProductDTO> products = new HashSet<>();
 
     private int InvoiceCostWithoutTax;
     private int InvoiceCostWithTax;
     private int totalCost;
 
-    public InvoiceDTO(LocalDate invoiceDate) {
-        this.invoiceNo = "INV-"+ count.incrementAndGet();
+    public InvoiceDTO(String invoiceNo, LocalDate invoiceDate) {
+        this.invoiceNo = invoiceNo;
         this.invoiceDate = invoiceDate;
     }
 }
