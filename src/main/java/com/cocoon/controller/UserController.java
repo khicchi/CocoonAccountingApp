@@ -10,9 +10,7 @@ import com.cocoon.service.RoleService;
 import com.cocoon.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user")
@@ -48,5 +46,18 @@ public class UserController {
         return "user/user-add";
     }
 
+    @GetMapping("update/{id}")
+    public String updateUser(@PathVariable Long id, Model model) throws CocoonException {
+        UserDTO foundUser = userService.findById(id);
+        model.addAttribute("userToEdit", foundUser);
+        model.addAttribute("companies", companyService.getAllCompanies());
+        model.addAttribute("roles", roleService.findAllRoles());
+        return "user/user-update";
+    }
 
+    @PostMapping("update/{id}")
+    public String updateUser(@ModelAttribute UserDTO userDTO) throws CocoonException {
+        userService.update(userDTO);
+        return "redirect:/user/list";
+    }
 }
