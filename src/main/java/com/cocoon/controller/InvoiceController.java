@@ -87,7 +87,7 @@ public class InvoiceController {
         model.addAttribute("invoice", invoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
         model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("client", invoiceDTO.getClientVendor());
+        model.addAttribute("clients", clientVendorService.getAllClientsVendors());
         model.addAttribute("invoiceProducts", invoiceDTO.getProducts()); // TODO current tan da alabiliriz..
 
         return "invoice/sales-invoice-update";

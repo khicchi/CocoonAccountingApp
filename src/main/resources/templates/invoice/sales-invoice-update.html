@@ -45,7 +45,6 @@
                                                                            class="form-control" required
                                                                            aria-invalid="false"
                                                                            th:field="*{invoiceNo}"
-                                                                           th:text="${invoice.invoiceNo}"
                                                                     />
                                                                 </div>
                                                             </div>
@@ -57,7 +56,6 @@
                                                                     <input type="date"
                                                                        class="form-control"
                                                                        th:field="*{invoiceDate}"
-                                                                       th:text="${invoice.invoiceDate}"
                                                                        required="" aria-invalid="false">
                                                                 </div>
                                                             </div>
@@ -66,11 +64,11 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Client</label>
-                                                                    <input type="date"
-                                                                           class="form-control"
-                                                                           th:field="*{clientVendor}"
-                                                                           th:text="${client.companyName}"
-                                                                           required="" aria-invalid="false">
+                                                                    <select th:field="*{clientVendor}" class="custom-select" required="required">
+                                                                        <option th:value=" ''" th:text="Select"></option>
+                                                                        <option th:each="client : ${clients}" th:value="${client.id}"
+                                                                                th:text="${client.companyName}"></option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
