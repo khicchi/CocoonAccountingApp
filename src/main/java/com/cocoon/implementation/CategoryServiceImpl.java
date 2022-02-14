@@ -70,5 +70,12 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryDTO;
     }
 
+    @Override
+    public void delete(CategoryDTO categoryDTO) {
+        Category category = categoryRepo.getById(categoryDTO.getId());
+        category.setIsDeleted(true);
+        categoryRepo.save(category);
+    }
+
 
 }

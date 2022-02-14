@@ -54,4 +54,10 @@ public class CategoryCotroller {
         return "redirect:/category/list";
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable("id") String id,CategoryDTO categoryDTO) throws CocoonException {
+        categoryService.delete(categoryDTO);
+        return "redirect:/category/list";
+    }
+
 }

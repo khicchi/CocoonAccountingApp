@@ -11,4 +11,5 @@ public interface CategoryService {
     CategoryDTO getCategoryByDescription(String description) throws CocoonException;
     void update(CategoryDTO categoryDTO) throws CocoonException;
     CategoryDTO getById(Long id);
+    void delete(CategoryDTO categoryDTO);
 }
