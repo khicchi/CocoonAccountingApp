@@ -55,7 +55,7 @@
                                                  aria-labelledby="account-tab">
 
                                                 <!-- Account form starts -->
-                                                <form novalidate method="post" th:action="@{/client-vendor/update/{id}}" th:object="${client}">
+                                                <form novalidate method="post" th:action="@{/client-vendor/update/{id}(id=${client.id})}" th:object="${client}">
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
@@ -78,10 +78,11 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-state">State</label>
-                                                                    <input type="text" id="users-edit-state"
-                                                                           class="form-control" placeholder="etate"
-                                                                           value="state" required
-                                                                           aria-invalid="false">
+                                                                    <select id="users-edit-state" name="state" class="form-control"
+                                                                            required>
+                                                                        <option th:each="eachstate : ${states}" th:text="${eachstate.stateName}"
+                                                                                th:value="${eachstate.id}" th:selected="${client.state.id} == ${eachstate.id}"></option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
 
@@ -119,8 +120,6 @@
                                                             >
                                                                 <div class="controls">
                                                                     <label>Type</label>
-
-
                                                                     <ul class="list-unstyled mb-0" required="true"
                                                                         aria-invalid="false">
 
@@ -154,9 +153,7 @@
                                                                 Save Changes
                                                             </button>
                                                             <a class="btn btn-danger mb-2 mb-sm-0 mr-sm-2">Delete</a>
-
-                                                            <button  class="btn btn-secondary">Cancel
-                                                            </button>
+                                                            <a th:href="@{/client-vendor/list}" class="btn btn-secondary">Cancel</a>
                                                         </div>
                                                     </div>
                                                 </form>
