@@ -57,6 +57,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void delete(Long id) {
+        User user = userRepo.findById(id).orElseThrow();
+        user.setIsDeleted(true);
+        userRepo.save(user);
+    }
+
+    @Override
     public List<UserDTO> listAllUsersByCompanyId(Long id) {
         List<User> allUsers = userRepo.findAllByCompanyId(id);
         return allUsers.stream().map(obj -> mapperUtil.convert(obj, new UserDTO()))

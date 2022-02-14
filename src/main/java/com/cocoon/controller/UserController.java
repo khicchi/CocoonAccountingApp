@@ -60,4 +60,10 @@ public class UserController {
         userService.update(userDTO);
         return "redirect:/user/list";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id){
+        userService.delete(id);
+        return "redirect:/user/list";
+    }
 }
