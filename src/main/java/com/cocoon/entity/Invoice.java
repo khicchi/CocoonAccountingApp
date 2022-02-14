@@ -10,8 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,9 +42,8 @@ public class Invoice extends BaseEntity implements Serializable {
     @JoinColumn(name = "sptable_id") //TODO foreign key will be replaced with "client_vendor_id"....
     private ClientVendor clientVendor;
 
-    @ManyToMany(mappedBy = "invoices",cascade = CascadeType.MERGE)
-    private Set<Product> products = new HashSet<>();
-
+    @OneToMany(mappedBy = "invoice")
+    private Set<InvoiceProduct> invoiceProduct;
 
 
 }

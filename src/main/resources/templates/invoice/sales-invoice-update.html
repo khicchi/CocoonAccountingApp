@@ -34,7 +34,7 @@
                                             <div class="tab-pane fade mt-2 show active" id="account" role="tabpanel"
                                                  aria-labelledby="account-tab">
                                                 <!-- INVOICE PART BEGIN-->
-                                                <form class="needs-validation" th:action="@{/sales-invoice/update/{id}(id=${invoice.id})}" method="post"
+                                                <form class="needs-validation" th:action="@{/sales-invoice/invoice-update/{id}(id=${invoice.id})}" method="post"
                                                       th:object="${invoice}" novalidate>
                                                     <div class="row">
                                                         <div class="col-12 col-md-3">
@@ -45,6 +45,7 @@
                                                                            class="form-control" required
                                                                            aria-invalid="false"
                                                                            th:field="*{invoiceNo}"
+                                                                           th:text="${invoice.invoiceNo}"
                                                                     />
                                                                 </div>
                                                             </div>
@@ -56,6 +57,7 @@
                                                                     <input type="date"
                                                                        class="form-control"
                                                                        th:field="*{invoiceDate}"
+                                                                       th:text="${invoice.invoiceDate}"
                                                                        required="" aria-invalid="false">
                                                                 </div>
                                                             </div>
@@ -64,11 +66,11 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Client</label>
-                                                                    <select th:field="*{clientVendor}" class="custom-select" required="required">
-                                                                        <option th:value=" ''" th:text="Select"></option>
-                                                                        <option th:each="client : ${clients}" th:value="${client.id}"
-                                                                                th:text="${client.getCompanyName()}"></option>
-                                                                    </select>
+                                                                    <input type="date"
+                                                                           class="form-control"
+                                                                           th:field="*{clientVendor}"
+                                                                           th:text="${client.companyName}"
+                                                                           required="" aria-invalid="false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -104,7 +106,7 @@
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Product</label>
-                                                                        <select th:field="*{id}" class="custom-select" required="required" >
+                                                                        <select th:field="*{productDTO}" class="custom-select" required="required" >
                                                                             <option th:value=" ''" th:text="Select"></option>
                                                                             <option th:each="theProduct : ${products}" th:value="${theProduct.id}"
                                                                                     th:text="${theProduct.name}"></option>
@@ -166,9 +168,9 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr th:each="product : ${invoiceProducts}">
-                                                                    <td th:text="${product.getName()}"></td>
-                                                                    <td th:text="${product.getPrice()}"></td>
-                                                                    <td th:text="${product.getQty()}"></td>
+                                                                    <td th:text="${product.id}"></td>
+                                                                    <td th:text="${product.price}"></td>
+                                                                    <td th:text="${product.qty}"></td>
                                                                     <td></td>
                                                                     <td></td>
                                                                 </tr>
