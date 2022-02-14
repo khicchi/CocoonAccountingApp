@@ -20,9 +20,10 @@ public class ClientVendorServiceImpl implements ClientVendorService {
     private MapperUtil mapperUtil;
     private CompanyRepo companyRepo;
 
-    public ClientVendorServiceImpl(ClientVendorRepo clientVendorRepo, MapperUtil mapperUtil) {
+    public ClientVendorServiceImpl(ClientVendorRepo clientVendorRepo, MapperUtil mapperUtil, CompanyRepo companyRepo) {
         this.clientVendorRepo = clientVendorRepo;
         this.mapperUtil = mapperUtil;
+        this.companyRepo = companyRepo;
     }
 
     @Override
@@ -80,13 +81,14 @@ public class ClientVendorServiceImpl implements ClientVendorService {
 
     @Override
     public ClientVendorDTO update(ClientVendorDTO clientVendorDTO) throws CocoonException {
-        ClientVendor clientVendor = clientVendorRepo.findByEmail(clientVendorDTO.getEmail());
+        clientVendorDTO.setEnabled(true);
+        if (clientVendorDTO.getAddress().length() > 254)
+            throw new CocoonException("Address length should be lesser then 255");
         ClientVendor updatedClientVendor = mapperUtil.convert(clientVendorDTO, new ClientVendor());
-
-        updatedClientVendor.setId(clientVendor.getId());
-        clientVendorRepo.save(updatedClientVendor);
-        return findByEmail(clientVendorDTO.getEmail());
-
+        //region todo we need companyId. This section will be updated at security implementation @kicchi
+        updatedClientVendor.setCompany(companyRepo.getById(9L));
+        ClientVendor savedClientVendor = clientVendorRepo.save(updatedClientVendor);
+        return mapperUtil.convert(savedClientVendor, new ClientVendorDTO());
     }
 
     @Override
