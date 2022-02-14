@@ -37,6 +37,7 @@ public class InvoiceController {
     @GetMapping("/list")
     public String invoiceList(Model model){
 
+            currentInvoiceDTO = new InvoiceDTO();
             List<InvoiceDTO> invoices = invoiceService.getAllInvoices();
             model.addAttribute("invoices", invoices);
 
@@ -74,7 +75,6 @@ public class InvoiceController {
         currentInvoiceDTO.setInvoiceType(InvoiceType.SALE);
         invoiceService.save(currentInvoiceDTO);
         invoiceProductService.save(currentInvoiceDTO.getProducts());
-        currentInvoiceDTO = new InvoiceDTO();
 
         return "redirect:/sales-invoice/list";
     }
@@ -105,7 +105,6 @@ public class InvoiceController {
 
         invoiceService.update(invoiceDTO, id);
         invoiceProductService.save(currentInvoiceDTO.getProducts());
-        currentInvoiceDTO = new InvoiceDTO();
         return "redirect:/sales-invoice/list";
 
     }

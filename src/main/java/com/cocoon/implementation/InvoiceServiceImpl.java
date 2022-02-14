@@ -1,14 +1,10 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.InvoiceDTO;
-import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Invoice;
-import com.cocoon.entity.Product;
 import com.cocoon.enums.InvoiceStatus;
-import com.cocoon.enums.InvoiceType;
 import com.cocoon.repository.InvoiceNumberRepo;
 import com.cocoon.repository.InvoiceRepository;
-import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.InvoiceService;
 import com.cocoon.util.MapperUtil;
 
@@ -25,13 +21,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final MapperUtil mapperUtil;
     private final InvoiceRepository invoiceRepository;
     private final InvoiceNumberRepo invoiceNumberRepo;
-    private final ProductRepository productRepository;
 
-    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceNumberRepo invoiceNumberRepo, ProductRepository productRepository) {
+    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceNumberRepo invoiceNumberRepo) {
         this.mapperUtil = mapperUtil;
         this.invoiceRepository = invoiceRepository;
         this.invoiceNumberRepo = invoiceNumberRepo;
-        this.productRepository = productRepository;
     }
 
     @Override
@@ -41,9 +35,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setInvoiceStatus(InvoiceStatus.PENDING);
         invoice.setEnabled((byte) 1);
 
-        // save Invoice
         Invoice savedInvoice = invoiceRepository.save(invoice);
-
         return mapperUtil.convert(savedInvoice, new InvoiceDTO());
     }
 
