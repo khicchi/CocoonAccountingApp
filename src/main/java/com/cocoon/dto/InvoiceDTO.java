@@ -33,7 +33,7 @@ public class InvoiceDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate invoiceDate;
 
-    private Set<InvoiceProductDTO> products = new HashSet<>();
+    private Set<InvoiceProductDTO> invoiceProduct = new HashSet<>();
 
     private int InvoiceCostWithoutTax;
     private int InvoiceCostWithTax;

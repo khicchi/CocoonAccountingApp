@@ -42,8 +42,8 @@ public class Invoice extends BaseEntity implements Serializable {
     @JoinColumn(name = "sptable_id") //TODO foreign key will be replaced with "client_vendor_id"....
     private ClientVendor clientVendor;
 
-    @OneToMany(mappedBy = "invoice")
-    private Set<InvoiceProduct> invoiceProduct;
+//    @OneToMany(mappedBy = "invoice")
+//    private Set<InvoiceProduct> invoiceProduct;
 
 
 }
