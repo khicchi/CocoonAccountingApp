@@ -63,10 +63,7 @@ public class ClientVendorServiceImpl implements ClientVendorService {
 
     @Override
     public ClientVendorDTO findById(Long id) throws CocoonException {
-        ClientVendor clientVendor = clientVendorRepo.findById(id).orElseThrow();
-        if (clientVendor==null){
-            throw new CocoonException("Vendor/Client with " + id + " not exist");
-        }
+        ClientVendor clientVendor = clientVendorRepo.findById(id).orElseThrow(()-> new CocoonException("Vendor/Client with " + id + " not exist"));
         return mapperUtil.convert(clientVendor, new ClientVendorDTO());
     }
 
@@ -83,13 +80,8 @@ public class ClientVendorServiceImpl implements ClientVendorService {
 
     @Override
     public void deleteClientVendor(Long id) throws CocoonException {
-        ClientVendor clientVendor = clientVendorRepo.findById(id).orElseThrow();
-        if (clientVendor == null) {
-            throw new CocoonException("Vendor/Client with " + id + " not exist");
-        }
+        ClientVendor clientVendor = clientVendorRepo.findById(id).orElseThrow(()-> new CocoonException("Vendor/Client with " + id + " not exist"));
         clientVendor.setIsDeleted(true);
         clientVendorRepo.save(clientVendor);
     }
-
-
 }
