@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode
+@Where(clause = "is_deleted=false")
 public class Invoice extends BaseEntity implements Serializable {
 
     private String invoiceNo; //TODO - invoice number will be evaluated somewhere else...

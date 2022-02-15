@@ -15,4 +15,6 @@ public interface InvoiceService {
     InvoiceDTO update(InvoiceDTO dto, Long id);
 
     String getInvoiceNumber();
+
+    void deleteInvoiceById(Long id);
 }

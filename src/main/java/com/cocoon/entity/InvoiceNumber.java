@@ -24,6 +24,7 @@ public class InvoiceNumber {
     @Column(name = "year", columnDefinition = "DATE")
     private LocalDate year;
 
+
     private int invoiceNumber;
 
     public InvoiceNumber(int invoiceNumber) {

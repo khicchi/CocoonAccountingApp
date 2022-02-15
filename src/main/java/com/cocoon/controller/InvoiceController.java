@@ -22,6 +22,7 @@ public class InvoiceController {
 
     private InvoiceDTO currentInvoiceDTO = new InvoiceDTO();
     private InvoiceProductDTO invoiceProductDTO = new InvoiceProductDTO();
+    private boolean active = true;
 
     private final InvoiceService invoiceService;
     private final ProductService productService;
@@ -35,9 +36,10 @@ public class InvoiceController {
         this.clientVendorService = clientVendorService;
     }
 
-    @GetMapping("/list")
-    public String invoiceList(Model model){
+    @GetMapping({"/list", "/list/{cancel}"})
+    public String invoiceList(@RequestParam(required = false) String cancel, Model model){
 
+        if (cancel != null) this.active = true;
         currentInvoiceDTO = new InvoiceDTO();
         List<InvoiceDTO> invoices = invoiceService.getAllInvoices();
         model.addAttribute("invoices", invoices);
@@ -50,6 +52,7 @@ public class InvoiceController {
 
         currentInvoiceDTO.setInvoiceNo(invoiceService.getInvoiceNumber());
         currentInvoiceDTO.setInvoiceDate(LocalDate.now());
+        model.addAttribute("active", active);
         model.addAttribute("invoice", currentInvoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
         model.addAttribute("products", productService.getAllProducts());
@@ -65,6 +68,7 @@ public class InvoiceController {
         String name = invoiceProductDTO.getProductDTO().getName();
         invoiceProductDTO.setName(name);
         currentInvoiceDTO.getInvoiceProduct().add(invoiceProductDTO);
+        this.active = false;
         return "redirect:/sales-invoice/create";
     }
 
@@ -79,10 +83,12 @@ public class InvoiceController {
         InvoiceDTO savedInvoice = invoiceService.save(currentInvoiceDTO);
         currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoice));
         invoiceProductService.save(currentInvoiceDTO.getInvoiceProduct());
+        this.active = true;
 
         return "redirect:/sales-invoice/list";
     }
 
+    // Update ----------------------------------------------------------------------------------------------------------
     @GetMapping("/update/{id}")
     public String updateInvoice(@PathVariable("id") Long id, Model model){
 
@@ -92,6 +98,7 @@ public class InvoiceController {
         if (this.invoiceProductDTO.getName() != null){
             databaseInvoiceProducts.add(this.invoiceProductDTO);
         }
+        model.addAttribute("active", active);
         model.addAttribute("invoice", invoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
         model.addAttribute("products", productService.getAllProducts());
@@ -107,6 +114,7 @@ public class InvoiceController {
         String name = invoiceProductDTO.getProductDTO().getName();
         invoiceProductDTO.setName(name);
         this.invoiceProductDTO = invoiceProductDTO;
+        this.active = false;
         return "redirect:/sales-invoice/update/"+id;
     }
 
@@ -116,6 +124,15 @@ public class InvoiceController {
         InvoiceDTO updatedInvoice = invoiceService.update(invoiceDTO, id);
         currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(updatedInvoice));
         invoiceProductService.save(currentInvoiceDTO.getInvoiceProduct());
+        this.active = true;
+        return "redirect:/sales-invoice/list";
+    }
+
+    // Delete ----------------------------------------------------------------------------------------------------------
+    @GetMapping("/delete/{id}")
+    public String deleteInvoiceById(@PathVariable("id") Long id){
+
+        invoiceService.deleteInvoiceById(id);
         return "redirect:/sales-invoice/list";
 
     }

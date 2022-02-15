@@ -39,8 +39,4 @@ public class InvoiceDTO {
     private int InvoiceCostWithTax;
     private int totalCost;
 
-    public InvoiceDTO(String invoiceNo, LocalDate invoiceDate) {
-        this.invoiceNo = invoiceNo;
-        this.invoiceDate = invoiceDate;
-    }
 }
