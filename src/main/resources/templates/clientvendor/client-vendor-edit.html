@@ -85,7 +85,37 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-
+                                                            <div class="form-group">
+                                                                <div class="controls">
+                                                                    <label>Type</label>
+                                                                    <ul class="list-unstyled mb-0" required="true"
+                                                                        aria-invalid="false">
+                                                                        <li class="d-inline-block mr-2">
+                                                                            <div class="radio radio-primary">
+                                                                                <input type="radio" name="color-radio" th:field="*{type}" th:value="VENDOR"
+                                                                                       id="color-radio-1" checked>
+                                                                                <label for="color-radio-1" >VENDOR</label>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li class="d-inline-block mr-2">
+                                                                            <div class="radio radio-secondary">
+                                                                                <input type="radio" name="color-radio"
+                                                                                       th:field="*{type}" th:value="CLIENT"
+                                                                                       id="color-radio-2">
+                                                                                <label for="color-radio-2">CLIENT</label>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li class="d-inline-block mr-2">
+                                                                            <div class="radio radio-secondary">
+                                                                                <input type="radio" name="color-radio"
+                                                                                       th:field="*{type}" th:value="BOTH"
+                                                                                       id="color-radio-3">
+                                                                                <label for="color-radio-3">BOTH</label>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
                                                         <div class="col-12 col-md-6">
@@ -116,37 +146,17 @@
                                                                            placeholder="zipcode">
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group"
-                                                            >
+                                                            <div class="form-group">
                                                                 <div class="controls">
-                                                                    <label>Type</label>
-                                                                    <ul class="list-unstyled mb-0" required="true"
-                                                                        aria-invalid="false">
-
-                                                                        <li class="d-inline-block mr-2">
-                                                                            <div class="radio radio-primary">
-                                                                                <input type="radio" name="color-radio" th:field="*{type}" th:value="VENDOR"
-                                                                                       id="color-radio-1" checked>
-                                                                                <label for="color-radio-1" >VENDOR</label>
-                                                                            </div>
-                                                                        </li>
-                                                                        <li class="d-inline-block mr-2">
-                                                                            <div class="radio radio-secondary">
-                                                                                <input type="radio" name="color-radio"
-                                                                                       th:field="*{type}" th:value="CLIENT"
-                                                                                       id="color-radio-2">
-                                                                                <label for="color-radio-2">CLIENT</label>
-                                                                            </div>
-                                                                        </li>
-
-                                                                    </ul>
-
-
+                                                                    <label for="users-edit-status">Status</label>
+                                                                    <select id="users-edit-status" class="form-control"
+                                                                            name="enabled">
+                                                                        <option th:selected="${client.isEnabled()==true}" th:value= true>Active</option>
+                                                                        <option th:selected="${client.isEnabled()==false}" th:value=false>Passive</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
                                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
                                                             <button type="submit"
                                                                     class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">
