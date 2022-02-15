@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@Where(clause = "is_deleted=false")
 public class ClientVendor extends BaseEntity {
 
     private String companyName;
