@@ -21,6 +21,7 @@ import java.util.*;
 public class InvoiceController {
 
     private InvoiceDTO currentInvoiceDTO = new InvoiceDTO();
+    private InvoiceProductDTO invoiceProductDTO = new InvoiceProductDTO();
 
     private final InvoiceService invoiceService;
     private final ProductService productService;
@@ -61,6 +62,8 @@ public class InvoiceController {
     @PostMapping("/create-invoice-product")
     public String createInvoiceProduct(InvoiceProductDTO invoiceProductDTO){
 
+        String name = invoiceProductDTO.getProductDTO().getName();
+        invoiceProductDTO.setName(name);
         currentInvoiceDTO.getInvoiceProduct().add(invoiceProductDTO);
         return "redirect:/sales-invoice/create";
     }
@@ -84,27 +87,32 @@ public class InvoiceController {
     public String updateInvoice(@PathVariable("id") Long id, Model model){
 
         InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
-        currentInvoiceDTO.getInvoiceProduct().forEach(obj -> invoiceDTO.getInvoiceProduct().add(obj));
+        List<InvoiceProductDTO> databaseInvoiceProducts = invoiceProductService.getAllInvoiceProductsByInvoiceId(id);
+
+        if (this.invoiceProductDTO.getName() != null){
+            databaseInvoiceProducts.add(this.invoiceProductDTO);
+        }
         model.addAttribute("invoice", invoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("clients", clientVendorService.getAllClientsVendors());
-        model.addAttribute("invoiceProducts", invoiceDTO.getInvoiceProduct());
+        model.addAttribute("invoiceProducts", databaseInvoiceProducts);
 
         return "invoice/sales-invoice-update";
     }
 
     @PostMapping("/create-product-update/{id}")
-    public String updateProductForInvoice(@PathVariable("id") Long id, InvoiceProductDTO ipDTO) {
+    public String updateProductForInvoice(@PathVariable("id") Long id, InvoiceProductDTO invoiceProductDTO) {
 
-        currentInvoiceDTO.getInvoiceProduct().add(ipDTO);
+        this.invoiceProductDTO = invoiceProductDTO;
         return "redirect:/sales-invoice/update/"+id;
     }
 
     @PostMapping("/invoice-update/{id}")
     public String updateInvoice(@PathVariable("id") Long id, InvoiceDTO invoiceDTO){
 
-        invoiceService.update(invoiceDTO, id);
+        InvoiceDTO updatedInvoice = invoiceService.update(invoiceDTO, id);
+        currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(updatedInvoice));
         invoiceProductService.save(currentInvoiceDTO.getInvoiceProduct());
         return "redirect:/sales-invoice/list";
 

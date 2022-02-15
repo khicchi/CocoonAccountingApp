@@ -12,7 +12,7 @@ public interface InvoiceService {
 
     InvoiceDTO getInvoiceById(Long id);
 
-    void update(InvoiceDTO dto, Long id);
+    InvoiceDTO update(InvoiceDTO dto, Long id);
 
     String getInvoiceNumber();
 }

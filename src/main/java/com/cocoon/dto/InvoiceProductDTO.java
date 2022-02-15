@@ -12,6 +12,7 @@ import lombok.Setter;
 public class InvoiceProductDTO {
 
     private Long id;
+    private String name;
     private int qty;
     private int price;
     private int tax;
