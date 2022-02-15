@@ -17,9 +17,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByInvoiceId2(Long id);
 
     // TODO - relation tablosundan çek...
+   /*
+    @Query(nativeQuery = true, value = "SELECT * FROM product p INNER JOIN category c on p.category_id = c.id WHERE c.id =?1")
+    List<Product> getProductsByCategoryId2(Long id);
+*/
 
-    
-
+    List<Product> findAllByCategoryId(Long id);
 
 
 }

@@ -100,4 +100,12 @@ public class ProductServiceImpl implements ProductService {
         product.get().setIsDeleted(true); // soft delete
         productRepository.save(product.get());
     }
+
+
+    @Override
+    public List<ProductDTO> findProductsByCategoryId(Long id) {
+        List<Product> products = productRepository.findAllByCategoryId(id);
+        List<ProductDTO> productDTOList = products.stream().map((p) -> mapperUtil.convert(p, new ProductDTO())).collect(Collectors.toList());
+        return productDTOList;
+    }
 }
