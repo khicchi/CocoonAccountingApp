@@ -104,6 +104,8 @@ public class InvoiceController {
     @PostMapping("/create-product-update/{id}")
     public String updateProductForInvoice(@PathVariable("id") Long id, InvoiceProductDTO invoiceProductDTO) {
 
+        String name = invoiceProductDTO.getProductDTO().getName();
+        invoiceProductDTO.setName(name);
         this.invoiceProductDTO = invoiceProductDTO;
         return "redirect:/sales-invoice/update/"+id;
     }
