@@ -2,11 +2,15 @@ package com.cocoon.implementation;
 
 import com.cocoon.dto.CategoryDTO;
 import com.cocoon.dto.CompanyDTO;
+import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Category;
 import com.cocoon.entity.Company;
+import com.cocoon.entity.Product;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.CategoryRepo;
+import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.CategoryService;
+import com.cocoon.service.ProductService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +22,12 @@ public class CategoryServiceImpl implements CategoryService{
 
     private CategoryRepo categoryRepo;
     private MapperUtil mapperUtil;
+ private ProductService productService;
 
-    public CategoryServiceImpl(CategoryRepo categoryRepo, MapperUtil mapperUtil) {
+    public CategoryServiceImpl(CategoryRepo categoryRepo, MapperUtil mapperUtil, ProductService productService) {
         this.categoryRepo = categoryRepo;
         this.mapperUtil = mapperUtil;
+        this.productService = productService;
     }
 
     @Override
@@ -71,8 +77,13 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public void delete(CategoryDTO categoryDTO) {
-        Category category = categoryRepo.getById(categoryDTO.getId());
+    public void delete(CategoryDTO categoryDTO) throws CocoonException {
+        Category category = categoryRepo.getCategoryById(categoryDTO.getId());
+        if (category==null)
+            throw new CocoonException("category does not exist");
+        List<ProductDTO> productDTOList = productService.findProductsByCategoryId(categoryDTO.getId());
+        if (productDTOList.size()>0)
+            throw new CocoonException("category has relation");
         category.setIsDeleted(true);
         categoryRepo.save(category);
     }

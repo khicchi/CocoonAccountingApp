@@ -22,4 +22,5 @@ public interface ProductService {
     Unit getUnitById(Long id) throws CocoonException;
 
     void deleteById (Long id) throws CocoonException;
+    List<ProductDTO> findProductsByCategoryId(Long id);
 }

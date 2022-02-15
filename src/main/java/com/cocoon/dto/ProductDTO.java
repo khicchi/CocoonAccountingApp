@@ -31,6 +31,7 @@ public class ProductDTO {
     private Company company;
     private Byte enabled;
     private ProductStatus productStatus;
+    /*
     private InvoiceProductDTO invoiceProductDTO;
-
+*/
 }

@@ -12,5 +12,5 @@ public interface CategoryRepo extends JpaRepository<Category,Long> {
 
     Category getByDescription(String description) throws CocoonException;
 
-    Category getById(Long id);
+    Category getCategoryById(Long id);
 }
