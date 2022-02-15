@@ -139,7 +139,7 @@
                                                                                 <label for="color-radio-1">VENDOR</label>
                                                                             </div>
                                                                         </li>
-                                                                        <li class="d-inline-block mr-2" required>
+                                                                        <li class="d-inline-block mr-2">
                                                                             <div class="radio radio-secondary">
                                                                                 <input type="radio" name="color-radio" required aria-invalid="false"
                                                                                        th:field="*{type}" th:value="CLIENT"
@@ -147,7 +147,14 @@
                                                                                 <label for="color-radio-2">CLIENT</label>
                                                                             </div>
                                                                         </li>
-
+                                                                        <li class="d-inline-block mr-2">
+                                                                            <div class="radio radio-secondary">
+                                                                                <input type="radio" name="color-radio" required aria-invalid="false"
+                                                                                       th:field="*{type}" th:value="BOTH"
+                                                                                       id="color-radio-3">
+                                                                                <label for="color-radio-3">BOTH</label>
+                                                                            </div>
+                                                                        </li>
                                                                     </ul>
 
 
@@ -161,8 +168,8 @@
                                                                     class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">
                                                                 Create
                                                             </button>
-                                                            <button type="reset" class="btn btn-secondary">Cancel
-                                                            </button>
+                                                            <a th:href="@{/client-vendor/list}" type="reset" class="btn btn-secondary">Cancel
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </form>
