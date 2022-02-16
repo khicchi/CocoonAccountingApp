@@ -23,7 +23,7 @@ import java.util.Set;
 @Where(clause = "is_deleted=false")
 public class Invoice extends BaseEntity implements Serializable {
 
-    private String invoiceNo; //TODO - invoice number will be evaluated somewhere else...
+    private int invoiceNumber; //TODO - invoice number will be evaluated somewhere else...
 
     @Enumerated(EnumType.STRING)
     private InvoiceStatus invoiceStatus;

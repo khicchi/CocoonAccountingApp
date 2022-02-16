@@ -24,10 +24,6 @@ public class InvoiceNumber {
     @Column(name = "year", columnDefinition = "DATE")
     private LocalDate year;
 
+    private int uniqueNumber;
 
-    private int invoiceNumber;
-
-    public InvoiceNumber(int invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
-    }
 }
