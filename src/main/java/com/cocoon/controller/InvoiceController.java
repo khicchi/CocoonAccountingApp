@@ -50,7 +50,7 @@ public class InvoiceController {
     @GetMapping("/create")
     public String salesInvoiceCreate(Model model){
 
-        currentInvoiceDTO.setInvoiceNo(invoiceService.getInvoiceNumber());
+        currentInvoiceDTO.setInvoiceNumber(invoiceService.getInvoiceNumber(InvoiceType.SALE));
         currentInvoiceDTO.setInvoiceDate(LocalDate.now());
         model.addAttribute("active", active);
         model.addAttribute("invoice", currentInvoiceDTO);
@@ -77,7 +77,7 @@ public class InvoiceController {
     public String createInvoice(InvoiceDTO dto) throws CocoonException {
 
         currentInvoiceDTO.setInvoiceDate(dto.getInvoiceDate());
-        currentInvoiceDTO.setInvoiceNo(dto.getInvoiceNo());
+        currentInvoiceDTO.setInvoiceNumber(dto.getInvoiceNumber());
         currentInvoiceDTO.setClientVendor(dto.getClientVendor());
         currentInvoiceDTO.setInvoiceType(InvoiceType.SALE);
         InvoiceDTO savedInvoice = invoiceService.save(currentInvoiceDTO);

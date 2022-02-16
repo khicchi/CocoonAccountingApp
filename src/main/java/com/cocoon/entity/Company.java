@@ -37,4 +37,5 @@ public class Company extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "state_id")
     private State state;
+
 }

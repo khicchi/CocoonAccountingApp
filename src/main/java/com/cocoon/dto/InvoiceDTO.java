@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class InvoiceDTO {
 
     private Long id;
-    private String invoiceNo;
+    private String invoiceNumber;
     private InvoiceStatus invoiceStatus;
     private InvoiceType invoiceType;
     private Byte enabled;

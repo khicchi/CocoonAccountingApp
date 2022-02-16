@@ -1,6 +1,7 @@
 package com.cocoon.service;
 
 import com.cocoon.dto.InvoiceDTO;
+import com.cocoon.enums.InvoiceType;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface InvoiceService {
 
     InvoiceDTO update(InvoiceDTO dto, Long id);
 
-    String getInvoiceNumber();
+    String getInvoiceNumber(InvoiceType invoiceType);
 
     void deleteInvoiceById(Long id);
 }

@@ -4,7 +4,8 @@ import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.InvoiceProduct;
 import com.cocoon.enums.InvoiceStatus;
-import com.cocoon.repository.InvoiceNumberRepo;
+import com.cocoon.enums.InvoiceType;
+import com.cocoon.repository.CompanyRepo;
 import com.cocoon.repository.InvoiceProductRepo;
 import com.cocoon.repository.InvoiceRepository;
 import com.cocoon.service.InvoiceService;
@@ -12,23 +13,23 @@ import com.cocoon.util.MapperUtil;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
-    private int count = 0;
     private final MapperUtil mapperUtil;
     private final InvoiceRepository invoiceRepository;
-    private final InvoiceNumberRepo invoiceNumberRepo;
     private final InvoiceProductRepo invoiceProductRepo;
+    private final CompanyRepo companyRepo;
 
-    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceNumberRepo invoiceNumberRepo, InvoiceProductRepo invoiceProductRepo) {
+    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepo invoiceProductRepo, CompanyRepo companyRepo) {
         this.mapperUtil = mapperUtil;
         this.invoiceRepository = invoiceRepository;
-        this.invoiceNumberRepo = invoiceNumberRepo;
         this.invoiceProductRepo = invoiceProductRepo;
+        this.companyRepo = companyRepo;
     }
 
     @Override
@@ -37,8 +38,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = mapperUtil.convert(dto,new Invoice());
         invoice.setInvoiceStatus(InvoiceStatus.PENDING);
         invoice.setEnabled((byte) 1);
+        invoice.setCompany(companyRepo.getById(9L));
         Invoice savedInvoice = invoiceRepository.save(invoice);
-        count++;
         return mapperUtil.convert(savedInvoice, new InvoiceDTO());
     }
 
@@ -66,18 +67,28 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public String getInvoiceNumber(){
-        return "INV-"+ count;
-    }
-
-
-    @Override
     public void deleteInvoiceById(Long id) {
         Invoice invoice = invoiceRepository.getById(id);
         List<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByInvoiceId(invoice.getId());
         invoiceProducts.stream().peek(obj -> obj.setIsDeleted(true)).forEach(invoiceProductRepo::save);
         invoice.setIsDeleted(true);
         invoiceRepository.save(invoice);
+    }
+
+    @Override
+    public String getInvoiceNumber(InvoiceType invoiceType) {
+        List<Invoice> invoiceList = invoiceRepository
+                .findInvoicesByCompanyAndInvoiceType(companyRepo.findById(9L).get(),invoiceType)
+                .stream()
+                .sorted(Comparator.comparing(Invoice::getInvoiceNumber).reversed())
+                .collect(Collectors.toList());
+        if (invoiceList.size() ==0) {
+            if (invoiceType.name().equals("PURCHASE")) return "P-INV001";
+            else return "S-INV001";
+        }
+        int number = Integer.parseInt(invoiceList.get(0).getInvoiceNumber().substring(5)) + 1;
+        if (invoiceType.name().equals("PURCHASE")) return "P-INV" + String.format("%03d", number);
+        else return "S-INV" + String.format("%03d", number);
     }
 
 
