@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/purchase-invoice")
@@ -92,7 +93,7 @@ public class PurchaseInvoiceController {
     public String updateInvoice(@PathVariable("id") Long id, Model model){
 
         InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
-        List<InvoiceProductDTO> databaseInvoiceProducts = invoiceProductService.getAllInvoiceProductsByInvoiceId(id);
+        Set<InvoiceProductDTO> databaseInvoiceProducts = invoiceProductService.getAllInvoiceProductsByInvoiceId(id);
 
         if (this.invoiceProductDTO.getName() != null){
             databaseInvoiceProducts.add(this.invoiceProductDTO);

@@ -9,6 +9,7 @@ public interface InvoiceProductService{
 
     InvoiceProductDTO save(InvoiceProductDTO invoiceProductDTO);
     Set<InvoiceProductDTO> save(Set<InvoiceProductDTO> invoiceProductDTOSet);
-    List<InvoiceProductDTO> getAllInvoiceProductsByInvoiceId(Long id);
+    Set<InvoiceProductDTO> getAllInvoiceProductsByInvoiceId(Long id);
     List<InvoiceProductDTO> getAllInvoiceProductsByProductId(Long id);
+    void updateInvoiceProducts(Long id, Set<InvoiceProductDTO> invoiceProductDTOs);
 }

@@ -8,7 +8,9 @@ import com.cocoon.service.InvoiceProductService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,10 +44,10 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
     }
 
     @Override
-    public List<InvoiceProductDTO> getAllInvoiceProductsByInvoiceId(Long id) {
+    public Set<InvoiceProductDTO> getAllInvoiceProductsByInvoiceId(Long id) {
 
-        List<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByInvoiceId(id);
-        return invoiceProducts.stream().map(obj -> mapperUtil.convert(obj, new InvoiceProductDTO())).collect(Collectors.toList());
+        Set<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByInvoiceId(id);
+        return invoiceProducts.stream().map(obj -> mapperUtil.convert(obj, new InvoiceProductDTO())).collect(Collectors.toSet());
     }
 
     @Override
@@ -53,5 +55,38 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
 
         List<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByProductId(id);
         return invoiceProducts.stream().map(obj -> mapperUtil.convert(obj, new InvoiceProductDTO())).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateInvoiceProducts(Long id, Set<InvoiceProductDTO> invoiceProductDTOs) {
+
+        Set<InvoiceProduct> databaseInvoiceProducts = invoiceProductRepo.findAllByInvoiceId(id);
+        Set<InvoiceProduct> previouslyAddedInvoiceProducts = new HashSet<>();
+        invoiceProductDTOs.forEach(obj -> previouslyAddedInvoiceProducts.add(invoiceProductRepo.findInvoiceProductByInvoiceIdAndNameAndQtyAndPriceAndTax(id,obj.getName(), obj.getQty(), obj.getPrice(), obj.getTax())));
+        databaseInvoiceProducts.forEach(obj -> obj.setIsDeleted(true));
+        invoiceProductRepo.saveAll(databaseInvoiceProducts);
+
+        Set<InvoiceProduct> convertedInvoiceProduct = invoiceProductDTOs.stream().map(obj -> mapperUtil.convert(obj, new InvoiceProduct())).collect(Collectors.toSet());
+
+        for (InvoiceProduct invoiceProduct : databaseInvoiceProducts){
+            for (InvoiceProduct converted : convertedInvoiceProduct){
+                if (Objects.equals(invoiceProduct.getId(), converted.getId())) converted.setProduct(invoiceProduct.getProduct());
+            }
+        }
+
+        invoiceProductRepo.saveAll(convertedInvoiceProduct);
+
+//        for (InvoiceProductDTO dto : invoiceProductDTOs){
+//            InvoiceProduct invoiceProduct = invoiceProductRepo.findInvoiceProductByInvoiceIdAndNameAndQtyAndPriceAndTax(id, dto.getName(), dto.getQty(), dto.getPrice(), dto.getTax());
+//            if (invoiceProduct.getId() != dto.getId()) {
+//                invoiceProductRepo.save(mapperUtil.convert(dto, new InvoiceProduct()));
+//                continue;
+//            }
+//            invoiceProduct.setIsDeleted(true);
+//            InvoiceProduct convertedInvoiceProduct = mapperUtil.convert(dto, new InvoiceProduct());
+//            convertedInvoiceProduct.setProduct(invoiceProduct.getProduct());
+////            invoiceProductRepo.save(convertedInvoiceProduct);
+//        }
+
     }
 }
