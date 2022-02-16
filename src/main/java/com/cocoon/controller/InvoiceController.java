@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/sales-invoice")
@@ -134,7 +135,16 @@ public class InvoiceController {
 
         invoiceService.deleteInvoiceById(id);
         return "redirect:/sales-invoice/list";
+    }
 
+    @GetMapping("/delete-product/{name}")
+    public String deleteInvoiceProduct(@PathVariable("name") String name){
+
+        Set<InvoiceProductDTO> selectedInvoiceProducts = currentInvoiceDTO.getInvoiceProduct();
+        Set<InvoiceProductDTO> filteredInvoiceProducts = selectedInvoiceProducts.stream().filter(obj -> !obj.getName().equals(name)).collect(Collectors.toSet());
+        currentInvoiceDTO.setInvoiceProduct(filteredInvoiceProducts);
+        if (currentInvoiceDTO.getInvoiceProduct().size()==0) this.active = true;
+        return "redirect:/sales-invoice/create";
     }
 
 }
