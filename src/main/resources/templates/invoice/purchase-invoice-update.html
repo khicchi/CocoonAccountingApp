@@ -4,7 +4,6 @@
     <head th:replace="fragments :: page_head"><title>Create Purchase Invoice</title></head>
     <title>Add-Line | Purchase | Invoice</title>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/ico/favicon.ico}">
-    <script type="text/javascript" th:src="@{/js/cssandjs/actions.js}"></script>
 </head>
 
 <body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  navbar-sticky" data-open="hover"
@@ -35,7 +34,7 @@
                                             <div class="tab-pane fade mt-2 show active" id="account" role="tabpanel"
                                                  aria-labelledby="account-tab">
                                                 <!-- INVOICE PART BEGIN-->
-                                                <form class="needs-validation" th:action="@{/purchase-invoice/create-invoice}" method="post"
+                                                <form class="needs-validation" th:action="@{/purchase-invoice/invoice-update/{id}(id=${invoice.id})}" method="post"
                                                       th:object="${invoice}" novalidate>
                                                     <div class="row">
                                                         <div class="col-12 col-md-3">
@@ -98,14 +97,14 @@
                                                 </form>
                                                 <hr class="solid">
                                                 <!-- INVOICE PART END -->
-                                                <form th:object="${product}" th:action="@{/purchase-invoice/create-invoice-product}" method="post">
+                                                <form th:object="${product}" th:action="@{/purchase-invoice/create-product-update/{id}(id=${invoice.id})}" method="post">
                                                     <div class="needs-validation" novalidate>
                                                         <div class="row">
                                                             <div class="col-12 col-md-3">
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Product</label>
-                                                                        <select th:field="*{productDTO}" class="custom-select" required="required" th:onchange="showAlert()" >
+                                                                        <select th:field="*{productDTO}" class="custom-select" required="required" >
                                                                             <option th:value=" ''" th:text="Select"></option>
                                                                             <option th:each="theProduct : ${products}" th:value="${theProduct.id}"
                                                                                     th:text="${theProduct.name}"></option>
@@ -166,7 +165,7 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                <tr th:each="product : ${selectedproducts}">
+                                                                <tr th:each="product : ${invoiceProducts}">
                                                                     <td th:text="${product.name}"></td>
                                                                     <td th:text="${product.price}"></td>
                                                                     <td th:text="${product.qty}"></td>

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <head th:replace="fragments :: page_head"><title>Set Sales Invoice Product Qty</title></head>
+    <head th:replace="fragments :: page_head"><title>Set Purchase Invoice Product Qty</title></head>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/ico/favicon.ico}">
 </head>
 
 <body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  navbar-sticky" data-open="hover"
       data-menu="horizontal-menu" data-col="2-columns">
-
 <div th:replace="fragments :: page_header"></div>
 <div class="wrapper">
     <div th:replace="fragments :: page_menu"></div>
@@ -89,13 +88,8 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Quantity</label>
-                                                                    <text style="font-size:11px">("</text>
-                                                                    <label ></label>
-                                                                    <text  style="font-size:11px">"  in stock, and will be "</text>
-                                                                    <label ></label>
-                                                                    <text  style="font-size:11px">"  if all invoices are approved!</text>
                                                                     <input type="number"
-                                                                           class="form-control" required="required" aria-invalid="false">
+                                                                        class="form-control" required="required" aria-invalid="false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -103,8 +97,9 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Price</label>
-                                                                    <input type="number"  min="0"
+                                                                    <input type="number"
                                                                            class="form-control" required aria-invalid="false">
+                                                                    <div class="invalid-feedback">Price cannot be null</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -112,8 +107,9 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Tax (%)</label>
-                                                                    <input type="text"  min="0" max="100"
+                                                                    <input type="number"
                                                                            class="form-control" required aria-invalid="false">
+                                                                    <div class="invalid-feedback">Tax cannot be null</div>
                                                                 </div>
                                                             </div>
                                                         </div>
