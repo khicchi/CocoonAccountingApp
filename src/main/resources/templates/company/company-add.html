@@ -65,6 +65,7 @@
                                                                     <input type="text" id="users-edit-username"
                                                                            class="form-control" placeholder="title"
                                                                            required
+                                                                           th:maxlength="125"
                                                                            th:field="*{title}"
                                                                            aria-invalid="false" >
                                                                 </div>
@@ -72,8 +73,9 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="zip">Zip</label>
-                                                                    <input type="text" id="zip" class="form-control"
+                                                                    <input type="number" id="zip" class="form-control"
                                                                            th:field="*{zip}"
+                                                                           th:maxlength="5"
                                                                            placeholder="zipcode" required
                                                                            aria-invalid="false" >
                                                                 </div>
@@ -108,7 +110,8 @@
                                                                     <label for="state">State</label>
                                                                     <select id="state" class="form-control"
                                                                             required th:field="*{state}">
-                                                                        <option th:value=" ''" ></option>
+<!--                                                                        <option th:value="0" th:text="'Select state'" ></option>-->
+                                                                        <option value="">Select Category</option>
                                                                         <option th:each="eachState : ${states}" th:value="${eachState.getId()}" th:text="${eachState.getStateName()}"></option>
                                                                     </select>
                                                                 </div>
@@ -130,7 +133,9 @@
                                                                     <label for="representative">Representative</label>
                                                                     <input type="text" id="representative"
                                                                            class="form-control"
-                                                                           placeholder="representative"
+                                                                           th:maxlength="100"
+                                                                           pattern='[a-zA-Z\s]+'
+                                                                           placeholder="Representative"
                                                                            th:field="*{representative}"
                                                                            aria-invalid="false">
                                                                 </div>
@@ -146,14 +151,19 @@
                                                             </div>
                                                         </div>
 
+                                                        <div th:if="${#fields.hasErrors('global')}">
+<!--                                                            <h3>Global errors:</h3>-->
+                                                            <p style="color: red;" th:each="err : ${#fields.errors('global')}" th:text="${err}"
+                                                               class="error" />
+                                                        </div>
+
 
                                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
                                                             <button type="submit"
                                                                     class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">
                                                                 Save Changes
                                                             </button>
-                                                            <button type="reset" class="btn btn-secondary">Cancel
-                                                            </button>
+                                                            <button type="reset" class="btn btn-secondary" ><a th:href="@{/company/list}">Cancel</a></button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -191,6 +201,7 @@
 <!-- BEGIN: Custom CSS-->
 <script th:src="@{/assets/js/scripts.js}"></script>
 <!-- END: Custom CSS-->
+
 </body>
 <!-- END : Body-->
 

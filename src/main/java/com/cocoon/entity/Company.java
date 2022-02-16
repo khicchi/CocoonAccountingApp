@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ public class Company extends BaseEntity {
     private String zip;
     private String representative;
     private String email;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate establishmentDate;
     private Byte enabled;
     private String phone;
