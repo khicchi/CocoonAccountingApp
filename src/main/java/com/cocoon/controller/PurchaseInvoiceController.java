@@ -65,7 +65,7 @@ public class PurchaseInvoiceController {
         if (id != null){
             currentInvoiceDTO.setClientVendor(clientVendorService.findById(id));
         }
-        currentInvoiceDTO.setInvoiceNumber(invoiceService.getInvoiceNumber(InvoiceType.SALE));
+        currentInvoiceDTO.setInvoiceNumber(invoiceService.getInvoiceNumber(InvoiceType.PURCHASE));
         currentInvoiceDTO.setInvoiceDate(LocalDate.now());
         model.addAttribute("active", active);
         model.addAttribute("invoice", currentInvoiceDTO);
@@ -91,7 +91,7 @@ public class PurchaseInvoiceController {
     @PostMapping("/create-invoice")
     public String createInvoice() throws CocoonException {
 
-        currentInvoiceDTO.setInvoiceType(InvoiceType.SALE);
+        currentInvoiceDTO.setInvoiceType(InvoiceType.PURCHASE);
         InvoiceDTO savedInvoice = invoiceService.save(currentInvoiceDTO);
         currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoice));
         invoiceProductService.save(currentInvoiceDTO.getInvoiceProduct());

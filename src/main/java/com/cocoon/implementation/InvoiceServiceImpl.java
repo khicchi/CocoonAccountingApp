@@ -38,7 +38,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     public InvoiceDTO save(InvoiceDTO dto) {
 
         Invoice invoice = mapperUtil.convert(dto, new Invoice());
-        invoice.setInvoiceStatus(InvoiceStatus.PENDING);
+        invoice.setInvoiceStatus(invoice.getInvoiceType().equals(InvoiceType.SALE) ? InvoiceStatus.PENDING : InvoiceStatus.APPROVED);
         invoice.setEnabled((byte) 1);
         invoice.setCompany(companyRepo.getById(9L));
         Invoice savedInvoice = invoiceRepository.save(invoice);
