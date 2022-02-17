@@ -79,9 +79,6 @@ public class PurchaseInvoiceController {
     @PostMapping("/create-invoice")
     public String createInvoice(InvoiceDTO dto) throws CocoonException {
 
-        currentInvoiceDTO.setInvoiceDate(dto.getInvoiceDate());
-        currentInvoiceDTO.setInvoiceNumber(dto.getInvoiceNumber());
-        currentInvoiceDTO.setClientVendor(dto.getClientVendor());
         currentInvoiceDTO.setInvoiceType(InvoiceType.PURCHASE);
         InvoiceDTO savedInvoice = invoiceService.save(currentInvoiceDTO);
         currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoice));

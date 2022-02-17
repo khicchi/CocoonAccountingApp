@@ -1,6 +1,7 @@
 package com.cocoon.service;
 
 import com.cocoon.dto.InvoiceDTO;
+import com.cocoon.entity.Company;
 import com.cocoon.enums.InvoiceType;
 
 import java.util.List;
@@ -20,5 +21,7 @@ public interface InvoiceService {
     void deleteInvoiceById(Long id);
 
     List<InvoiceDTO> getAllInvoicesSorted();
+
+    List<InvoiceDTO> getAllInvoicesByCompanyAndType(InvoiceType type);
 
     }

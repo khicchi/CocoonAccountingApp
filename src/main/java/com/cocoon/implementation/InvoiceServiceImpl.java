@@ -1,6 +1,7 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.InvoiceDTO;
+import com.cocoon.entity.Company;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.InvoiceProduct;
 import com.cocoon.enums.InvoiceStatus;
@@ -101,6 +102,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         return invoices.stream().limit(3).map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<InvoiceDTO> getAllInvoicesByCompanyAndType(InvoiceType type) {
+        List<Invoice> invoices = invoiceRepository.findInvoicesByCompanyAndInvoiceType(companyRepo.findById(9L).get(), type);
+        return invoices.stream().map(obj -> mapperUtil.convert(obj, new InvoiceDTO())).collect(Collectors.toList());
     }
 
     private void calculateInvoiceCost(InvoiceDTO invoiceDTO){

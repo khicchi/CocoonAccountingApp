@@ -1,5 +1,6 @@
 package com.cocoon.controller;
 
+import com.cocoon.dto.ClientVendorDTO;
 import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.dto.InvoiceProductDTO;
 import com.cocoon.dto.ProductDTO;
@@ -43,15 +44,20 @@ public class InvoiceController {
 
         if (cancel != null) this.active = true;
         currentInvoiceDTO = new InvoiceDTO();
-        List<InvoiceDTO> invoices = invoiceService.getAllInvoices();
+        List<InvoiceDTO> invoices = invoiceService.getAllInvoicesByCompanyAndType(InvoiceType.SALE);
         model.addAttribute("invoices", invoices);
+        model.addAttribute("client", new ClientVendorDTO());
+        model.addAttribute("clients", clientVendorService.getAllClientsVendors());
 
         return "invoice/sales-invoice-list";
     }
 
     @GetMapping("/create")
-    public String salesInvoiceCreate(Model model){
+    public String salesInvoiceCreate(@RequestParam(required = false) Long id, Model model) throws CocoonException {
 
+        if (id != null){
+            currentInvoiceDTO.setClientVendor(clientVendorService.findById(id));
+        }
         currentInvoiceDTO.setInvoiceNumber(invoiceService.getInvoiceNumber(InvoiceType.SALE));
         currentInvoiceDTO.setInvoiceDate(LocalDate.now());
         model.addAttribute("active", active);
@@ -76,11 +82,8 @@ public class InvoiceController {
 
 
     @PostMapping("/create-invoice")
-    public String createInvoice(InvoiceDTO dto) throws CocoonException {
+    public String createInvoice() throws CocoonException {
 
-        currentInvoiceDTO.setInvoiceDate(dto.getInvoiceDate());
-        currentInvoiceDTO.setInvoiceNumber(dto.getInvoiceNumber());
-        currentInvoiceDTO.setClientVendor(dto.getClientVendor());
         currentInvoiceDTO.setInvoiceType(InvoiceType.SALE);
         InvoiceDTO savedInvoice = invoiceService.save(currentInvoiceDTO);
         currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoice));

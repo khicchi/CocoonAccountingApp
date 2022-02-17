@@ -43,9 +43,10 @@
                                                                 <div class="controls">
                                                                     <label>Invoice No</label>
                                                                     <input type="text"
-                                                                           class="form-control" required
+                                                                           class="form-control"
                                                                            aria-invalid="false"
                                                                            th:field="*{invoiceNumber}"
+                                                                           disabled
                                                                     />
                                                                 </div>
                                                             </div>
@@ -57,7 +58,8 @@
                                                                     <input type="date"
                                                                        class="form-control"
                                                                        th:field="*{invoiceDate}"
-                                                                       required="" aria-invalid="false">
+                                                                       aria-invalid="false"
+                                                                       disabled>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -65,11 +67,10 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Client</label>
-                                                                    <select th:field="*{clientVendor}" class="custom-select" required="required">
-                                                                        <option th:value=" ''" th:text="Select"></option>
-                                                                        <option th:each="client : ${clients}" th:value="${client.id}"
-                                                                                th:text="${client.companyName}"></option>
-                                                                    </select>
+                                                                    <input type="text"
+                                                                    class="form-control"
+                                                                    th:field="*{clientVendor.companyName}"
+                                                                    disabled>
                                                                 </div>
                                                             </div>
                                                         </div>
