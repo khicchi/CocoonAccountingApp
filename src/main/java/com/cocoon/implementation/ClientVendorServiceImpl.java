@@ -3,6 +3,7 @@ package com.cocoon.implementation;
 import com.cocoon.dto.ClientVendorDTO;
 import com.cocoon.entity.ClientVendor;
 import com.cocoon.entity.Company;
+import com.cocoon.enums.CompanyType;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.ClientVendorRepo;
 import com.cocoon.repository.CompanyRepo;
@@ -83,5 +84,11 @@ public class ClientVendorServiceImpl implements ClientVendorService {
         ClientVendor clientVendor = clientVendorRepo.findById(id).orElseThrow(()-> new CocoonException("Vendor/Client with " + id + " not exist"));
         clientVendor.setIsDeleted(true);
         clientVendorRepo.save(clientVendor);
+    }
+
+    @Override
+    public List<ClientVendorDTO> getAllClientVendorsByType(CompanyType type) {
+        List<ClientVendor> clientVendors = clientVendorRepo.findAllByType(type);
+        return clientVendors.stream().map(obj -> mapperUtil.convert(obj, new ClientVendorDTO())).collect(Collectors.toList());
     }
 }

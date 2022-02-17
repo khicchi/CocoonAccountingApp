@@ -64,12 +64,11 @@
                                                         <div class="col-12 col-md-3">
                                                             <div class="form-group">
                                                                 <div class="controls">
-                                                                    <label>Client</label>
-                                                                    <select th:field="*{clientVendor}" class="custom-select" required="required">
-                                                                        <option th:value=" ''" th:text="Select"></option>
-                                                                        <option th:each="client : ${clients}" th:value="${client.id}"
-                                                                                th:text="${client.companyName}"></option>
-                                                                    </select>
+                                                                    <label>Vendor</label>
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           th:field="*{clientVendor.companyName}"
+                                                                           disabled>
                                                                 </div>
                                                             </div>
                                                         </div>

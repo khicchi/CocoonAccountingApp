@@ -16,11 +16,29 @@
             <div class="content-wrapper">
                 <section class="users-list-wrapper">
                     <!-- ADD PURCHASE INVOICE LINK BEGIN -->
-                    <div class="users-list-filter px-2">
-                        <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                            <a class="btn btn-success bg-light-success mb-1" th:href="@{/purchase-invoice/create}"
-                               ><i class="fa fa-plus mr-1"></i>Create Purchase Invoice</a>
-                        </div>
+                    <div class="users-list-filter d-flex justify-content-end">
+                        <form action="#" th:object="${client}" method="get" th:action="@{/purchase-invoice/create}">
+                            <div class="form-row" >
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="clientvendor">SELECT VENDOR</label>
+                                        <select th:field="*{id}" class="custom-select" required="required" id="clientvendor">
+                                            <option th:value=" ''" th:text="Select"></option>
+                                            <option th:each="client : ${clients}" th:value="${client.id}"
+                                                    th:text="${client.companyName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="create">CREATE</label>
+                                        <button type="submit" name="action" value="createInvoice" id="create"
+                                                class="btn btn-success bg-light-success mb-1"
+                                        >Invoice</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <!-- ADD PURCHASE INVOICE LINK END -->
                     <!-- LIST BEGIN -->

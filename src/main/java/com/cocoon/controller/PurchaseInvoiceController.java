@@ -1,7 +1,9 @@
 package com.cocoon.controller;
 
+import com.cocoon.dto.ClientVendorDTO;
 import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.dto.InvoiceProductDTO;
+import com.cocoon.enums.CompanyType;
 import com.cocoon.enums.InvoiceType;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.service.ClientVendorService;
@@ -42,24 +44,34 @@ public class PurchaseInvoiceController {
     @GetMapping({"/list", "/list/{cancel}"})
     public String invoiceList(@RequestParam(required = false) String cancel, Model model){
 
-        if (cancel != null) this.active = true;
+        if (cancel != null){
+            this.active = true;
+            this.addedInvoiceProducts.clear();
+            this.deletedInvoiceProducts.clear();
+        }
         currentInvoiceDTO = new InvoiceDTO();
-        List<InvoiceDTO> invoices = invoiceService.getAllInvoices();
-        model.addAttribute("invoices", invoices);
+        List<InvoiceDTO> invoices = invoiceService.getAllInvoicesByCompanyAndType(InvoiceType.PURCHASE);
+        List<InvoiceDTO> updatedInvoices = invoices.stream().map(invoiceService::calculateInvoiceCost).collect(Collectors.toList());
+        model.addAttribute("invoices", updatedInvoices);
+        model.addAttribute("client", new ClientVendorDTO());
+        model.addAttribute("clients", clientVendorService.getAllClientVendorsByType(CompanyType.VENDOR));
 
         return "invoice/purchase-invoice-list";
     }
 
     @GetMapping("/create")
-    public String purchaseInvoiceCreate(Model model){
+    public String purchaseInvoiceCreate(@RequestParam(required = false) Long id, Model model) throws CocoonException{
 
-        currentInvoiceDTO.setInvoiceNumber(invoiceService.getInvoiceNumber(InvoiceType.PURCHASE));
+        if (id != null){
+            currentInvoiceDTO.setClientVendor(clientVendorService.findById(id));
+        }
+        currentInvoiceDTO.setInvoiceNumber(invoiceService.getInvoiceNumber(InvoiceType.SALE));
         currentInvoiceDTO.setInvoiceDate(LocalDate.now());
         model.addAttribute("active", active);
         model.addAttribute("invoice", currentInvoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
         model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("clients", clientVendorService.getAllClientsVendors());
+        model.addAttribute("clients", clientVendorService.getAllClientVendorsByType(CompanyType.VENDOR));
         model.addAttribute("selectedproducts", currentInvoiceDTO.getInvoiceProduct());
 
         return "invoice/purchase-invoice-create";
@@ -77,9 +89,9 @@ public class PurchaseInvoiceController {
 
 
     @PostMapping("/create-invoice")
-    public String createInvoice(InvoiceDTO dto) throws CocoonException {
+    public String createInvoice() throws CocoonException {
 
-        currentInvoiceDTO.setInvoiceType(InvoiceType.PURCHASE);
+        currentInvoiceDTO.setInvoiceType(InvoiceType.SALE);
         InvoiceDTO savedInvoice = invoiceService.save(currentInvoiceDTO);
         currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoice));
         invoiceProductService.save(currentInvoiceDTO.getInvoiceProduct());
@@ -104,7 +116,7 @@ public class PurchaseInvoiceController {
         model.addAttribute("invoice", invoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
         model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("clients", clientVendorService.getAllClientsVendors());
+        model.addAttribute("clients", clientVendorService.getAllClientVendorsByType(CompanyType.VENDOR));
         model.addAttribute("invoiceProducts", currentInvoiceDTO.getInvoiceProduct());
 
         return "invoice/purchase-invoice-update";
@@ -153,7 +165,7 @@ public class PurchaseInvoiceController {
 
     @GetMapping("/delete-product-update/{id}/{name}")
     public String deleteInvoiceProductInUpdatePage(@PathVariable("id") Long id, @PathVariable("name") String name){
-        this.active = false;
+        if (currentInvoiceDTO.getInvoiceProduct().size()!=0) this.active = false;
         Set<InvoiceProductDTO> selectedInvoiceProducts = currentInvoiceDTO.getInvoiceProduct();
         selectedInvoiceProducts.stream().filter(obj -> obj.getName().equals(name)).forEach(obj -> deletedInvoiceProducts.add(obj));
         return "redirect:/purchase-invoice/update/"+id;

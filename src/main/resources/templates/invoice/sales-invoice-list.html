@@ -16,30 +16,29 @@
             <div class="content-wrapper">
                 <section class="users-list-wrapper">
                     <!-- ADD SALES INVOICE LINK BEGIN -->
-                    <div class="users-list-filter px-2">
-                        <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
-                            <div class="row">
-                                <form action="#" th:object="${client}" method="get" th:action="@{/sales-invoice/create}">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group mb-2">
-                                                <label for="clientvendor" class="sr-only">Email</label>
-                                                <select th:field="*{id}" class="custom-select" required="required" id="clientvendor">
-                                                    <option th:value=" ''" th:text="Select"></option>
-                                                    <option th:each="client : ${clients}" th:value="${client.id}"
-                                                            th:text="${client.companyName}"></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <button type="submit" name="action" value="createInvoice"
-                                                    class="btn btn-success bg-light-success mb-1" >Create Invoice</button>
-                                        </div>
+                    <div class="users-list-filter d-flex justify-content-end">
+                        <form action="#" th:object="${client}" method="get" th:action="@{/sales-invoice/create}">
+                            <div class="form-row" >
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="clientvendor">SELECT CLIENT</label>
+                                        <select th:field="*{id}" class="custom-select" required="required" id="clientvendor">
+                                            <option th:value=" ''" th:text="Select"></option>
+                                            <option th:each="client : ${clients}" th:value="${client.id}"
+                                                    th:text="${client.companyName}"></option>
+                                        </select>
                                     </div>
-                                </form>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                            <label for="create">CREATE</label>
+                                            <button type="submit" name="action" value="createInvoice" id="create"
+                                                    class="btn btn-success bg-light-success mb-1"
+                                            >Invoice</button>
+                                    </div>
+                                </div>
                             </div>
-
-                        </div>
+                        </form>
                     </div>
                     <!-- ADD SALES INVOICE LINK END -->
                     <!-- LIST BEGIN -->
@@ -55,7 +54,7 @@
                                                     <tr>
                                                         <th>Invoice No</th>
                                                         <th>Invoice Date</th>
-                                                        <th>Vendor</th>
+                                                        <th>Client</th>
                                                         <th>Cost</th>
                                                         <th>Tax</th>
                                                         <th>Total</th>
@@ -78,11 +77,17 @@
                                                             <td>
                                                                 <form action="#"
                                                                       method="post">
+                                                                    <a  th:if="${invoice.invoiceStatus.name().equals('PENDING')}"
+                                                                        th:href="@{/sales-invoice/approve/{id}(id=${invoice.id})}"
+                                                                        class="btn btn-success mb-2 mb-sm-0 mr-sm-2"
+                                                                        type="submit" name="action" value="delete">Approve
+                                                                    </a>
                                                                     <a  th:href="@{/sales-invoice/delete/{id}(id=${invoice.id})}"
                                                                         class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
                                                                         type="submit" name="action" value="delete">Delete
                                                                     </a>
-                                                                    <a class="btn btn-info mb-2 mb-sm-0 mr-sm-2"
+                                                                    <a th:href="@{/sales-invoice/toInvoice}"
+                                                                       class="btn btn-info mb-2 mb-sm-0 mr-sm-2"
                                                                        type="submit" name="action" value="toInvoice">To Invoice
                                                                     </a>
                                                                 </form>

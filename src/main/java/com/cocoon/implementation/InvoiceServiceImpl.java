@@ -37,11 +37,25 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public InvoiceDTO save(InvoiceDTO dto) {
 
-        Invoice invoice = mapperUtil.convert(dto,new Invoice());
+        Invoice invoice = mapperUtil.convert(dto, new Invoice());
         invoice.setInvoiceStatus(InvoiceStatus.PENDING);
         invoice.setEnabled((byte) 1);
         invoice.setCompany(companyRepo.getById(9L));
         Invoice savedInvoice = invoiceRepository.save(invoice);
+        return mapperUtil.convert(savedInvoice, new InvoiceDTO());
+    }
+
+    @Override
+    public InvoiceDTO update(InvoiceDTO dto, Long id) {
+
+        Invoice convertedInvoice = mapperUtil.convert(dto, new Invoice());
+        Invoice invoice = invoiceRepository.getById(id);
+        convertedInvoice.setInvoiceNumber(invoice.getInvoiceNumber());
+        convertedInvoice.setCompany(invoice.getCompany());
+        convertedInvoice.setInvoiceType(invoice.getInvoiceType());
+        convertedInvoice.setEnabled(invoice.getEnabled());
+        convertedInvoice.setInvoiceDate(invoice.getInvoiceDate());
+        Invoice savedInvoice = invoiceRepository.save(convertedInvoice);
         return mapperUtil.convert(savedInvoice, new InvoiceDTO());
     }
 
@@ -58,18 +72,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public InvoiceDTO update(InvoiceDTO dto, Long id) {
-
-        Invoice convertedInvoice = mapperUtil.convert(dto, new Invoice());
-        Invoice invoice = invoiceRepository.getById(id);
-
-        convertedInvoice.setInvoiceNumber(invoice.getInvoiceNumber());
-        convertedInvoice.setInvoiceStatus(invoice.getInvoiceStatus());
-        Invoice savedInvoice = invoiceRepository.save(convertedInvoice);
-        return mapperUtil.convert(savedInvoice, new InvoiceDTO());
-    }
-
-    @Override
     public void deleteInvoiceById(Long id) {
         Invoice invoice = invoiceRepository.getById(id);
         Set<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByInvoiceId(invoice.getId());
@@ -81,11 +83,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public String getInvoiceNumber(InvoiceType invoiceType) {
         List<Invoice> invoiceList = invoiceRepository
-                .findInvoicesByCompanyAndInvoiceType(companyRepo.findById(9L).get(),invoiceType)
+                .findInvoicesByCompanyAndInvoiceType(companyRepo.findById(9L).get(), invoiceType)
                 .stream()
                 .sorted(Comparator.comparing(Invoice::getInvoiceNumber).reversed())
                 .collect(Collectors.toList());
-        if (invoiceList.size() ==0) {
+        if (invoiceList.size() == 0) {
             if (invoiceType.name().equals("PURCHASE")) return "P-INV001";
             else return "S-INV001";
         }
@@ -98,7 +100,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     public List<InvoiceDTO> getAllInvoicesSorted() {
         List<Invoice> invoices = invoiceRepository.findAll();
 
-        invoices.sort((o2, o1) -> o2.getInvoiceDate().compareTo(o1.getInvoiceDate()) > 0 ? 1 : o2.getInvoiceDate().compareTo(o1.getInvoiceDate()) == 0 ? 0:-1);
+        invoices.sort((o2, o1) -> o2.getInvoiceDate().compareTo(o1.getInvoiceDate()) > 0 ? 1 : o2.getInvoiceDate().compareTo(o1.getInvoiceDate()) == 0 ? 0 : -1);
 
         return invoices.stream().limit(3).map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
 
@@ -111,7 +113,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public InvoiceDTO calculateInvoiceCost(InvoiceDTO currentDTO){
+    public InvoiceDTO calculateInvoiceCost(InvoiceDTO currentDTO) {
 
         Set<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByInvoiceId(currentDTO.getId());
         int costWithoutTax = invoiceProducts.stream().mapToInt(InvoiceProduct::getPrice).sum();
@@ -123,40 +125,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         return currentDTO;
     }
 
-    private int calculateTaxedCost(Set<InvoiceProduct> products){
+    private int calculateTaxedCost(Set<InvoiceProduct> products) {
         int result = 0;
-        for (InvoiceProduct product : products){
-        result += product.getPrice() + (product.getPrice() * product.getTax() * 0.01);
+        for (InvoiceProduct product : products) {
+            result += product.getPrice() + (product.getPrice() * product.getTax() * 0.01);
         }
         return result;
     }
-
-//    @Override
-//    public List<InvoiceDTO> getAllInvoicesSorted() {
-//        List<Invoice> invoices = invoiceRepository.findAll();
-//
-//        invoices.sort((o2, o1) -> o2.getInvoiceDate().compareTo(o1.getInvoiceDate()));
-//
-//        // get first 3
-//        return invoices.stream().limit(3).map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
-//
-//    }
 }
-
-
-//            for (InvoiceDTO invoice : invoices){
-//                Set<ProductDTO> products = productService.getProductsByInvoiceId(invoice.getId());
-//                int costWithoutTax = products.stream().mapToInt(ProductDTO::getPrice).sum();
-//                invoice.setInvoiceCostWithoutTax(costWithoutTax);
-//                int costWithTax = calculateTaxedCost(products);
-//                invoice.setTotalCost(costWithTax);
-//                invoice.setInvoiceCostWithTax(costWithTax - costWithoutTax);
-//            }
-
-//    private int calculateTaxedCost(Set<ProductDTO> products){
-////        int result = 0;
-////        for (ProductDTO product : products){
-////            result += product.getPrice() + (product.getPrice() * product.getTax() * 0.01);
-////        }
-////        return result;
-////    }
