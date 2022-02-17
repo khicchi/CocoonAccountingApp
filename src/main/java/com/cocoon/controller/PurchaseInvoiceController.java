@@ -13,15 +13,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/purchase-invoice")
 public class PurchaseInvoiceController {
 
     private InvoiceDTO currentInvoiceDTO = new InvoiceDTO();
-    private InvoiceProductDTO invoiceProductDTO = new InvoiceProductDTO();
+    private List<InvoiceProductDTO> addedInvoiceProducts = new ArrayList<>();
+    private List<InvoiceProductDTO> deletedInvoiceProducts = new ArrayList<>();
     private boolean active = true;
 
     private final InvoiceService invoiceService;
@@ -94,16 +97,18 @@ public class PurchaseInvoiceController {
 
         InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
         Set<InvoiceProductDTO> databaseInvoiceProducts = invoiceProductService.getAllInvoiceProductsByInvoiceId(id);
+        currentInvoiceDTO.setInvoiceProduct(databaseInvoiceProducts);
 
-        if (this.invoiceProductDTO.getName() != null){
-            databaseInvoiceProducts.add(this.invoiceProductDTO);
+        if (this.addedInvoiceProducts.size() > 0 || this.deletedInvoiceProducts.size() > 0){
+            addedInvoiceProducts.forEach(obj -> currentInvoiceDTO.getInvoiceProduct().add(obj));
+            deletedInvoiceProducts.forEach(deleted -> currentInvoiceDTO.getInvoiceProduct().removeIf(obj -> obj.getName().equals(deleted.getName())));
         }
         model.addAttribute("active", active);
         model.addAttribute("invoice", invoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("clients", clientVendorService.getAllClientsVendors());
-        model.addAttribute("invoiceProducts", databaseInvoiceProducts);
+        model.addAttribute("invoiceProducts", currentInvoiceDTO.getInvoiceProduct());
 
         return "invoice/purchase-invoice-update";
     }
@@ -113,7 +118,7 @@ public class PurchaseInvoiceController {
 
         String name = invoiceProductDTO.getProductDTO().getName();
         invoiceProductDTO.setName(name);
-        this.invoiceProductDTO = invoiceProductDTO;
+        this.addedInvoiceProducts.add(invoiceProductDTO);
         this.active = false;
         return "redirect:/purchase-invoice/update/"+id;
     }
@@ -123,8 +128,10 @@ public class PurchaseInvoiceController {
 
         InvoiceDTO updatedInvoice = invoiceService.update(invoiceDTO, id);
         currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(updatedInvoice));
-        invoiceProductService.save(currentInvoiceDTO.getInvoiceProduct());
+        invoiceProductService.updateInvoiceProducts(id,currentInvoiceDTO.getInvoiceProduct());
         this.active = true;
+        this.addedInvoiceProducts.clear();
+        this.deletedInvoiceProducts.clear();
         return "redirect:/purchase-invoice/list";
     }
 
@@ -135,6 +142,24 @@ public class PurchaseInvoiceController {
         invoiceService.deleteInvoiceById(id);
         return "redirect:/purchase-invoice/list";
 
+    }
+
+    @GetMapping("/delete-product/{name}")
+    public String deleteInvoiceProduct(@PathVariable("name") String name){
+
+        Set<InvoiceProductDTO> selectedInvoiceProducts = currentInvoiceDTO.getInvoiceProduct();
+        Set<InvoiceProductDTO> filteredInvoiceProducts = selectedInvoiceProducts.stream().filter(obj -> !obj.getName().equals(name)).collect(Collectors.toSet());
+        currentInvoiceDTO.setInvoiceProduct(filteredInvoiceProducts);
+        if (currentInvoiceDTO.getInvoiceProduct().size()==0) this.active = true;
+        return "redirect:/purchase-invoice/create";
+    }
+
+    @GetMapping("/delete-product-update/{id}/{name}")
+    public String deleteInvoiceProductInUpdatePage(@PathVariable("id") Long id, @PathVariable("name") String name){
+        this.active = false;
+        Set<InvoiceProductDTO> selectedInvoiceProducts = currentInvoiceDTO.getInvoiceProduct();
+        selectedInvoiceProducts.stream().filter(obj -> obj.getName().equals(name)).forEach(obj -> deletedInvoiceProducts.add(obj));
+        return "redirect:/purchase-invoice/update/"+id;
     }
 
 }

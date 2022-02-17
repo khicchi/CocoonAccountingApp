@@ -85,9 +85,9 @@
                                                         <div class="col-12 col-md-1">
                                                             <div class="form-group">
                                                                 <div class="controls">
-                                                                    <label>SUBMIT</label>
+                                                                    <label>UPDATE</label>
                                                                     <button class="btn btn-success"
-                                                                            type="submit" name="action" th:disabled="${active}" >Submit
+                                                                            type="submit" name="action" th:disabled="${active}" >Update
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -160,6 +160,7 @@
                                                                     <th>Product</th>
                                                                     <th>Price</th>
                                                                     <th>Quantity</th>
+                                                                    <th>Tax</th>
                                                                     <th>Total</th>
                                                                     <th>Delete</th>
                                                                 </tr>
@@ -169,8 +170,12 @@
                                                                     <td th:text="${product.name}"></td>
                                                                     <td th:text="${product.price}"></td>
                                                                     <td th:text="${product.qty}"></td>
-                                                                    <td></td>
-                                                                    <td></td>
+                                                                    <td th:text="${product.tax}"></td>
+                                                                    <td th:text="${(product.qty * product.price) + (product.qty * product.price * product.tax * 0.01)}"></td>
+                                                                    <td>
+                                                                        <a class="ft-trash" th:href="@{/purchase-invoice/delete-product-update/{id}/{name}(id=${invoice.id}, name=${product.name})}">
+                                                                        </a>
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
