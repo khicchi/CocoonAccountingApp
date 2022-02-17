@@ -77,12 +77,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Set<ProductDTO> getProductsByInvoiceId(Long id) {
-        List<Product> products = productRepository.findProductsByInvoiceId2(id);
-        return products.stream().map(product -> mapperUtil.convert(product, new ProductDTO())).collect(Collectors.toSet());
-    }
-
-    @Override
     public ProductStatus getProductStatusById(Long id) throws CocoonException {
         Optional<Product> product =productRepository.findById(id);
         if(!product.isPresent()){

@@ -76,17 +76,5 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
 
         invoiceProductRepo.saveAll(convertedInvoiceProduct);
 
-//        for (InvoiceProductDTO dto : invoiceProductDTOs){
-//            InvoiceProduct invoiceProduct = invoiceProductRepo.findInvoiceProductByInvoiceIdAndNameAndQtyAndPriceAndTax(id, dto.getName(), dto.getQty(), dto.getPrice(), dto.getTax());
-//            if (invoiceProduct.getId() != dto.getId()) {
-//                invoiceProductRepo.save(mapperUtil.convert(dto, new InvoiceProduct()));
-//                continue;
-//            }
-//            invoiceProduct.setIsDeleted(true);
-//            InvoiceProduct convertedInvoiceProduct = mapperUtil.convert(dto, new InvoiceProduct());
-//            convertedInvoiceProduct.setProduct(invoiceProduct.getProduct());
-////            invoiceProductRepo.save(convertedInvoiceProduct);
-//        }
-
     }
 }
