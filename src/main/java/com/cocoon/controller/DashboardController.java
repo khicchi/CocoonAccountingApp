@@ -24,14 +24,14 @@ public class DashboardController {
         this.invoiceService = invoiceService;
     }
 
+    @GetMapping()
+    public String invoiceTopThreeList(Model model){
 
-//    @GetMapping("/invoice")
-//    public String invoiceTopThreeList(Model model){
-//
-//        List<InvoiceDTO> invoices = invoiceService.getAllInvoicesSorted();
-//        model.addAttribute("invoices", invoices);
-//
-//        return "dashboard";
-//    }
+        List<InvoiceDTO> invoices = invoiceService.getAllInvoicesSorted();
+        model.addAttribute("invoices", invoices);
+
+        return "dashboard";
+    }
 
 }
+

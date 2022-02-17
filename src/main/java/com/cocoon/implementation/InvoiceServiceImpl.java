@@ -93,16 +93,16 @@ public class InvoiceServiceImpl implements InvoiceService {
         else return "S-INV" + String.format("%03d", number);
     }
 
-//    @Override
-//    public List<InvoiceDTO> getAllInvoicesSorted() {
-//        List<Invoice> invoices = invoiceRepository.findAll();
-//
-//        invoices.sort((o2, o1) -> o2.getInvoiceDate().compareTo(o1.getInvoiceDate()));
-//
-//        // get first 3
-//        return invoices.stream().limit(3).map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
-//
-//    }
+    @Override
+    public List<InvoiceDTO> getAllInvoicesSorted() {
+        List<Invoice> invoices = invoiceRepository.findAll();
+
+        invoices.sort((o2, o1) -> o2.getInvoiceDate().compareTo(o1.getInvoiceDate()) > 0 ? 1 : o2.getInvoiceDate().compareTo(o1.getInvoiceDate()) == 0 ? 0:-1);
+
+        return invoices.stream().limit(3).map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
+
+    }
+
 }
 
 

@@ -18,4 +18,7 @@ public interface InvoiceService {
     String getInvoiceNumber(InvoiceType invoiceType);
 
     void deleteInvoiceById(Long id);
-}
+
+    List<InvoiceDTO> getAllInvoicesSorted();
+
+    }

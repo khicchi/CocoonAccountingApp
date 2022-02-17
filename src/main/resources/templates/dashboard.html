@@ -138,13 +138,15 @@
 
                                             <tr th:each="invoice : ${invoices}">
 
-                                                <td th:text="${invoice.getInvoiceNo()}" ></td>
+                                                <td th:text="${invoice.getInvoiceNumber()}" ></td>
                                                 <td th:text="${invoice.getInvoiceDate()}" ></td>
-                                                <td th:text="${invoice.getTotalCost()}" ></td>
+                                                <td th:text="${invoice.getInvoiceCostWithoutTax()}" ></td>
+
                                                 <td th:text="${invoice.getInvoiceType()}" ></td>
 
                                             </tr>
                                             </tbody>
+
                                         </table>
                                     </div>
                                 </div>
