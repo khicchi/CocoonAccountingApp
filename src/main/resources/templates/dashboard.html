@@ -135,18 +135,14 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr >
-                                                <td ></td>
-                                                <td ></td>
-                                                <td ></td>
-                                                <td>
-                                                    <span
-                                                          class="badge badge-pill bg-light-primary cursor-pointer"
-                                                          ></span>
-                                                    <span
-                                                          class="badge badge-pill bg-light-success cursor-pointer"
-                                                          ></span>
-                                                </td>
+
+                                            <tr th:each="invoice : ${invoices}">
+
+                                                <td th:text="${invoice.getInvoiceNo()}" ></td>
+                                                <td th:text="${invoice.getInvoiceDate()}" ></td>
+                                                <td th:text="${invoice.getTotalCost()}" ></td>
+                                                <td th:text="${invoice.getInvoiceType()}" ></td>
+
                                             </tr>
                                             </tbody>
                                         </table>

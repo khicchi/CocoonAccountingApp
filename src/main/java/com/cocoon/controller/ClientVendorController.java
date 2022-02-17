@@ -4,10 +4,6 @@ import com.cocoon.dto.ClientVendorDTO;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.StateRepo;
 import com.cocoon.service.ClientVendorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +24,7 @@ public class ClientVendorController {
     }
 
     @GetMapping("/list")
-    private String readAllClientVendor(Model model) {
+    public String readAllClientVendor(Model model) {
 
         model.addAttribute("clientVendorList", clientVendorService.getAllClientsVendorsActivesFirst());
 
