@@ -24,4 +24,6 @@ public interface InvoiceService {
 
     List<InvoiceDTO> getAllInvoicesByCompanyAndType(InvoiceType type);
 
+    InvoiceDTO calculateInvoiceCost(InvoiceDTO currentDTO);
+
     }

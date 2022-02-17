@@ -45,7 +45,8 @@ public class InvoiceController {
         if (cancel != null) this.active = true;
         currentInvoiceDTO = new InvoiceDTO();
         List<InvoiceDTO> invoices = invoiceService.getAllInvoicesByCompanyAndType(InvoiceType.SALE);
-        model.addAttribute("invoices", invoices);
+        List<InvoiceDTO> updatedInvoices = invoices.stream().map(invoiceService::calculateInvoiceCost).collect(Collectors.toList());
+        model.addAttribute("invoices", updatedInvoices);
         model.addAttribute("client", new ClientVendorDTO());
         model.addAttribute("clients", clientVendorService.getAllClientsVendors());
 

@@ -110,14 +110,17 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoices.stream().map(obj -> mapperUtil.convert(obj, new InvoiceDTO())).collect(Collectors.toList());
     }
 
-    private void calculateInvoiceCost(InvoiceDTO invoiceDTO){
+    @Override
+    public InvoiceDTO calculateInvoiceCost(InvoiceDTO currentDTO){
 
-        Set<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByInvoiceId(invoiceDTO.getId());
+        Set<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByInvoiceId(currentDTO.getId());
         int costWithoutTax = invoiceProducts.stream().mapToInt(InvoiceProduct::getPrice).sum();
-        invoiceDTO.setInvoiceCostWithoutTax(costWithoutTax);
+        currentDTO.setInvoiceCostWithoutTax(costWithoutTax);
         int costWithTax = calculateTaxedCost(invoiceProducts);
-        invoiceDTO.setTotalCost(costWithTax);
-        invoiceDTO.setInvoiceCostWithTax(costWithTax - costWithoutTax);
+        currentDTO.setTotalCost(costWithTax);
+        currentDTO.setInvoiceCostWithTax(costWithTax - costWithoutTax);
+
+        return currentDTO;
     }
 
     private int calculateTaxedCost(Set<InvoiceProduct> products){
