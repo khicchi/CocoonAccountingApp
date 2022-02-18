@@ -58,8 +58,8 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr th:each="eachCategory : ${categories}">
-                                                        <td th:text="${eachCategory.id}"></td>
+                                                    <tr th:each="eachCategory,row : ${categories}">
+                                                        <td th:text="${row.count}"></td>
                                                         <td  class="text-truncate" th:text="${eachCategory.description}">
                                                         </td>
                                                         <td th:text="${eachCategory.enabled}">
