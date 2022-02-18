@@ -175,7 +175,7 @@
                                                                     <td th:text="${product.tax}"></td>
                                                                     <td th:text="${(product.qty * product.price) + (product.qty * product.price * product.tax * 0.01)}"></td>
                                                                     <td>
-                                                                        <a class="ft-trash" th:href="@{/purchase-invoice/delete-product-update/{id}/{name}(id=${invoice.id}, name=${product.name})}">
+                                                                        <a class="ft-trash" th:href="@{/purchase-invoice/delete-product-update/{id}/{name}(id=${invoice.id}, name=${product.name + product.price + product.qty + product.tax})}">
                                                                         </a>
                                                                     </td>
                                                                 </tr>
