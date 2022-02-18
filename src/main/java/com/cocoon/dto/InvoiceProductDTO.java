@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -21,4 +23,16 @@ public class InvoiceProductDTO {
 
     private InvoiceDTO invoiceDTO;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvoiceProductDTO)) return false;
+        InvoiceProductDTO that = (InvoiceProductDTO) o;
+        return getQty() == that.getQty() && getPrice() == that.getPrice() && getTax() == that.getTax() && getName().equals(that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getQty(), getPrice(), getTax());
+    }
 }
