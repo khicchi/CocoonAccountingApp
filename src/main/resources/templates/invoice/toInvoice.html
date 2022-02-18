@@ -264,12 +264,12 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr >
-                                                            <td class="text-left"><h3 ></h3></td>
-                                                            <td class="unit" ></td>
-                                                            <td class="extra" ></td>
-                                                            <td class="total" ></td>
-                                                            <td class="total" ></td>
+                                                        <tr th:each="product : ${products}">
+                                                            <td class="text-left"><h3 th:text="${product.name}" ></h3></td>
+                                                            <td class="unit" th:text="${product.price}" ></td>
+                                                            <td class="extra" th:text="${product.qty}" ></td>
+                                                            <td class="total" th:text="${product.tax}" ></td>
+                                                            <td class="total" th:text="${(product.qty * product.price) + (product.qty * product.price * product.tax * 0.01)}" ></td>
                                                         </tr>
                                                     </tbody>
                                                     <tfoot>

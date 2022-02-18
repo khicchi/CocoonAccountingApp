@@ -181,7 +181,19 @@ public class InvoiceController {
         invoiceService.update(invoiceDTO,id);
 
         return "redirect:/sales-invoice/list";
+    }
 
+    // To invoice
+
+    @GetMapping("/toInvoice/{id}")
+    public String toInvoice(@PathVariable("id") Long id, Model model){
+
+        InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
+        Set<InvoiceProductDTO> products = invoiceProductService.getAllInvoiceProductsByInvoiceId(id);
+        model.addAttribute("invoice", invoiceDTO);
+        model.addAttribute("products",products);
+
+        return "invoice/toInvoice";
     }
 
 }
