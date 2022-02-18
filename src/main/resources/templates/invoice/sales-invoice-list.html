@@ -87,6 +87,7 @@
                                                                         type="submit" name="action" value="delete">Delete
                                                                     </a>
                                                                     <a th:href="@{/sales-invoice/toInvoice/{id}(id=${invoice.id})}"
+                                                                       th:if="${invoice.invoiceStatus.name().equals('APPROVED')}"
                                                                        class="btn btn-info mb-2 mb-sm-0 mr-sm-2"
                                                                        type="submit" name="action" value="toInvoice">To Invoice
                                                                     </a>

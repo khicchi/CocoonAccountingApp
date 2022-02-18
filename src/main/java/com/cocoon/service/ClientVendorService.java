@@ -15,7 +15,7 @@ public interface ClientVendorService {
 
     List<ClientVendorDTO> getAllClientsVendorsActivesFirst();
 
-    ClientVendor findById(Long id) throws CocoonException;
+    ClientVendorDTO findById(Long id) throws CocoonException;
 
     ClientVendorDTO update (ClientVendorDTO clientVendorDTO) throws CocoonException;
 

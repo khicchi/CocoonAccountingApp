@@ -63,9 +63,9 @@ public class ClientVendorServiceImpl implements ClientVendorService {
     }
 
     @Override
-    public ClientVendor findById(Long id) throws CocoonException {
+    public ClientVendorDTO findById(Long id) throws CocoonException {
         ClientVendor clientVendor = clientVendorRepo.findById(id).orElseThrow(()-> new CocoonException("Vendor/Client with " + id + " not exist"));
-        return clientVendor;
+        return mapperUtil.convert(clientVendor, new ClientVendorDTO());
     }
 
     @Override
