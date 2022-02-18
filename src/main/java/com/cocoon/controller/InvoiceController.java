@@ -194,6 +194,7 @@ public class InvoiceController {
         model.addAttribute("products",products);
 
         return "invoice/toInvoice";
+
     }
 
 }

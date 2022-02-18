@@ -65,6 +65,7 @@ public class PurchaseInvoiceController {
         if (id != null){
             currentInvoiceDTO.setClientVendor(clientVendorService.findById(id));
         }
+
         currentInvoiceDTO.setInvoiceNumber(invoiceService.getInvoiceNumber(InvoiceType.PURCHASE));
         currentInvoiceDTO.setInvoiceDate(LocalDate.now());
         model.addAttribute("active", active);
