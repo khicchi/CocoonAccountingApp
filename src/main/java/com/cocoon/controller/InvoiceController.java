@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Controller
@@ -112,7 +113,7 @@ public class InvoiceController {
 
         if (this.addedInvoiceProducts.size() > 0 || this.deletedInvoiceProducts.size() > 0){
             addedInvoiceProducts.forEach(obj -> currentInvoiceDTO.getInvoiceProduct().add(obj));
-            deletedInvoiceProducts.forEach(deleted -> currentInvoiceDTO.getInvoiceProduct().removeIf(obj -> obj.getName().equals(deleted.getName())));
+            deletedInvoiceProducts.forEach(deleted -> currentInvoiceDTO.getInvoiceProduct().removeIf(obj -> (""+obj.getName() + obj.getPrice() + obj.getQty() + obj.getTax()).equals((""+deleted.getName() + deleted.getPrice() + deleted.getQty() + deleted.getTax()))));
         }
         model.addAttribute("active", active);
         model.addAttribute("invoice", invoiceDTO);
@@ -159,7 +160,8 @@ public class InvoiceController {
     public String deleteInvoiceProduct(@PathVariable("name") String name){
 
         Set<InvoiceProductDTO> selectedInvoiceProducts = currentInvoiceDTO.getInvoiceProduct();
-        Set<InvoiceProductDTO> filteredInvoiceProducts = selectedInvoiceProducts.stream().filter(obj -> !obj.getName().equals(name)).collect(Collectors.toSet());
+        Predicate<InvoiceProductDTO> selectedProductFinder = (obj) -> !(""+obj.getName() + obj.getPrice() + obj.getQty() + obj.getTax()).equals(name);
+        Set<InvoiceProductDTO> filteredInvoiceProducts = selectedInvoiceProducts.stream().filter(selectedProductFinder).collect(Collectors.toSet());
         currentInvoiceDTO.setInvoiceProduct(filteredInvoiceProducts);
         if (currentInvoiceDTO.getInvoiceProduct().size()==0) this.active = true;
         return "redirect:/sales-invoice/create";
@@ -169,7 +171,8 @@ public class InvoiceController {
     public String deleteInvoiceProductInUpdatePage(@PathVariable("id") Long id, @PathVariable("name") String name){
         if (currentInvoiceDTO.getInvoiceProduct().size()!=0) this.active = false;
         Set<InvoiceProductDTO> selectedInvoiceProducts = currentInvoiceDTO.getInvoiceProduct();
-        selectedInvoiceProducts.stream().filter(obj -> obj.getName().equals(name)).forEach(obj -> deletedInvoiceProducts.add(obj));
+        Predicate<InvoiceProductDTO> selectedProductFinder = (obj) -> (""+obj.getName() + obj.getPrice() + obj.getQty() + obj.getTax()).equals(name);
+        selectedInvoiceProducts.stream().filter(selectedProductFinder).forEach(obj -> deletedInvoiceProducts.add(obj));
         return "redirect:/sales-invoice/update/"+id;
     }
 
