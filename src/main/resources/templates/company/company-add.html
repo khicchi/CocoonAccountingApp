@@ -5,8 +5,11 @@
 <head>
     <head th:replace="fragments :: page_head"/>
     <title>Add Company</title>
+
+
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logos/logo-color-big.png}">
 </head>
+
 <!-- END : Head-->
 
 <!-- BEGIN : Body-->
@@ -201,7 +204,12 @@
 <!-- BEGIN: Custom CSS-->
 <script th:src="@{/assets/js/scripts.js}"></script>
 <!-- END: Custom CSS-->
-
+<script type="text/javascript">
+    document.getElementById('phone').addEventListener('input', function (e) {
+        var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+</script>
 </body>
 <!-- END : Body-->
 

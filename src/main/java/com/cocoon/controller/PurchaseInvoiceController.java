@@ -4,6 +4,7 @@ import com.cocoon.dto.ClientVendorDTO;
 import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.dto.InvoiceProductDTO;
 import com.cocoon.enums.CompanyType;
+import com.cocoon.enums.InvoiceStatus;
 import com.cocoon.enums.InvoiceType;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.ClientVendorRepo;
@@ -138,6 +139,7 @@ public class PurchaseInvoiceController {
     @PostMapping("/invoice-update/{id}")
     public String updateInvoice(@PathVariable("id") Long id, InvoiceDTO invoiceDTO){
 
+        invoiceDTO.setInvoiceStatus(InvoiceStatus.APPROVED);
         InvoiceDTO updatedInvoice = invoiceService.update(invoiceDTO, id);
         currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(updatedInvoice));
         invoiceProductService.updateInvoiceProducts(id,currentInvoiceDTO.getInvoiceProduct());
