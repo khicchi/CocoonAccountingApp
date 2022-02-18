@@ -8,10 +8,7 @@ import com.cocoon.enums.InvoiceStatus;
 import com.cocoon.enums.InvoiceType;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.ClientVendorRepo;
-import com.cocoon.service.ClientVendorService;
-import com.cocoon.service.InvoiceProductService;
-import com.cocoon.service.InvoiceService;
-import com.cocoon.service.ProductService;
+import com.cocoon.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +32,15 @@ public class InvoiceController {
     private final InvoiceProductService invoiceProductService;
     private final ClientVendorService clientVendorService;
     private final ClientVendorRepo clientVendorRepo;
+    private final CompanyService companyService;
 
-    public InvoiceController(InvoiceService invoiceService, ProductService productService, InvoiceProductService invoiceProductService, ClientVendorService clientVendorService, ClientVendorRepo clientVendorRepo) {
+    public InvoiceController(InvoiceService invoiceService, ProductService productService, InvoiceProductService invoiceProductService, ClientVendorService clientVendorService, ClientVendorRepo clientVendorRepo, CompanyService companyService) {
         this.invoiceService = invoiceService;
         this.productService = productService;
         this.invoiceProductService = invoiceProductService;
         this.clientVendorService = clientVendorService;
         this.clientVendorRepo = clientVendorRepo;
+        this.companyService = companyService;
     }
 
     @GetMapping({"/list", "/list/{cancel}"})
@@ -191,12 +190,13 @@ public class InvoiceController {
     // To invoice
 
     @GetMapping("/toInvoice/{id}")
-    public String toInvoice(@PathVariable("id") Long id, Model model){
+    public String toInvoice(@PathVariable("id") Long id, Model model) throws CocoonException {
 
         InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
-        Set<InvoiceProductDTO> products = invoiceProductService.getAllInvoiceProductsByInvoiceId(id);
+        Set<InvoiceProductDTO> invoiceProducts = invoiceProductService.getAllInvoiceProductsByInvoiceId(id);
+        model.addAttribute("company", companyService.getCompanyById(9L));
         model.addAttribute("invoice", invoiceDTO);
-        model.addAttribute("products",products);
+        model.addAttribute("invoiceProducts",invoiceProducts);
 
         return "invoice/toInvoice";
     }
