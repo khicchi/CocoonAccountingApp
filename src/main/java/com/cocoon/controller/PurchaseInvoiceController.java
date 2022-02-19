@@ -1,6 +1,6 @@
 package com.cocoon.controller;
 
-import com.cocoon.dto.ClientVendorDTO;
+import com.cocoon.dto.ClientDTO;
 import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.dto.InvoiceProductDTO;
 import com.cocoon.enums.CompanyType;
@@ -58,7 +58,7 @@ public class PurchaseInvoiceController {
         List<InvoiceDTO> invoices = invoiceService.getAllInvoicesByCompanyAndType(InvoiceType.PURCHASE);
         List<InvoiceDTO> updatedInvoices = invoices.stream().map(invoiceService::calculateInvoiceCost).collect(Collectors.toList());
         model.addAttribute("invoices", updatedInvoices);
-        model.addAttribute("client", new ClientVendorDTO());
+        model.addAttribute("client", new ClientDTO());
         model.addAttribute("clients", clientVendorService.getAllClientVendorsByType(CompanyType.VENDOR));
 
         return "invoice/purchase-invoice-list";
@@ -68,7 +68,7 @@ public class PurchaseInvoiceController {
     public String purchaseInvoiceCreate(@RequestParam(required = false) Long id, Model model) throws CocoonException{
 
         if (id != null){
-            currentInvoiceDTO.setClientVendor(clientVendorRepo.getById(id));
+            currentInvoiceDTO.setClient(clientVendorRepo.getById(id));
         }
         currentInvoiceDTO.setInvoiceNumber(invoiceService.getInvoiceNumber(InvoiceType.PURCHASE));
         currentInvoiceDTO.setInvoiceDate(LocalDate.now());

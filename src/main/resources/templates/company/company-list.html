@@ -64,14 +64,14 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr th:each="eachCompany : ${companies}">
-                                                        <td th:text="${eachCompany.id}"></td>
-                                                        <td th:text="${eachCompany.title}" class="text-truncate"></td>
-                                                        <td th:text="${eachCompany.representative}"></td>
-                                                        <td th:text="${eachCompany.email}"></td>
-                                                        <td th:text="${eachCompany.phone}"></td>
-                                                        <td th:text="${eachCompany.zip}"></td>
-                                                        <td th:text="${eachCompany.state.stateName}"></td>
-                                                        <td>
+                                                        <td style ="word-break:break-all;" th:text="${eachCompany.id}"></td>
+                                                        <td style ="word-break:break-all;" th:text="${eachCompany.title}" class="text-truncate"></td>
+                                                        <td style ="word-break:break-all;" th:text="${eachCompany.representative}"></td>
+                                                        <td style ="word-break:break-all;" th:text="${eachCompany.email}"></td>
+                                                        <td style ="word-break:break-all;" th:text="${eachCompany.phone}"></td>
+                                                        <td style ="word-break:break-all;" th:text="${eachCompany.zip}"></td>
+                                                        <td style ="word-break:break-all;" th:text="${eachCompany.state.stateName}"></td>
+                                                        <td style ="word-break:break-all;">
                                                             <span
                                                                 th:if="${eachCompany.isEnabled()}"
                                                                     class="badge bg-light-success">Enabled</span>
@@ -80,7 +80,7 @@
                                                                     class="badge bg-light-DANGER">Disabled</span>
                                                         </td>
                                                         <!--<td></td>-->
-                                                        <td>
+                                                        <td style ="word-break:break-all;">
                                                             <a th:href="@{/company/update/{id}(id=${eachCompany.id})}">
                                                                 <i class="ft-edit"></i>
                                                             </a>

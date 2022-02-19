@@ -1,6 +1,6 @@
 package com.cocoon.dto;
 
-import com.cocoon.entity.ClientVendor;
+import com.cocoon.entity.Client;
 import com.cocoon.entity.Company;
 import com.cocoon.enums.InvoiceStatus;
 import com.cocoon.enums.InvoiceType;
@@ -12,9 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +26,7 @@ public class InvoiceDTO {
     private InvoiceType invoiceType;
     private Byte enabled;
     private Company company;
-    private ClientVendor clientVendor;
+    private Client client;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate invoiceDate;

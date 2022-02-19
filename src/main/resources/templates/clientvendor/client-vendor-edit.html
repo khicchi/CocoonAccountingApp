@@ -151,8 +151,8 @@
                                                                     <label for="users-edit-status">Status</label>
                                                                     <select id="users-edit-status" class="form-control"
                                                                             name="enabled">
-                                                                        <option th:selected="${client.isEnabled()==true}" th:value= true>Active</option>
-                                                                        <option th:selected="${client.isEnabled()==false}" th:value=false>Passive</option>
+                                                                        <option th:selected="${client.getEnabled()==true}" th:value= true>Active</option>
+                                                                        <option th:selected="${client.getEnabled()==false}" th:value=false>Passive</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

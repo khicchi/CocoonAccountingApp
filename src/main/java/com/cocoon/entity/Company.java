@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -39,5 +38,8 @@ public class Company extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "state_id")
     private State state;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    private List<Client> client;
 
 }

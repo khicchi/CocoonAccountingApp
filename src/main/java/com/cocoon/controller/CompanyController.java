@@ -59,6 +59,7 @@ public class CompanyController {
                 result.addError(error);
             }
 
+            model.addAttribute("states", stateRepo.findAll());
             return "company/company-add";
         }
     }

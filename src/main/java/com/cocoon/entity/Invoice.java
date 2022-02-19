@@ -11,8 +11,6 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "invoice")
@@ -42,7 +40,7 @@ public class Invoice extends BaseEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sptable_id") //TODO foreign key will be replaced with "client_vendor_id"....
-    private ClientVendor clientVendor;
+    private Client client;
 
 //    @OneToMany(mappedBy = "invoice")
 //    private Set<InvoiceProduct> invoiceProduct;

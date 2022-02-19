@@ -1,6 +1,7 @@
 package com.cocoon.entity;
 
 import com.cocoon.enums.CompanyType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +14,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 @Where(clause = "is_deleted=false")
-public class ClientVendor extends BaseEntity {
+public class Client extends BaseEntity {
 
     private String companyName;
     private String phone;
@@ -33,5 +35,5 @@ public class ClientVendor extends BaseEntity {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    private Byte enabled;
+    private Boolean enabled;
 }

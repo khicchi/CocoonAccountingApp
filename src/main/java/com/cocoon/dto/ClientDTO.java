@@ -1,5 +1,6 @@
 package com.cocoon.dto;
 
+import com.cocoon.entity.Company;
 import com.cocoon.entity.State;
 import com.cocoon.enums.CompanyType;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ClientVendorDTO {
+public class ClientDTO {
 
     private Long id;
     private String companyName;
@@ -21,5 +22,6 @@ public class ClientVendorDTO {
     private String zipCode;
     private String address;
     private State state;
-    private boolean enabled;
+    private Boolean enabled;
+    private Company company;
 }
