@@ -144,9 +144,9 @@
                                                                     <label for="users-edit-status">Status</label>
                                                                     <select id="users-edit-status" class="form-control"
                                                                             required th:field="*{enabled}">
+                                                                        <option th:value=" ''">Select Status</option>
                                                                         <option th:value=true>Active</option>
                                                                         <option th:value=false>Passive</option>
-                                                                        <option th:value=false>Select Status</option>
 <!-- TODO @Ali Only ROOT user should be able to assign company to an ADMIN user. -->
                                                                     </select>
                                                                 </div>

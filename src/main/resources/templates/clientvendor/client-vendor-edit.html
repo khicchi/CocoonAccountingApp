@@ -125,7 +125,7 @@
                                                                     <label for="users-edit-company">Phone</label>
                                                                     <input type="text" id="users-edit-company"
                                                                            class="form-control" th:field="*{phone}"
-                                                                           placeholder="phone number" >
+                                                                           placeholder="(456) 789-5698" >
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -133,6 +133,7 @@
                                                                     <label for="users-edit-Address">Address</label>
                                                                     <input type="text" id="users-edit-Address"
                                                                            class="form-control"
+                                                                           th:maxlength="255"
                                                                            th:field="*{address}"
                                                                            placeholder="address">
                                                                 </div>
@@ -143,6 +144,7 @@
                                                                     <input type="text" id="users-edit-zipcode"
                                                                            class="form-control"
                                                                            th:field="*{zipCode}" pattern="^\d{5}$"
+                                                                           th:maxlength="5"
                                                                            placeholder="zipcode">
                                                                 </div>
                                                             </div>
@@ -195,6 +197,12 @@
 <!-- BEGIN: Custom CSS-->
 <script th:src="@{/assets/js/scripts.js}"></script>
 <!-- END: Custom CSS-->
+<script type="text/javascript">
+    document.getElementById('users-edit-company').addEventListener('input', function (e) {
+        var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+</script>
 </body>
 <!-- END : Body-->
 

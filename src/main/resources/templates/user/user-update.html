@@ -63,7 +63,7 @@
                                                                     <label for="users-edit-username">Firstname</label>
                                                                     <input th:field="*{firstname}" type="text" id="users-edit-username"
                                                                            class="form-control" placeholder="Username"
-                                                                            required
+                                                                            required pattern="[A-Za-z ]{1,16}"
                                                                            aria-invalid="false">
                                                                 </div>
                                                             </div>
@@ -71,7 +71,8 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-password">Password</label>
                                                                     <input th:field="*{password}" type="password" id="users-edit-password"
-                                                                           class="form-control" placeholder="Password" required
+                                                                           class="form-control" placeholder="Min 4 chars with upper-lower-case letters and digit" required
+                                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}"
                                                                            aria-invalid="false">
                                                                 </div>
                                                             </div>
@@ -103,7 +104,7 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-company1">Lastname</label>
                                                                     <input th:field="*{lastname}" type="text" id="users-edit-company1"
-                                                                           class="form-control" placeholder="Lastname"
+                                                                           class="form-control" placeholder="Lastname" pattern="[A-Za-z ]{1,16}"
                                                                             required>
                                                                 </div>
                                                             </div>
@@ -111,8 +112,8 @@
                                                                 <div class="controls">
                                                                     <label for="users-edit-company">Phone</label>
                                                                     <input th:field="*{phone}" type="text" id="users-edit-company"
-                                                                           class="form-control"
-                                                                           placeholder="9734157843"
+                                                                           class="form-control" pattern="^\d{10}$"
+                                                                           placeholder="(---)-------"
                                                                             required>
                                                                 </div>
                                                             </div>
@@ -132,8 +133,8 @@
                                                                     <label for="users-edit-status">Status</label>
                                                                     <select id="users-edit-status" class="form-control"
                                                                             name="enabled">
-                                                                        <option th:selected="${userToEdit.isEnabled()==true}" th:value= true>Active</option>
-                                                                        <option th:selected="${userToEdit.isEnabled()==false}" th:value=false>Passive</option>
+                                                                        <option th:selected="${userToEdit.getEnabled()==true}" th:value= true>Active</option>
+                                                                        <option th:selected="${userToEdit.getEnabled()==false}" th:value=false>Passive</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
