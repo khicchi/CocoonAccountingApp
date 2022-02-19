@@ -37,4 +37,6 @@ public class InvoiceDTO {
     private int InvoiceCostWithTax;
     private int totalCost;
 
+
+
 }
