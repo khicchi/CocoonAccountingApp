@@ -1,11 +1,13 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.InvoiceDTO;
+import com.cocoon.dto.InvoiceProductDTO;
 import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Category;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.InvoiceProduct;
 import com.cocoon.entity.Product;
+import com.cocoon.enums.InvoiceType;
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
 import com.cocoon.exception.CocoonException;
@@ -15,6 +17,7 @@ import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.InvoiceService;
 import com.cocoon.service.ProductService;
 import com.cocoon.util.MapperUtil;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -33,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     private InvoiceProductRepo invoiceProductRepo;
 
 
-    public ProductServiceImpl(ProductRepository productRepository, InvoiceService invoiceService, MapperUtil mapperUtil, CompanyRepo companyRepo, InvoiceProductRepo invoiceProductRepo) {
+    public ProductServiceImpl(ProductRepository productRepository, @Lazy InvoiceService invoiceService, MapperUtil mapperUtil, CompanyRepo companyRepo, InvoiceProductRepo invoiceProductRepo) {
         this.productRepository = productRepository;
         this.invoiceService = invoiceService;
         this.mapperUtil = mapperUtil;
@@ -114,5 +117,22 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findAllByCategoryId(id);
         List<ProductDTO> productDTOList = products.stream().map((p) -> mapperUtil.convert(p, new ProductDTO())).collect(Collectors.toList());
         return productDTOList;
+    }
+
+    @Override
+    public void updateProductQuantity(InvoiceType type, InvoiceProduct invoiceProduct) {
+        Product product = productRepository.getById(invoiceProduct.getProduct().getId());
+        if (type==InvoiceType.SALE){
+            product.setQty(product.getQty() - invoiceProduct.getQty());
+        } else if (type==InvoiceType.PURCHASE) {
+            product.setQty(product.getQty() + invoiceProduct.getQty());
+        }
+        productRepository.save(product);
+    }
+
+    @Override
+    public boolean validateProductQuantity(InvoiceProductDTO invoiceProductDTO) {
+        Product product = productRepository.getById(invoiceProductDTO.getProductDTO().getId());
+        return product.getQty() >= invoiceProductDTO.getQty();
     }
 }

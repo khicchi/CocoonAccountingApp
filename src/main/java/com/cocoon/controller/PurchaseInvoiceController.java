@@ -97,7 +97,8 @@ public class PurchaseInvoiceController {
     public String createInvoice() throws CocoonException {
 
         currentInvoiceDTO.setInvoiceType(InvoiceType.PURCHASE);
-        invoiceService.save(currentInvoiceDTO);
+        InvoiceDTO savedInvoice = invoiceService.save(currentInvoiceDTO);
+        invoiceProductService.approveInvoiceProduct(savedInvoice.getId());
         this.active = true;
 
         return "redirect:/purchase-invoice/list";
@@ -152,6 +153,7 @@ public class PurchaseInvoiceController {
     @GetMapping("/delete/{id}")
     public String deleteInvoiceById(@PathVariable("id") Long id){
 
+        invoiceProductService.deleteInvoiceProducts(id);
         invoiceService.deleteInvoiceById(id);
         return "redirect:/purchase-invoice/list";
 

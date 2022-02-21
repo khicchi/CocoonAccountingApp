@@ -80,10 +80,11 @@ public class InvoiceController {
     }
 
     @PostMapping("/create-invoice-product")
-    public String createInvoiceProduct(InvoiceProductDTO invoiceProductDTO){
+    public String createInvoiceProduct(InvoiceProductDTO invoiceProductDTO) throws CocoonException {
 
         String name = invoiceProductDTO.getProductDTO().getName();
-        invoiceProductDTO.setName(name); // TODO bir kontrol....
+        invoiceProductDTO.setName(name);
+        if (!productService.validateProductQuantity(invoiceProductDTO)) throw new CocoonException("Not enough product quantity");
         currentInvoiceDTO.getInvoiceProduct().add(invoiceProductDTO);
         this.active = false;
         return "redirect:/sales-invoice/create";
@@ -181,6 +182,7 @@ public class InvoiceController {
         InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
         invoiceDTO.setInvoiceStatus(InvoiceStatus.APPROVED);
         invoiceService.update(invoiceDTO,id);
+        invoiceProductService.approveInvoiceProduct(id);
 
         return "redirect:/sales-invoice/list";
     }

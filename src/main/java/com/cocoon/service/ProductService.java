@@ -1,8 +1,11 @@
 package com.cocoon.service;
 
+import com.cocoon.dto.InvoiceProductDTO;
 import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Invoice;
+import com.cocoon.entity.InvoiceProduct;
 import com.cocoon.entity.Product;
+import com.cocoon.enums.InvoiceType;
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
 import com.cocoon.exception.CocoonException;
@@ -22,4 +25,6 @@ public interface ProductService {
 
     void deleteById (Long id) throws CocoonException;
     List<ProductDTO> findProductsByCategoryId(Long id);
+    void updateProductQuantity(InvoiceType type, InvoiceProduct invoiceProduct);
+    boolean validateProductQuantity(InvoiceProductDTO invoiceProductDTO);
 }

@@ -59,7 +59,7 @@
                                                         <th>Tax</th>
                                                         <th>Total</th>
                                                         <th>Edit</th>
-                                                        <th></th>
+                                                        <th>Status</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -67,9 +67,9 @@
                                                             <td class="text-truncate" th:text="${invoice.invoiceNumber}" ></td>
                                                             <td class="text-truncate" th:text="${invoice.getInvoiceDate()}"></td>
                                                             <td class="text-truncate" th:text="${invoice.client.companyName}"></td>
-                                                            <td class="text-truncate" th:text="${invoice.getInvoiceCostWithoutTax()}"></td>
-                                                            <td class="text-truncate" th:text="${invoice.getInvoiceCostWithTax()}"></td>
-                                                            <td class="text-truncate" th:text="${invoice.getTotalCost()}"></td>
+                                                            <td class="text-truncate" th:text="'$ '+${invoice.getInvoiceCostWithoutTax()}"></td>
+                                                            <td class="text-truncate" th:text="'$ '+${invoice.getInvoiceCostWithTax()}"></td>
+                                                            <td class="text-truncate" th:text="'$ '+${invoice.getTotalCost()}"></td>
                                                             <td>
                                                                 <a class="ft-list" th:href="@{/purchase-invoice/update/{id}(id=${invoice.id})}">
                                                                 </a>

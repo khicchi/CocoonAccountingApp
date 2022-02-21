@@ -165,10 +165,10 @@
                                                                 <tr th:each="product : ${selectedproducts}">
                                                                     <td hidden th:value="${product.id}"></td>
                                                                     <td th:text="${product.productDTO.name}"></td>
-                                                                    <td th:text="${product.price}"></td>
+                                                                    <td th:text="'$ '+${product.price}"></td>
                                                                     <td th:text="${product.qty}"></td>
-                                                                    <td th:text="${product.tax}"></td>
-                                                                    <td th:text="${(product.qty * product.price) + (product.qty * product.price * product.tax * 0.01)}"></td>
+                                                                    <td th:text="'% '+${product.tax}"></td>
+                                                                    <td th:text="'$ '+${(product.qty * product.price) + (product.qty * product.price * product.tax * 0.01)}"></td>
                                                                     <td>
                                                                         <a class="ft-trash" th:href="@{/purchase-invoice/delete-product/{name}(name=${product.name + product.price + product.qty + product.tax})}">
                                                                         </a>
