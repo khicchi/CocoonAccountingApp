@@ -1,7 +1,6 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.InvoiceDTO;
-import com.cocoon.entity.Company;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.InvoiceProduct;
 import com.cocoon.enums.InvoiceStatus;
@@ -9,6 +8,7 @@ import com.cocoon.enums.InvoiceType;
 import com.cocoon.repository.CompanyRepo;
 import com.cocoon.repository.InvoiceProductRepo;
 import com.cocoon.repository.InvoiceRepository;
+import com.cocoon.service.InvoiceProductService;
 import com.cocoon.service.InvoiceService;
 import com.cocoon.util.MapperUtil;
 
@@ -26,12 +26,14 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceProductRepo invoiceProductRepo;
     private final CompanyRepo companyRepo;
+    private final InvoiceProductService invoiceProductService;
 
-    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepo invoiceProductRepo, CompanyRepo companyRepo) {
+    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepo invoiceProductRepo, CompanyRepo companyRepo, InvoiceProductService invoiceProductService) {
         this.mapperUtil = mapperUtil;
         this.invoiceRepository = invoiceRepository;
         this.invoiceProductRepo = invoiceProductRepo;
         this.companyRepo = companyRepo;
+        this.invoiceProductService = invoiceProductService;
     }
 
     @Override
@@ -41,8 +43,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setInvoiceStatus(invoice.getInvoiceType().equals(InvoiceType.SALE) ? InvoiceStatus.PENDING : InvoiceStatus.APPROVED);
         invoice.setEnabled((byte) 1);
         invoice.setCompany(companyRepo.getById(9L));
-        Invoice savedInvoice = invoiceRepository.save(invoice);
-        return mapperUtil.convert(savedInvoice, new InvoiceDTO());
+        Invoice savedInvoice = invoiceRepository.save(invoice);// TODO implementation a taşı...
+        InvoiceDTO savedInvoiceDTO = mapperUtil.convert(savedInvoice, new InvoiceDTO());
+        dto.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoiceDTO));
+        invoiceProductService.save(dto.getInvoiceProduct());
+        return savedInvoiceDTO;
     }
 
     @Override

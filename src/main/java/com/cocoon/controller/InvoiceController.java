@@ -83,7 +83,7 @@ public class InvoiceController {
     public String createInvoiceProduct(InvoiceProductDTO invoiceProductDTO){
 
         String name = invoiceProductDTO.getProductDTO().getName();
-        invoiceProductDTO.setName(name);
+        invoiceProductDTO.setName(name); // TODO bir kontrol....
         currentInvoiceDTO.getInvoiceProduct().add(invoiceProductDTO);
         this.active = false;
         return "redirect:/sales-invoice/create";
@@ -94,9 +94,7 @@ public class InvoiceController {
     public String createInvoice() throws CocoonException {
 
         currentInvoiceDTO.setInvoiceType(InvoiceType.SALE);
-        InvoiceDTO savedInvoice = invoiceService.save(currentInvoiceDTO);
-        currentInvoiceDTO.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoice));
-        invoiceProductService.save(currentInvoiceDTO.getInvoiceProduct());
+        invoiceService.save(currentInvoiceDTO);
         this.active = true;
 
         return "redirect:/sales-invoice/list";
