@@ -115,7 +115,7 @@ public class PurchaseInvoiceController {
 
         if (this.addedInvoiceProducts.size() > 0 || this.deletedInvoiceProducts.size() > 0){
             addedInvoiceProducts.forEach(obj -> currentInvoiceDTO.getInvoiceProduct().add(obj));
-            deletedInvoiceProducts.forEach(deleted -> currentInvoiceDTO.getInvoiceProduct().removeIf(obj -> (""+obj.getName() + obj.getPrice() + obj.getQty() + obj.getTax()).equals((""+deleted.getName() + deleted.getPrice() + deleted.getQty() + deleted.getTax()))));
+            deletedInvoiceProducts.forEach(deleted -> currentInvoiceDTO.getInvoiceProduct().removeIf(obj -> obj.equals(deleted)));
         }
         model.addAttribute("active", active);
         model.addAttribute("invoice", invoiceDTO);

@@ -20,7 +20,7 @@ public class UserDTO {
     private String phone;
     private Role role;
     private CompanyDTO company;
-    private boolean enabled;
+    private Boolean enabled;
 
 
 }

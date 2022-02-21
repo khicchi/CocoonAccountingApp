@@ -160,7 +160,9 @@
                                                                 <form action="#" th:object="${product}" method="post">
                                                                     <button type="submit" class="btn btn-success mb-2 mb-sm-0 mr-sm-2">Save</button>
                                                                     <button type="submit" class="btn btn-success mb-2 mb-sm-0 mr-sm-2" name="action" value="Delete" th:formaction="@{/product/delete/{id}(id=${product.id})}">Delete</button>
-                                                                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                                                                    <a class="btn btn-danger" th:href="@{/product/list}"
+                                                                       type="cancel" value="cancel">Cancel
+                                                                    </a>
                                                                 </form>
                                                             </div>
                                                         </div>

@@ -73,8 +73,8 @@
                                                                  <td th:text="${user.role.name}"></td>
                                                                  <td th:text="${user.company.title}"></td>
                                                                  <td>
-                                                                 <span th:if="${user.isEnabled()}" class="badge bg-light-success">Active</span>
-                                                                 <span th:unless="${user.isEnabled()}" class ="badge bg-light-DANGER">Passive</span>
+                                                                 <span th:if="${user.getEnabled()}" class="badge bg-light-success">Active</span>
+                                                                 <span th:unless="${user.getEnabled()}" class ="badge bg-light-DANGER">Passive</span>
                                                                  </td>
                                                              <td>
                                                                  <a th:href="@{/user/update/{id}(id=${user.id})}">
