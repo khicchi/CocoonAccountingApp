@@ -99,14 +99,14 @@
                                                 </form>
                                                 <hr class="solid">
                                                 <!-- INVOICE PART END -->
-                                                <form th:object="${product}" th:action="@{/purchase-invoice/create-invoice-product}" method="post">
-                                                    <div class="needs-validation" novalidate>
+                                                <form th:object="${product}" th:action="@{/purchase-invoice/create-invoice-product}" method="post" novalidate>
+                                                    <div class="needs-validation" >
                                                         <div class="row">
                                                             <div class="col-12 col-md-3">
                                                                 <div class="form-group">
                                                                     <div class="controls">
                                                                         <label>Product</label>
-                                                                        <select th:field="*{productDTO}" class="custom-select" required="required" th:onchange="showAlert()" >
+                                                                        <select th:field="*{productDTO}" class="custom-select" required>
                                                                             <option th:value=" ''" th:text="Select"></option>
                                                                             <option th:each="theProduct : ${products}" th:value="${theProduct.id}"
                                                                                     th:text="${theProduct.name}"></option>
@@ -117,30 +117,24 @@
                                                             <div class="col-12 col-md-3">
                                                                 <div class="form-group">
                                                                     <div class="controls">
-                                                                        <label>Quantity</label>
-                                                                        <select th:field="*{qty}" class="custom-select" required="required" >
-                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="${i}"></option>
-                                                                        </select>
+                                                                        <label for="qty" class="form-label">Quantity</label>
+                                                                        <input th:field="*{qty}" type="number" min="1" class="form-control" id="qty" value="Mark" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-md-3">
                                                                 <div class="form-group">
                                                                     <div class="controls">
-                                                                        <label>Price</label>
-                                                                        <select th:field="*{price}" class="custom-select" required="required" >
-                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i * 5}" th:text="${i * 5}"></option>
-                                                                        </select>
+                                                                        <label for="price" class="form-label">Price</label>
+                                                                        <input th:field="*{price}" type="number" min="1" class="form-control" id="price" value="Mark" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-md-3">
                                                                 <div class="form-group">
                                                                     <div class="controls">
-                                                                        <label>Tax</label>
-                                                                        <select th:field="*{tax}" class="custom-select" required="required" >
-                                                                            <option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="${i}"></option>
-                                                                        </select>
+                                                                        <label for="tax" class="form-label">Tax</label>
+                                                                        <input th:field="*{tax}" type="number" min="1" class="form-control" id="tax" value="Mark" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -169,7 +163,8 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr th:each="product : ${selectedproducts}">
-                                                                    <td th:text="${product.name}"></td>
+                                                                    <td hidden th:value="${product.id}"></td>
+                                                                    <td th:text="${product.productDTO.name}"></td>
                                                                     <td th:text="${product.price}"></td>
                                                                     <td th:text="${product.qty}"></td>
                                                                     <td th:text="${product.tax}"></td>
