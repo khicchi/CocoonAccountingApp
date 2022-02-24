@@ -22,18 +22,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>(Collections.singleton(new SimpleGrantedAuthority("ROOT")));
+        List<GrantedAuthority> authorityList = new ArrayList<>();
 
-//        GrantedAuthority authority = new SimpleGrantedAuthority(this.user.getRole().getName());
-//        authorityList.add(authority);
-
-
-        /*  //ManyToMany için bu şekilde yazmalıyız...
-        this.user.getRoles().forEach(role -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority(this.user.getRole().getDescription());
-            authorityList.add(authority);
-        });
-         */
+        GrantedAuthority authority = new SimpleGrantedAuthority(this.user.getRole().getName());
+        authorityList.add(authority);
 
         return authorityList;
     }
