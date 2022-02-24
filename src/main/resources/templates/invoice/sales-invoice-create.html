@@ -138,12 +138,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
                                                                 <button type="submit" name="action" value="addItem"
                                                                         class="btn btn-warning mb-2 mb-sm-0 mr-sm-2" >Add Item
                                                                 </button>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </form><!-- Products Form-->
                                                 <!-- INVOICE PRODUCT LIST BEGIN -->
