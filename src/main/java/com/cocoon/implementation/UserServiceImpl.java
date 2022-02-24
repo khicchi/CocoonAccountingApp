@@ -6,6 +6,7 @@ import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.UserRepo;
 import com.cocoon.service.UserService;
 import com.cocoon.util.MapperUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +17,13 @@ public class UserServiceImpl implements UserService {
 
     private UserRepo userRepo;
     private MapperUtil mapperUtil;
+    private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepo userRepo, MapperUtil mapperUtil) {
+    public UserServiceImpl(UserRepo userRepo, MapperUtil mapperUtil, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.mapperUtil = mapperUtil;
+        this.passwordEncoder = passwordEncoder;
     }
-
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -41,8 +43,9 @@ public class UserServiceImpl implements UserService {
     public UserDTO save(UserDTO userDTO) throws CocoonException {
         User foundUser = userRepo.findByEmail(userDTO.getEmail());
         if (foundUser != null) throw new CocoonException("User already exists");
-        User user = mapperUtil.convert(userDTO, new User());
-        User savedUser = userRepo.save(user);
+        User convertedUser = mapperUtil.convert(userDTO, new User());
+        convertedUser.setPassword(passwordEncoder.encode(convertedUser.getPassword()));
+        User savedUser = userRepo.save(convertedUser);
         return mapperUtil.convert(savedUser, new UserDTO());
     }
 
