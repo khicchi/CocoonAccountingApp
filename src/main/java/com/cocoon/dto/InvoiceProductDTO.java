@@ -35,4 +35,8 @@ public class InvoiceProductDTO {
     public int hashCode() {
         return Objects.hash(getName(), getQty(), getPrice(), getTax());
     }
+
+    public String getProductQuantityUnitText(){
+        return qty + " / " + productDTO.getUnit().getValue();
+    }
 }
