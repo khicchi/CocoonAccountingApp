@@ -243,10 +243,10 @@
                                                                     <div class="row contacts">
                                                                         <div class="col invoice-to">
                                                                             <div class="text-gray-light">INVOICE TO:</div>
-                                                                            <h2 class="to" th:text="${invoice.clientVendor.companyName}"></h2>
-                                                                            <div class="address" th:text="${invoice.clientVendor.address}"></div>
-                                                                            <div class="address" th:text="${invoice.clientVendor.zipCode} + ${invoice.clientVendor.state.stateName}"></div>
-                                                                            <div class="email"><a href="mailto:john@example.com" th:text="${invoice.clientVendor.company.email}"></a></div>
+                                                                            <h2 class="to" th:text="${invoice.getClient().companyName}"></h2>
+                                                                            <div class="address" th:text="${invoice.getClient().address}"></div>
+                                                                            <div class="address" th:text="${invoice.getClient().zipCode} + ${invoice.getClient().state}"></div>
+                                                                            <div class="email"><a href="mailto:john@example.com" th:text="${invoice.getClient().email}"></a></div>
                                                                         </div>
                                                                         <div class="col invoice-details">
                                                                             <h1 class="invoice-id" th:text="${invoice.invoiceNumber}"></h1>
@@ -276,17 +276,17 @@
                                                                         <tr>
                                                                             <td colspan="2"></td>
                                                                             <td colspan="2">SUBTOTAL</td>
-                                                                            <td>5100</td>
+                                                                            <td th:text="${invoice.getInvoiceCostWithoutTax()}"></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td colspan="2"></td>
-                                                                            <td colspan="2">TAX 25%</td>
-                                                                            <td>510</td>
+                                                                            <td colspan="2">TAX</td>
+                                                                            <td th:text="${invoice.getInvoiceCostWithTax()}">510</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td colspan="2"></td>
                                                                             <td colspan="2">GRAND TOTAL</td>
-                                                                            <td>5610</td>
+                                                                            <td th:text="${invoice.getTotalCost()}"></td>
                                                                         </tr>
                                                                         </tfoot>
                                                                     </table>

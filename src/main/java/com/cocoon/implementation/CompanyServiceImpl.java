@@ -1,12 +1,16 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.CompanyDTO;
+import com.cocoon.dto.UserDTO;
 import com.cocoon.entity.Company;
+import com.cocoon.entity.User;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.CompanyRepo;
 import com.cocoon.service.CompanyService;
+import com.cocoon.service.UserService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,6 +26,8 @@ public class CompanyServiceImpl implements CompanyService {
     private CompanyRepo companyRepo;
     @Autowired
     private MapperUtil mapperUtil;
+    @Autowired
+    private UserService userService;
 
     @Override
     public CompanyDTO getCompanyById(Long id) throws CocoonException {
@@ -30,6 +36,13 @@ public class CompanyServiceImpl implements CompanyService {
             throw new CocoonException("There is no company with id " + id);
 
         return mapperUtil.convert(companyOptional.get(), new CompanyDTO());
+    }
+
+    @Override
+    public CompanyDTO getCompanyByLoggedInUser() {
+        var currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO userDTO = userService.findByEmail(currentUserEmail);
+        return userDTO.getCompany();
     }
 
     @Override

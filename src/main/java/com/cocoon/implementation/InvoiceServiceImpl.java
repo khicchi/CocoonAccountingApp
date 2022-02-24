@@ -30,15 +30,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final MapperUtil mapperUtil;
     private final InvoiceRepository invoiceRepository;
     private final InvoiceProductRepo invoiceProductRepo;
-    private final CompanyRepo companyRepo;
     private final InvoiceProductService invoiceProductService;
     private final UserService userService;
 
-    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepo invoiceProductRepo, CompanyRepo companyRepo, InvoiceProductService invoiceProductService, UserService userService) {
+    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepo invoiceProductRepo, InvoiceProductService invoiceProductService, UserService userService) {
         this.mapperUtil = mapperUtil;
         this.invoiceRepository = invoiceRepository;
         this.invoiceProductRepo = invoiceProductRepo;
-        this.companyRepo = companyRepo;
         this.invoiceProductService = invoiceProductService;
         this.userService = userService;
     }
@@ -49,7 +47,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = mapperUtil.convert(dto, new Invoice());
         invoice.setInvoiceStatus(invoice.getInvoiceType().equals(InvoiceType.SALE) ? InvoiceStatus.PENDING : InvoiceStatus.APPROVED);
         invoice.setEnabled((byte) 1);
-        invoice.setCompany(companyRepo.getById(9L));
+        invoice.setCompany(getCompanyByLoggedInUser());
         Invoice savedInvoice = invoiceRepository.save(invoice);// TODO implementation a taşı...
         InvoiceDTO savedInvoiceDTO = mapperUtil.convert(savedInvoice, new InvoiceDTO());
         dto.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoiceDTO));
@@ -73,7 +71,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDTO> getAllInvoices() {
-        List<Invoice> invoices = invoiceRepository.findInvoiceByCompany(getUserByCompany());
+        List<Invoice> invoices = invoiceRepository.findInvoiceByCompany(getCompanyByLoggedInUser());
         return invoices.stream().map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
     }
 
@@ -95,7 +93,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public String getInvoiceNumber(InvoiceType invoiceType) {
         List<Invoice> invoiceList = invoiceRepository
-                .findInvoicesByCompanyAndInvoiceType(getUserByCompany(), invoiceType)
+                .findInvoicesByCompanyAndInvoiceType(getCompanyByLoggedInUser(), invoiceType)
                 .stream()
                 .sorted(Comparator.comparing(Invoice::getInvoiceNumber).reversed())
                 .collect(Collectors.toList());
@@ -111,7 +109,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public List<InvoiceDTO> getAllInvoicesSorted() {
 
-        List<Invoice> invoices = invoiceRepository.findInvoiceByCompany(getUserByCompany());
+        List<Invoice> invoices = invoiceRepository.findInvoiceByCompany(getCompanyByLoggedInUser());
         invoices.sort((o2, o1) -> Integer.compare(o2.getInvoiceDate().compareTo(o1.getInvoiceDate()), 0));
         return invoices.stream().limit(3).map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
 
@@ -119,7 +117,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDTO> getAllInvoicesByCompanyAndType(InvoiceType type) {
-        List<Invoice> invoices = invoiceRepository.findInvoicesByCompanyAndInvoiceType(getUserByCompany(), type);
+        List<Invoice> invoices = invoiceRepository.findInvoicesByCompanyAndInvoiceType(getCompanyByLoggedInUser(), type);
         return invoices.stream().map(obj -> mapperUtil.convert(obj, new InvoiceDTO())).collect(Collectors.toList());
     }
 
@@ -144,7 +142,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return result;
     }
 
-    private Company getUserByCompany(){
+    private Company getCompanyByLoggedInUser(){
         var currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDTO userDTO = userService.findByEmail(currentUserEmail);
         User user = mapperUtil.convert(userDTO, new User());
