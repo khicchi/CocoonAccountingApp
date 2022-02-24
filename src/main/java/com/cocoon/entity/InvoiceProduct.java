@@ -24,6 +24,7 @@ public class InvoiceProduct extends BaseEntity{
     private Invoice invoice;
 
     private String name;
+
     private int qty;
     private int price;
     private int tax;
