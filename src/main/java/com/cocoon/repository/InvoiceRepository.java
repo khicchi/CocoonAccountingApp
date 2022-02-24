@@ -12,5 +12,6 @@ import java.util.Optional;
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
-    List<Invoice> findInvoicesByCompanyAndInvoiceType(Company company, InvoiceType invvoiceType);
+    List<Invoice> findInvoicesByCompanyAndInvoiceType(Company company, InvoiceType invoiceType);
+    List<Invoice> findInvoiceByCompany(Company company);
 }

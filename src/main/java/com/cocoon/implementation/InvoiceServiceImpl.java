@@ -1,8 +1,11 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.InvoiceDTO;
+import com.cocoon.dto.UserDTO;
+import com.cocoon.entity.Company;
 import com.cocoon.entity.Invoice;
 import com.cocoon.entity.InvoiceProduct;
+import com.cocoon.entity.User;
 import com.cocoon.enums.InvoiceStatus;
 import com.cocoon.enums.InvoiceType;
 import com.cocoon.repository.CompanyRepo;
@@ -10,8 +13,10 @@ import com.cocoon.repository.InvoiceProductRepo;
 import com.cocoon.repository.InvoiceRepository;
 import com.cocoon.service.InvoiceProductService;
 import com.cocoon.service.InvoiceService;
+import com.cocoon.service.UserService;
 import com.cocoon.util.MapperUtil;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -27,13 +32,15 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceProductRepo invoiceProductRepo;
     private final CompanyRepo companyRepo;
     private final InvoiceProductService invoiceProductService;
+    private final UserService userService;
 
-    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepo invoiceProductRepo, CompanyRepo companyRepo, InvoiceProductService invoiceProductService) {
+    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepo invoiceProductRepo, CompanyRepo companyRepo, InvoiceProductService invoiceProductService, UserService userService) {
         this.mapperUtil = mapperUtil;
         this.invoiceRepository = invoiceRepository;
         this.invoiceProductRepo = invoiceProductRepo;
         this.companyRepo = companyRepo;
         this.invoiceProductService = invoiceProductService;
+        this.userService = userService;
     }
 
     @Override
@@ -66,7 +73,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDTO> getAllInvoices() {
-        List<Invoice> invoices = invoiceRepository.findAll();
+        List<Invoice> invoices = invoiceRepository.findInvoiceByCompany(getUserByCompany());
         return invoices.stream().map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
     }
 
@@ -88,7 +95,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public String getInvoiceNumber(InvoiceType invoiceType) {
         List<Invoice> invoiceList = invoiceRepository
-                .findInvoicesByCompanyAndInvoiceType(companyRepo.findById(9L).get(), invoiceType)
+                .findInvoicesByCompanyAndInvoiceType(getUserByCompany(), invoiceType)
                 .stream()
                 .sorted(Comparator.comparing(Invoice::getInvoiceNumber).reversed())
                 .collect(Collectors.toList());
@@ -103,17 +110,16 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDTO> getAllInvoicesSorted() {
-        List<Invoice> invoices = invoiceRepository.findAll();
 
-        invoices.sort((o2, o1) -> o2.getInvoiceDate().compareTo(o1.getInvoiceDate()) > 0 ? 1 : o2.getInvoiceDate().compareTo(o1.getInvoiceDate()) == 0 ? 0 : -1);
-
+        List<Invoice> invoices = invoiceRepository.findInvoiceByCompany(getUserByCompany());
+        invoices.sort((o2, o1) -> Integer.compare(o2.getInvoiceDate().compareTo(o1.getInvoiceDate()), 0));
         return invoices.stream().limit(3).map(invoice -> mapperUtil.convert(invoice, new InvoiceDTO())).collect(Collectors.toList());
 
     }
 
     @Override
     public List<InvoiceDTO> getAllInvoicesByCompanyAndType(InvoiceType type) {
-        List<Invoice> invoices = invoiceRepository.findInvoicesByCompanyAndInvoiceType(companyRepo.findById(9L).get(), type);
+        List<Invoice> invoices = invoiceRepository.findInvoicesByCompanyAndInvoiceType(getUserByCompany(), type);
         return invoices.stream().map(obj -> mapperUtil.convert(obj, new InvoiceDTO())).collect(Collectors.toList());
     }
 
@@ -136,5 +142,12 @@ public class InvoiceServiceImpl implements InvoiceService {
             result += (product.getPrice() * product.getQty()) + (product.getPrice() * product.getQty() * product.getTax() * 0.01);
         }
         return result;
+    }
+
+    private Company getUserByCompany(){
+        var currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO userDTO = userService.findByEmail(currentUserEmail);
+        User user = mapperUtil.convert(userDTO, new User());
+        return user.getCompany();
     }
 }

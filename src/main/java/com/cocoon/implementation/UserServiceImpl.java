@@ -59,6 +59,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO findByEmail(String email) {
+        User user = userRepo.findByEmail(email);
+        return mapperUtil.convert(user, new UserDTO());
+    }
+
+    @Override
     public void delete(Long id) {
         User user = userRepo.findById(id).orElseThrow();
         user.setIsDeleted(true);
