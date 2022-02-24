@@ -87,8 +87,10 @@ public class InvoiceController {
         String name = invoiceProductDTO.getProductDTO().getName();
         invoiceProductDTO.setName(name);
 
-        if (!productService.validateProductQuantity(invoiceProductDTO)) {
-            redirAttrs.addFlashAttribute("error", "Not enough quantity to sell, check your inventory..");
+        if (!productService.validateProductQuantity(invoiceProductDTO) ||
+            !invoiceProductService.validateProductQtyForPendingInvoicesIncluded(invoiceProductDTO)) {
+
+            redirAttrs.addFlashAttribute("error", "Not enough quantity to sell, check your inventory... Your Pending Invoices might have this very same Product to be sold");
             return "redirect:/sales-invoice/create";
         }
         currentInvoiceDTO.getInvoiceProduct().add(invoiceProductDTO);

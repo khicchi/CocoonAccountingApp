@@ -1,8 +1,10 @@
 package com.cocoon.repository;
 
 import com.cocoon.entity.InvoiceProduct;
+import com.cocoon.enums.InvoiceStatus;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -14,5 +16,8 @@ public interface InvoiceProductRepo extends JpaRepository<InvoiceProduct, Long> 
 
     Set<InvoiceProduct> findAllByInvoiceId(Long id);
     List<InvoiceProduct> findAllByProductId(Long id);
-    InvoiceProduct findInvoiceProductByInvoiceIdAndNameAndQtyAndPriceAndTax(Long id, String name, int qty, int price, int tax);
+
+    List<InvoiceProduct> findAllByProductIdAndInvoiceInvoiceStatus(Long id, InvoiceStatus status);
+
+
 }

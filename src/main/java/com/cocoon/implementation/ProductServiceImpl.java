@@ -135,4 +135,5 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.getById(invoiceProductDTO.getProductDTO().getId());
         return product.getQty() >= invoiceProductDTO.getQty();
     }
+
 }
