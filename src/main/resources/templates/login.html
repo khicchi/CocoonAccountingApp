@@ -48,7 +48,7 @@
                                                     ACCOUNTING</p>
                                                     Login
                                                 </h4>
-                                                <p>Welcome back, please login to your account.</p>
+                                                <p>Welcome, please login to your account.</p>
                                                 <form th:action="@{/login}" method="post">
                                                     <input type="text" class="form-control mb-3" placeholder="Username" id="username"
                                                            name="username">
@@ -57,6 +57,7 @@
                                                     <div th:if="${param.error}" class="alert alert-danger">
                                                         Invalid username and password.
                                                     </div>
+
                                                     <div class="d-sm-flex justify-content-between mb-3 font-small-2">
                                                         <div class="remember-me mb-2 mb-sm-0">
                                                             <div class="checkbox auth-checkbox">

@@ -17,9 +17,5 @@ public interface UserService {
 
     void delete(Long id);
 
-    List<UserDTO> listAllUsersByCompanyId(Long id);
-
-    UserDTO findByEmail(String email) throws CocoonException;
-
 
 }
