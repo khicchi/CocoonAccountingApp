@@ -5,6 +5,7 @@ import com.cocoon.entity.Company;
 import com.cocoon.enums.InvoiceType;
 
 import java.util.List;
+import java.util.Map;
 
 public interface InvoiceService {
 
@@ -26,4 +27,7 @@ public interface InvoiceService {
 
     InvoiceDTO calculateInvoiceCost(InvoiceDTO currentDTO);
 
-    }
+    Map<String,Integer> calculateTotalProfitLoss();
+
+
+}

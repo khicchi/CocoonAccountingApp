@@ -26,7 +26,6 @@ public class Product extends BaseEntity implements Serializable {
     private String name;
     private String description;
     private int qty;
-    private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

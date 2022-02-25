@@ -1,6 +1,7 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.InvoiceDTO;
+import com.cocoon.dto.InvoiceProductDTO;
 import com.cocoon.dto.UserDTO;
 import com.cocoon.entity.Company;
 import com.cocoon.entity.Invoice;
@@ -8,7 +9,6 @@ import com.cocoon.entity.InvoiceProduct;
 import com.cocoon.entity.User;
 import com.cocoon.enums.InvoiceStatus;
 import com.cocoon.enums.InvoiceType;
-import com.cocoon.repository.CompanyRepo;
 import com.cocoon.repository.InvoiceProductRepo;
 import com.cocoon.repository.InvoiceRepository;
 import com.cocoon.service.InvoiceProductService;
@@ -19,9 +19,7 @@ import com.cocoon.util.MapperUtil;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -122,21 +120,65 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    public Map<String, Integer> calculateTotalProfitLoss() {
+
+        Map<String, Integer> map = new HashMap<>();
+
+        List<InvoiceDTO> saleInvoiceDTOS = getAllInvoicesByCompanyAndType(InvoiceType.SALE);
+        List<InvoiceDTO> approvedSaleInvoiceDTOS = saleInvoiceDTOS.stream().filter(obj -> obj.getInvoiceStatus()==InvoiceStatus.APPROVED).collect(Collectors.toList());
+        List<Set<InvoiceProductDTO>> allSoldInvoiceProducts = approvedSaleInvoiceDTOS.stream().map(obj -> invoiceProductService.getAllInvoiceProductsByInvoiceId(obj.getId())).collect(Collectors.toList());
+
+        List<InvoiceDTO> purchaseInvoices = getAllInvoicesByCompanyAndType(InvoiceType.PURCHASE);
+        List<Set<InvoiceProductDTO>> allPurchasedInvoiceProducts = purchaseInvoices.stream().map(obj -> invoiceProductService.getAllInvoiceProductsByInvoiceId(obj.getId())).collect(Collectors.toList());
+
+        int totalIncomeFromSoldProductsWithoutTax = allSoldInvoiceProducts.stream()
+                .mapToInt(this::calculateCostWithoutTax)
+                .sum();
+
+        int totalIncomeFromSoldProductsWithTax = allSoldInvoiceProducts.stream()
+                .mapToInt(this::calculateCostWithTax)
+                .sum();
+
+        int totalSpendForPurchasedProductsWithoutTax = allPurchasedInvoiceProducts.stream()
+                .mapToInt(this::calculateCostWithoutTax)
+                .sum();
+
+        int totalSpendForPurchasedProductsWithTax = allPurchasedInvoiceProducts.stream()
+                .mapToInt(this::calculateCostWithTax)
+                .sum();
+
+        map.put("totalCost", totalSpendForPurchasedProductsWithoutTax);
+        map.put("totalTax", totalSpendForPurchasedProductsWithTax - totalSpendForPurchasedProductsWithoutTax);
+        map.put("totalSales", totalIncomeFromSoldProductsWithTax);
+        map.put("totalEarning", totalIncomeFromSoldProductsWithTax - totalSpendForPurchasedProductsWithTax );
+
+        return map;
+    }
+
+    @Override
     public InvoiceDTO calculateInvoiceCost(InvoiceDTO currentDTO) {
 
-        Set<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAllByInvoiceId(currentDTO.getId());
-        int costWithoutTax = invoiceProducts.stream().mapToInt(obj->obj.getPrice() * obj.getQty()).sum();
+        Set<InvoiceProductDTO> invoiceProducts = invoiceProductService.getAllInvoiceProductsByInvoiceId(currentDTO.getId());
+        int costWithoutTax = calculateCostWithoutTax(invoiceProducts);
         currentDTO.setInvoiceCostWithoutTax(costWithoutTax);
-        int costWithTax = calculateTaxedCost(invoiceProducts);
+        int costWithTax = calculateCostWithTax(invoiceProducts);
         currentDTO.setTotalCost(costWithTax);
         currentDTO.setInvoiceCostWithTax(costWithTax - costWithoutTax);
 
         return currentDTO;
     }
 
-    private int calculateTaxedCost(Set<InvoiceProduct> products) {
+    private int calculateCostWithoutTax(Set<InvoiceProductDTO> products) {
         int result = 0;
-        for (InvoiceProduct product : products) {
+        for (InvoiceProductDTO product : products) {
+            result += (product.getPrice() * product.getQty());
+        }
+        return result;
+    }
+
+    private int calculateCostWithTax(Set<InvoiceProductDTO> products) {
+        int result = 0;
+        for (InvoiceProductDTO product : products) {
             result += (product.getPrice() * product.getQty()) + (product.getPrice() * product.getQty() * product.getTax() * 0.01);
         }
         return result;
@@ -148,4 +190,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         User user = mapperUtil.convert(userDTO, new User());
         return user.getCompany();
     }
+
+
 }

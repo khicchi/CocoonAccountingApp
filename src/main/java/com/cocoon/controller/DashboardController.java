@@ -32,6 +32,7 @@ public class DashboardController {
         List<InvoiceDTO> invoices = invoiceService.getAllInvoicesSorted();
         List<InvoiceDTO> updatedInvoices = invoices.stream().map(invoiceService::calculateInvoiceCost).collect(Collectors.toList());
         model.addAttribute("invoices", updatedInvoices);
+        model.addAttribute("result", invoiceService.calculateTotalProfitLoss());
 
         return "dashboard";
     }
