@@ -133,7 +133,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean validateProductQuantity(InvoiceProductDTO invoiceProductDTO) {
         Product product = productRepository.getById(invoiceProductDTO.getProductDTO().getId());
-        return product.getQty() >= invoiceProductDTO.getQty();
+        return (product.getQty() >= invoiceProductDTO.getQty()) || (product.getQty() - invoiceProductDTO.getQty()) < 0;
     }
 
 
