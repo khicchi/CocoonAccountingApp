@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/invoice/**").hasAnyAuthority("ADMIN", "MANAGER","EMPLOYEE")
                 .antMatchers("/report/**").hasAnyAuthority("ADMIN", "MANAGER")
                 .antMatchers("/payment/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/client-vendor/**").hasAnyAuthority("ADMIN", "MANAGER","EMPLOYEE")
+                .antMatchers("/dashboard").authenticated()
                 .antMatchers(
                         "/",
                         "/login",
