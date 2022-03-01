@@ -7,7 +7,7 @@ import javax.persistence.Converter;
 import java.util.stream.Stream;
 
 @Converter(autoApply = true)
-public class ActionTypeConverter implements AttributeConverter<ActionType, Long> {
+public class ActionTypeAttributeConverter implements AttributeConverter<ActionType, Long> {
     @Override
     public Long convertToDatabaseColumn(ActionType actionType) {
         if (actionType == null) return null;
