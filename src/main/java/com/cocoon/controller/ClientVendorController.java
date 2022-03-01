@@ -49,14 +49,14 @@ public class ClientVendorController {
 
     @ExecutionTimeLog()
     @PostMapping("/update/{id}")
-    public String updateCompany(ClientDTO vendorClientDto) throws CocoonException {
+    public String updateClientVendor(ClientDTO vendorClientDto) throws CocoonException {
         clientVendorService.update(vendorClientDto);
         return "redirect:/client-vendor/list";
     }
 
     @ExecutionTimeLog()
     @GetMapping("/delete/{id}")
-    public String deleteUser(ClientDTO vendorClientDto) throws CocoonException {
+    public String deleteClientVendor(ClientDTO vendorClientDto) throws CocoonException {
         clientVendorService.deleteClientVendor(vendorClientDto.getId());
         return "redirect:/client-vendor/list";
     }
