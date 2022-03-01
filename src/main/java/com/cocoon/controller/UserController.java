@@ -1,10 +1,7 @@
 package com.cocoon.controller;
 
-import com.cocoon.dto.CompanyDTO;
 import com.cocoon.dto.UserDTO;
 import com.cocoon.exception.CocoonException;
-import com.cocoon.repository.RoleRepo;
-import com.cocoon.repository.UserRepo;
 import com.cocoon.service.CompanyService;
 import com.cocoon.service.RoleService;
 import com.cocoon.service.UserService;
@@ -47,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("update/{id}")
-    public String updateUser(@PathVariable Long id, Model model) throws CocoonException {
+    public String getUpdatePage(@PathVariable Long id, Model model) throws CocoonException {
         UserDTO foundUser = userService.findById(id);
         model.addAttribute("userToEdit", foundUser);
         model.addAttribute("companies", companyService.getAllCompanies());
