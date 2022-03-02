@@ -63,26 +63,26 @@ public class UserLogServiceImpl implements UserLogService {
 
     private List<UserLog> retrieveAllLogs(LogSearchDTO parameters) throws CocoonException {
         if (parameters.getUser() != null && parameters.getActionType() != null) {
-            return userLogRepository.findAllByDateTimeBetweenAndActionTypeAndUser_Id(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getActionType(), parameters.getUser().getId());
+            return userLogRepository.findAllByDatesAndActionTypeAndUser(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getActionType(), parameters.getUser().getId());
         } else if (parameters.getUser() == null && parameters.getActionType() == null) {
-            return userLogRepository.findAllByDateTimeBetween(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59));
+            return userLogRepository.findAllByDates(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59));
         } else if (parameters.getUser() != null) {
-            return userLogRepository.findAllByDateTimeBetweenAndUser_Id(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getUser().getId());
+            return userLogRepository.findAllByDatesAndUser(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getUser().getId());
         } else if (parameters.getActionType() != null) {
-            return userLogRepository.findAllByDateTimeBetweenAndActionType(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getActionType());
+            return userLogRepository.findAllByDatesAndActionType(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getActionType());
         }
         throw new CocoonException("Insufficient parameter for log search");
     }
 
     private List<UserLog> retrieveCompanyLogs(LogSearchDTO parameters, Long companyId) throws CocoonException {
         if (parameters.getUser() != null && parameters.getActionType() != null) {
-            return userLogRepository.findAllByDateTimeBetweenAndActionTypeAndUserIdAndUserCompanyId(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getActionType(), parameters.getUser().getId(), companyId);
+            return userLogRepository.findCompanyLogsByDatesAndActionTypeAndUser(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getActionType(), parameters.getUser().getId(), companyId);
         } else if (parameters.getUser() == null && parameters.getActionType() == null) {
-            return userLogRepository.findAllByDateTimeBetweenAndUserCompanyId(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), companyId);
+            return userLogRepository.findCompanyLogsByDates(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), companyId);
         } else if (parameters.getUser() != null) {
-            return userLogRepository.findAllByDateTimeBetweenAndUserIdAndUserCompanyId(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getUser().getId(), companyId);
+            return userLogRepository.findCompanyLogsByDatesAndUser(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getUser().getId(), companyId);
         } else if (parameters.getActionType() != null) {
-            return userLogRepository.findAllByDateTimeBetweenAndActionTypeAndUserCompanyId(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getActionType(), companyId);
+            return userLogRepository.findCompanyLogsByDatesAndActionType(parameters.getStartDate().atStartOfDay(), parameters.getEndDate().atTime(23, 59), parameters.getActionType(), companyId);
         }
         throw new CocoonException("Insufficient parameter for log search");
     }
