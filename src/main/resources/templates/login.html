@@ -70,7 +70,18 @@
                                                     <div class="d-flex justify-content-between flex-sm-row flex-column">
                                                         <button type="submit" class="btn btn-primary">Login</button>
                                                     </div>
-                                                </form>
+                                                </form> 
+                                                <script>
+                                                    const input = document.getElementById("username");
+                                                    input.addEventListener("keyup", function(event) {
+                                                        if (event.keyCode === 13) {
+                                                            event.preventDefault();
+                                                            document.getElementByType("submit").click();
+                                                        }
+                                                    });
+                                                </script>
+
+
                                                 <hr>
                                             </div>
                                         </div>

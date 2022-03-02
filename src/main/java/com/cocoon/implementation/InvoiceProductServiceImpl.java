@@ -13,10 +13,7 @@ import com.cocoon.service.ProductService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,7 +101,11 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
         return totalQty + dto.getQty() <= productService.getProductById(dto.getProductDTO().getId()).getQty();
     }
 
-
+    @Override
+    public ArrayList<InvoiceProductDTO> getStockReportList() {
+        ArrayList<InvoiceProduct> products = (ArrayList<InvoiceProduct>) invoiceProductRepo.getStockReportListProducts();
+        return (ArrayList<InvoiceProductDTO>) products.stream().map(ip -> mapperUtil.convert(ip, new InvoiceProductDTO())).collect(Collectors.toList());
+    }
 
 
 }
