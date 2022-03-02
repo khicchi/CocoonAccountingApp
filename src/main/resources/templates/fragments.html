@@ -115,16 +115,18 @@
                             <li class="nav-item">
                                 <div class="logo"><a class="logo-text" th:href="@{/dashboard}" >
 
-                                    <span ><h3 style="color: #0b2e13">Dashboard</h3></span>
+                                    <span th:if="${companyName.getTitle}==null"><h3 style="color: #0b2e13" sec:authorize="hasAnyAuthority('ADMIN','MANAGER','EMPLOYEE')">Dashboard</h3></span>
 
-                                    <span ><h3 class="image-ruler login-page-title"></h3></span>
+                                    <span th:unless="${companyName.getTitle}==null"><h3 class="image-ruler login-page-title" sec:authorize="hasAnyAuthority('ADMIN','MANAGER','EMPLOYEE')"
+                                                                               th:text="${companyName.getTitle}"></h3></span>
                                 </a></div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="navbar-container main-menu-content center-layout" data-menu="menu-container">
+            <div class="navbar-container main-menu-content center-layout" data-menu="menu-container"
+                 sec:authorize="isAuthenticated()">
                 <ul class="navigation-main nav navbar-nav" data-menu="menu-navigation">
                     <li class="dropdown nav-item" data-menu="dropdown"><a
                             class="dropdown-toggle nav-link d-flex align-items-center" href="javascript:;"

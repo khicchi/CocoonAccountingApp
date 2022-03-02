@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/pdf/**").hasAnyAuthority("ROOT","ADMIN")
                 .antMatchers("/user/**").hasAnyAuthority("ROOT","ADMIN")
                 .antMatchers("/company/**").hasAuthority("ROOT")
                 .antMatchers("/category/**").hasAnyAuthority("ADMIN", "MANAGER","EMPLOYEE")
@@ -37,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/",
                         "/login",
+                        "/fragments",
                         "/images/**",
                         "/static/**",
                         "/html-template/**"

@@ -12,5 +12,4 @@ public interface CompanyRepo extends JpaRepository<Company, Long> {
 
     boolean existsByTitle(String title) throws CocoonException;
 
-
 }

@@ -23,5 +23,4 @@ public interface CompanyService {
     List<CompanyDTO> getAllCompanies();
 
     void save(CompanyDTO company) throws CocoonException;
-
 }
