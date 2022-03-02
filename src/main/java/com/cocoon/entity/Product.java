@@ -10,10 +10,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -46,7 +43,7 @@ public class Product extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
 
-//    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-//    private List<InvoiceProduct> invoiceProduct;
+    @OneToMany(mappedBy = "product")
+    private List<InvoiceProduct> invoiceProduct;
 
 }
