@@ -151,6 +151,5 @@ public class PdfGenerateController {
 
         // send with email
         emailSender.sendEmailWithAttachment(userPrincipal.getUsername(), "oltocoamazon@gmail.com", invoiceDTO.getInvoiceNumber(), "Your invoice ...", bytes);
-        System.out.println("hi");
     }
 }
