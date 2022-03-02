@@ -207,7 +207,7 @@ public class InvoiceController {
         model.addAttribute("invoice", updatedInvoiceDTO);
         model.addAttribute("invoiceProducts",invoiceProducts);
 
-        return "invoice/toInvoice";
+        return "invoice/invoiceprinted";
     }
 
 }
