@@ -6,10 +6,14 @@ import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.UserRepo;
 import com.cocoon.service.UserService;
 import com.cocoon.util.MapperUtil;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,6 +73,22 @@ public class UserServiceImpl implements UserService {
         User user = userRepo.findById(id).orElseThrow();
         user.setIsDeleted(true);
         userRepo.save(user);
+    }
+
+    @Override
+    public List<UserDTO> findAllUsersForLogging() {
+        List<User> allUsers = userRepo.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+
+        if (roles.contains("ROOT")) return allUsers.stream().map(obj -> mapperUtil.convert(obj, new UserDTO())).collect(Collectors.toList());
+        else if (roles.contains("ADMIN")){
+            User user = userRepo.findByEmail(authentication.getName());
+            return allUsers.stream().filter(o -> o.getCompany().getId().equals(user.getCompany().getId()))
+                    .map(obj -> mapperUtil.convert(obj, new UserDTO()))
+                    .collect(Collectors.toList());
+        }
+        else return null;
     }
 
 }
