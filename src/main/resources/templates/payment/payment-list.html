@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head">
+    <title>Sales Invoice List</title>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/ico/favicon.ico}">
+</head>
+
+<body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  navbar-sticky"
+      data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+    <div th:replace="fragments :: page_header"></div>
+    <div class="wrapper">
+    <div th:replace="fragments :: page_menu"></div>
+    <div class="main-panel">
+        <div class="main-content">
+            <div class="content-overlay"></div>
+            <div class="content-wrapper">
+                <section class="users-list-wrapper">
+                    <!-- ADD SALES INVOICE LINK BEGIN
+                    <div class="users-list-filter d-flex justify-content-end">
+                        <form action="#" th:object="${client}" method="get" th:action="@{/payment/create}">
+                            <div class="form-row" >
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="clientvendor">SELECT CLIENT</label>
+                                        <select th:field="*{id}" class="custom-select" required="required" id="clientvendor">
+                                            <option th:value=" ''" th:text="Select"></option>
+                                            <option th:each="client : ${clients}" th:value="${client.id}"
+                                                    th:text="${client.companyName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                            <label for="create">CREATE</label>
+                                            <button type="submit" name="action" value="createInvoice" id="create"
+                                                    class="btn btn-success bg-light-success mb-1"
+                                            >Invoice</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                     ADD SALES INVOICE LINK END -->
+                    <!-- LIST BEGIN -->
+                    <div class="users-list-table">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-content fw-container">
+                                        <div class="card-body fw-body">
+                                            <div class="table-responsive content demo-html">
+                                                <table id="example" class="table table-striped table-bordered file-export" style="width:100%">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Payment Month</th>
+                                                        <th>Payment Date</th>
+                                                        <th>Client</th>
+                                                        <th>Amount</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr th:each="payment : ${payments}">
+                                                            <td class="text-truncate" th:text="${payment}" ></td>
+                                                            <td class="text-truncate" th:text="${payment}"></td>
+                                                            <td class="text-truncate" th:text="${payment}"></td>
+                                                            <td class="text-truncate" th:text="${payment}"></td>
+                                                            <td>
+                                                                <form action="#"
+                                                                      method="post">
+                                                                    <a th:href="@{/payment}"
+                                                                       class="btn btn-info mb-2 mb-sm-0 mr-sm-2"
+                                                                       type="submit" name="action" value="toInvoice">To Invoice
+                                                                    </a>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- LIST END -->
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments :: page_footer"></footer>
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
+<script th:src="@{/js/dashboard2.js}"></script>
+<script th:src="@{/assets/js/scripts.js}"></script>
+</body>
+
+</html>
