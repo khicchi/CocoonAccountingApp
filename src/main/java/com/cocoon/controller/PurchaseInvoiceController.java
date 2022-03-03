@@ -178,8 +178,4 @@ public class PurchaseInvoiceController {
         return "redirect:/purchase-invoice/update/"+id;
     }
 
-    @ModelAttribute("company")
-    public String getCompanyName() {
-        return companyService.getCompanyByLoggedInUser().getTitle();
-    }
 }

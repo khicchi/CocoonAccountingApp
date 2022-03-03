@@ -88,11 +88,4 @@ public class ClientVendorController {
             return "clientvendor/client-vendor-add";
         }
     }
-
-    @ModelAttribute("company")
-    public String getCompanyName() {
-        return companyService.getCompanyByLoggedInUser().getTitle();
-    }
-
-
 }

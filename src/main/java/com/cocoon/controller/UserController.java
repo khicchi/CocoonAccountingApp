@@ -64,8 +64,4 @@ public class UserController {
         return "redirect:/user/list";
     }
 
-    @ModelAttribute("company")
-    public String getCompanyName() {
-        return companyService.getCompanyByLoggedInUser().getTitle();
-    }
 }

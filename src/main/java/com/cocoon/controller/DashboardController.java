@@ -37,9 +37,6 @@ public class DashboardController {
         return "dashboard";
     }
 
-    @ModelAttribute("company")
-    public String getCompanyName() {
-        return companyService.getCompanyByLoggedInUser().getTitle();
-    }
+
 
 }

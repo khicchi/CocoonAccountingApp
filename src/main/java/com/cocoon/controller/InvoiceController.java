@@ -210,9 +210,4 @@ public class InvoiceController {
         return "invoice/invoiceprinted";
     }
 
-    @ModelAttribute("company")
-    public String getCompanyName() {
-        return companyService.getCompanyByLoggedInUser().getTitle();
-    }
-
 }

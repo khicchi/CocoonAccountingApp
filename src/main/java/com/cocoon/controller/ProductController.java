@@ -73,10 +73,5 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
-    @ModelAttribute("company")
-    public String getCompanyName() {
-        return companyService.getCompanyByLoggedInUser().getTitle();
-    }
-
 
 }

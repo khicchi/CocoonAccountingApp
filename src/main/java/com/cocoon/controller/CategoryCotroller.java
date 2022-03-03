@@ -57,11 +57,4 @@ public class CategoryCotroller {
         return "redirect:/category/list";
     }
 
-    @ModelAttribute("company")
-    public String getCompanyName() {
-        return companyService.getCompanyByLoggedInUser().getTitle();
-    }
-
-
-
 }
