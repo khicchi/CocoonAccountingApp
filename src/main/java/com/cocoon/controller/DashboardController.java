@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/dashboard")
 public class DashboardController {
 
-     private  final    CompanyService companyService;
+     private  final CompanyService companyService;
     private final InvoiceService invoiceService;
 
     public DashboardController(CompanyService companyService, InvoiceService invoiceService) {
