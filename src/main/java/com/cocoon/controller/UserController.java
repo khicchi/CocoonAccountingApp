@@ -63,4 +63,9 @@ public class UserController {
         userService.delete(id);
         return "redirect:/user/list";
     }
+
+    @ModelAttribute("company")
+    public String getCompanyName() {
+        return companyService.getCompanyByLoggedInUser().getTitle();
+    }
 }

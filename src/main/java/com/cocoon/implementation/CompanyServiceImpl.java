@@ -4,6 +4,7 @@ import com.cocoon.dto.CompanyDTO;
 import com.cocoon.dto.UserDTO;
 import com.cocoon.entity.Company;
 import com.cocoon.entity.User;
+import com.cocoon.entity.common.UserPrincipal;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.CompanyRepo;
 import com.cocoon.service.CompanyService;

@@ -9,10 +9,7 @@ import com.cocoon.service.CompanyService;
 import com.cocoon.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/product")
@@ -20,11 +17,12 @@ public class ProductController {
 
     private ProductService productService;
     private CategoryService categoryService;
-    private CompanyService companyService;
+    private final CompanyService companyService;
 
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(ProductService productService, CategoryService categoryService, CompanyService companyService) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.companyService = companyService;
     }
 
     @GetMapping("/list")
@@ -73,6 +71,11 @@ public class ProductController {
         productService.deleteById(id);
 
         return "redirect:/product/list";
+    }
+
+    @ModelAttribute("company")
+    public String getCompanyName() {
+        return companyService.getCompanyByLoggedInUser().getTitle();
     }
 
 

@@ -1,5 +1,7 @@
 package com.cocoon.entity.common;
 
+import com.cocoon.dto.CompanyDTO;
+import com.cocoon.entity.Company;
 import com.cocoon.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -62,5 +64,9 @@ public class UserPrincipal implements UserDetails {
 
     public Long getId(){
         return this.user.getId();
+    }
+
+    public String getCompanyName(){
+        return this.user.getCompany().getTitle();
     }
 }

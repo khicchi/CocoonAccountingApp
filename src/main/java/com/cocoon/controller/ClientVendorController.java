@@ -6,15 +6,13 @@ import com.cocoon.entity.Client;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.StateRepo;
 import com.cocoon.service.ClientVendorService;
+import com.cocoon.service.CompanyService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/client-vendor")
@@ -23,11 +21,13 @@ public class ClientVendorController {
     ClientVendorService clientVendorService;
     private StateRepo stateRepo;
     private MapperUtil mapperUtil;
+    private final CompanyService companyService;
 
-    public ClientVendorController(ClientVendorService clientVendorService, StateRepo stateRepo, MapperUtil mapperUtil) {
+    public ClientVendorController(ClientVendorService clientVendorService, StateRepo stateRepo, MapperUtil mapperUtil, CompanyService companyService) {
         this.clientVendorService = clientVendorService;
         this.stateRepo = stateRepo;
         this.mapperUtil = mapperUtil;
+        this.companyService = companyService;
     }
 
     @ExecutionTimeLog()
@@ -88,4 +88,11 @@ public class ClientVendorController {
             return "clientvendor/client-vendor-add";
         }
     }
+
+    @ModelAttribute("company")
+    public String getCompanyName() {
+        return companyService.getCompanyByLoggedInUser().getTitle();
+    }
+
+
 }

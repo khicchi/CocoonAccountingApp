@@ -121,13 +121,13 @@
                 <div class="navbar-brand-center"  >
                     <div class="navbar-header">
                         <ul class="navbar-nav">
-                            <li class="nav-item" th:if="${company.getTitle}==null" sec:authorize="hasAnyAuthority('ADMIN','MANAGER','EMPLOYEE')">
+                            <li class="nav-item" th:if="${company}==null" sec:authorize="hasAnyAuthority('ADMIN','MANAGER','EMPLOYEE')">
                                 <div class="logo"><a class="logo-text" th:href="@{/dashboard}" >
                                     <span><h3 style="color: #0b2e13" >Dashboard</h3></span>
                                 </a></div>
                             </li>
                         </ul>
-                        <h3 class="navbar-text" th:unless="${company.getTitle}==null" th:text="${company.getTitle}" sec:authorize="hasAnyAuthority('ADMIN','MANAGER','EMPLOYEE')"></h3>
+                        <h3 class="navbar-text" th:unless="${company}==null" th:text="${company}" sec:authorize="hasAnyAuthority('ADMIN','MANAGER','EMPLOYEE')"></h3>
                     </div>
                 </div>
 

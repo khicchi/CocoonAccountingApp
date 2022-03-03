@@ -1,26 +1,23 @@
 package com.cocoon.controller;
 
 import com.cocoon.dto.CategoryDTO;
-import com.cocoon.dto.CompanyDTO;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.service.CategoryService;
+import com.cocoon.service.CompanyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/category")
 public class CategoryCotroller {
 
-    CategoryService categoryService;
+    private final CategoryService categoryService;
+    private final CompanyService companyService;
 
-    public CategoryCotroller(CategoryService categoryService) {
+    public CategoryCotroller(CategoryService categoryService, CompanyService companyService) {
         this.categoryService = categoryService;
+        this.companyService = companyService;
     }
 
 
@@ -59,5 +56,12 @@ public class CategoryCotroller {
         categoryService.delete(categoryDTO);
         return "redirect:/category/list";
     }
+
+    @ModelAttribute("company")
+    public String getCompanyName() {
+        return companyService.getCompanyByLoggedInUser().getTitle();
+    }
+
+
 
 }

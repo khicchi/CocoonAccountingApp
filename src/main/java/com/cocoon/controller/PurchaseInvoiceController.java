@@ -8,10 +8,7 @@ import com.cocoon.enums.InvoiceStatus;
 import com.cocoon.enums.InvoiceType;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.ClientVendorRepo;
-import com.cocoon.service.ClientVendorService;
-import com.cocoon.service.InvoiceProductService;
-import com.cocoon.service.InvoiceService;
-import com.cocoon.service.ProductService;
+import com.cocoon.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,13 +34,15 @@ public class PurchaseInvoiceController {
     private final InvoiceProductService invoiceProductService;
     private final ClientVendorService clientVendorService;
     private final ClientVendorRepo clientVendorRepo;
+    private final CompanyService companyService;
 
-    public PurchaseInvoiceController(InvoiceService invoiceService, ProductService productService, InvoiceProductService invoiceProductService, ClientVendorService clientVendorService, ClientVendorRepo clientVendorRepo) {
+    public PurchaseInvoiceController(InvoiceService invoiceService, ProductService productService, InvoiceProductService invoiceProductService, ClientVendorService clientVendorService, ClientVendorRepo clientVendorRepo, CompanyService companyService) {
         this.invoiceService = invoiceService;
         this.productService = productService;
         this.invoiceProductService = invoiceProductService;
         this.clientVendorService = clientVendorService;
         this.clientVendorRepo = clientVendorRepo;
+        this.companyService = companyService;
     }
 
     @GetMapping({"/list", "/list/{cancel}"})
@@ -179,4 +178,8 @@ public class PurchaseInvoiceController {
         return "redirect:/purchase-invoice/update/"+id;
     }
 
+    @ModelAttribute("company")
+    public String getCompanyName() {
+        return companyService.getCompanyByLoggedInUser().getTitle();
+    }
 }
