@@ -8,6 +8,7 @@ import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.ClientVendorRepo;
 import com.cocoon.repository.CompanyRepo;
 import com.cocoon.service.ClientVendorService;
+import com.cocoon.service.CompanyService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,14 @@ public class ClientVendorServiceImpl implements ClientVendorService {
     private ClientVendorRepo clientVendorRepo;
     private MapperUtil mapperUtil;
     private CompanyRepo companyRepo;
+    private CompanyService companyService;
 
-    public ClientVendorServiceImpl(ClientVendorRepo clientVendorRepo, MapperUtil mapperUtil, CompanyRepo companyRepo) {
+    public ClientVendorServiceImpl(ClientVendorRepo clientVendorRepo, MapperUtil mapperUtil,
+                                   CompanyRepo companyRepo, CompanyService companyService) {
         this.clientVendorRepo = clientVendorRepo;
         this.mapperUtil = mapperUtil;
         this.companyRepo = companyRepo;
+        this.companyService = companyService;
     }
 
     @Override
@@ -46,12 +50,8 @@ public class ClientVendorServiceImpl implements ClientVendorService {
         if (clientDTO.getAddress().length() > 254)
             throw new CocoonException("Address length should be lesser then 255");
 
-        //region todo we need companyId. This section will be updated at security implementation @kicchi
         Client toSave = mapperUtil.convert(clientDTO, new Client());
-        Company company = new Company();
-        company.setId(9L);
-        toSave.setCompany(company);
-        ///endregion
+        toSave.setCompany(mapperUtil.convert(companyService.getCompanyByLoggedInUser(), new Company()));
 
         Client savedClient = clientVendorRepo.save(toSave);
     }
@@ -73,8 +73,9 @@ public class ClientVendorServiceImpl implements ClientVendorService {
         if (clientDTO.getAddress().length() > 254)
             throw new CocoonException("Address length should be lesser then 255");
         Client updatedClient = mapperUtil.convert(clientDTO, new Client());
-        //region todo we need companyId. This section will be updated at security implementation
-        updatedClient.setCompany(companyRepo.getById(9L));
+
+        updatedClient.setCompany(mapperUtil.convert(companyService.getCompanyByLoggedInUser(), new Company()));
+
         Client savedClient = clientVendorRepo.save(updatedClient);
         return mapperUtil.convert(savedClient, new ClientDTO());
     }

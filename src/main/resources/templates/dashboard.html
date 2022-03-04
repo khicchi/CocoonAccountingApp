@@ -186,26 +186,26 @@
                                             <span><img th:src="@{/img/flags/usa.png}" class="flags"></span>
                                             <span>American Dollar</span>
                                             <span class="badge bg-light-primary float-right"
-                                                  ></span>
+                                                 th:text="${rates.USD}" ></span>
                                         </li>
                                         <li class="list-group-item">
                                             <span><img th:src="@{/img/flags/unitedkingdom.png}" class="flags"></span>
                                             <span>British Pound</span>
                                             <span class="badge bg-light-secondary float-right"
-                                                  ></span>
+                                                  th:text="${rates.GBP}" ></span>
                                         </li>
                                         <li class="list-group-item">
                                             <span><img th:src="@{/img/flags/russia.png}" class="flags"></span>
                                             <span>Russian Ruble</span>
                                             <span class="badge bg-light-warning float-right"
-                                                  ></span>
+                                                  th:text="${rates.RUB}" ></span>
                                         </li>
                                         <li class="list-group-item">
                                             <span><img th:src="@{/img/flags/japan.png}" class="flags"></span>
                                             <span>Japan Yen</span>
 
                                             <span class="badge bg-light-success float-right"
-                                                  ></span>
+                                                  th:text="${rates.JPY}" ></span>
                                         </li>
                                     </ul>
                                     <button type="button" class="btn btn-primary mr-2">Profile</button>

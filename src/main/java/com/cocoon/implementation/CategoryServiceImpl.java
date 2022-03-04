@@ -6,12 +6,15 @@ import com.cocoon.dto.ProductDTO;
 import com.cocoon.entity.Category;
 import com.cocoon.entity.Company;
 import com.cocoon.entity.Product;
+import com.cocoon.entity.common.UserPrincipal;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.CategoryRepo;
 import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.CategoryService;
+import com.cocoon.service.CompanyService;
 import com.cocoon.service.ProductService;
 import com.cocoon.util.MapperUtil;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +25,15 @@ public class CategoryServiceImpl implements CategoryService{
 
     private CategoryRepo categoryRepo;
     private MapperUtil mapperUtil;
- private ProductService productService;
+    private ProductService productService;
+    private CompanyService companyService;
 
-    public CategoryServiceImpl(CategoryRepo categoryRepo, MapperUtil mapperUtil, ProductService productService) {
+    public CategoryServiceImpl(CategoryRepo categoryRepo, MapperUtil mapperUtil,
+                               ProductService productService, CompanyService companyService) {
         this.categoryRepo = categoryRepo;
         this.mapperUtil = mapperUtil;
         this.productService = productService;
+        this.companyService = companyService;
     }
 
     @Override
@@ -42,10 +48,16 @@ public class CategoryServiceImpl implements CategoryService{
         if (categoryRepo.existsByDescription(category.getDescription()))
         throw new CocoonException("category is already exist");
         category.setEnabled(true);
-        CompanyDTO companyDTO=new CompanyDTO();
-        companyDTO.setId(8l);
-        Company company = mapperUtil.convert(companyDTO, new Company());
-        category.setCompany(company);//todo update with SecurityContext
+
+
+
+
+//        CompanyDTO companyDTO=new CompanyDTO();
+//        companyDTO.setId(8l);
+//        Company company = mapperUtil.convert(companyDTO, new Company());
+
+        category.setCompany(mapperUtil.convert(companyService.getCompanyByLoggedInUser(), new Company()));
+
         categoryRepo.save(category);
     }
 

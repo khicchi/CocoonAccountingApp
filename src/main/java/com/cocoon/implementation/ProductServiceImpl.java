@@ -1,12 +1,10 @@
 package com.cocoon.implementation;
 
+import com.cocoon.dto.CompanyDTO;
 import com.cocoon.dto.InvoiceDTO;
 import com.cocoon.dto.InvoiceProductDTO;
 import com.cocoon.dto.ProductDTO;
-import com.cocoon.entity.Category;
-import com.cocoon.entity.Invoice;
-import com.cocoon.entity.InvoiceProduct;
-import com.cocoon.entity.Product;
+import com.cocoon.entity.*;
 import com.cocoon.enums.InvoiceType;
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
@@ -14,6 +12,7 @@ import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.CompanyRepo;
 import com.cocoon.repository.InvoiceProductRepo;
 import com.cocoon.repository.ProductRepository;
+import com.cocoon.service.CompanyService;
 import com.cocoon.service.InvoiceService;
 import com.cocoon.service.ProductService;
 import com.cocoon.util.MapperUtil;
@@ -32,15 +31,14 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private InvoiceService invoiceService;
     private MapperUtil mapperUtil;
-    private CompanyRepo companyRepo;
+    private CompanyService companyService;
     private InvoiceProductRepo invoiceProductRepo;
 
-
-    public ProductServiceImpl(ProductRepository productRepository, @Lazy InvoiceService invoiceService, MapperUtil mapperUtil, CompanyRepo companyRepo, InvoiceProductRepo invoiceProductRepo) {
+    public ProductServiceImpl(ProductRepository productRepository, @Lazy InvoiceService invoiceService, MapperUtil mapperUtil, CompanyService companyService, @Lazy InvoiceProductRepo invoiceProductRepo) {
         this.productRepository = productRepository;
         this.invoiceService = invoiceService;
         this.mapperUtil = mapperUtil;
-        this.companyRepo = companyRepo;
+        this.companyService = companyService;
         this.invoiceProductRepo = invoiceProductRepo;
     }
 
@@ -54,7 +52,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO save(ProductDTO productDTO) {
         Product product = mapperUtil.convert(productDTO, new Product());
         product.setEnabled((byte) 1);
-        product.setCompany(companyRepo.findById(9L).get()); // TODO implementation after security
+        Company company = mapperUtil.convert(companyService.getCompanyByLoggedInUser(), new Company());
+        product.setCompany(company);
         productRepository.save(product);
         return mapperUtil.convert(product, new ProductDTO());
     }
@@ -75,7 +74,8 @@ public class ProductServiceImpl implements ProductService {
         Product convertedProduct = mapperUtil.convert(productDTO, new Product());
         convertedProduct.setId(product.get().getId());
         convertedProduct.setEnabled(product.get().getEnabled());
-        convertedProduct.setCompany(companyRepo.findById(9L).get()); // TODO implementation after security
+        Company company = mapperUtil.convert(companyService.getCompanyByLoggedInUser(), new Company());
+        convertedProduct.setCompany(company);
         productRepository.save(convertedProduct);
     }
 
