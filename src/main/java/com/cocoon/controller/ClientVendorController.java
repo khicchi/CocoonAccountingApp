@@ -14,6 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Controller
 @RequestMapping("/client-vendor")
 public class ClientVendorController {
@@ -87,5 +92,13 @@ public class ClientVendorController {
             model.addAttribute("states", stateRepo.findAll());
             return "clientvendor/client-vendor-add";
         }
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        model.addAttribute("date", new Date());
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("localDate", LocalDate.now());
+        model.addAttribute("java8Instant", Instant.now());
     }
 }

@@ -11,6 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -37,8 +42,6 @@ public class ProductController {
         model.addAttribute("productStatus", ProductStatus.values());
         model.addAttribute("unit", Unit.values());
         model.addAttribute("categories", categoryService.getAllCategories());
-        // TODO @otto There should be an attribute to call user's company, this has to be done after security portion
-        // TODO @otto Just manager can add product according to picture in SRS.
         return "product/product-add";
     }
 
@@ -71,6 +74,14 @@ public class ProductController {
         productService.deleteById(id);
 
         return "redirect:/product/list";
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        model.addAttribute("date", new Date());
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("localDate", LocalDate.now());
+        model.addAttribute("java8Instant", Instant.now());
     }
 
 

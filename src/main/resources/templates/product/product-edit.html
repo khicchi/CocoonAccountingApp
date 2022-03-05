@@ -55,18 +55,6 @@
                                                 <form novalidate th:method="post" th:action="@{/product/update/{id}(id=${product.id})}" th:object="${product}" >
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
-                                                            <div class="form-group">
-                                                                <div class="controls">
-                                                                    <label for="company-name">Company Name</label>
-                                                                    <select disabled id="company-name"
-                                                                            class="form-control">
-
-                                                                        <option
-                                                                        ></option>
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
 
                                                             <div class="form-group">
                                                                 <div class="controls">
@@ -76,19 +64,7 @@
                                                                            placeholder="Product Name"
                                                                            value="" required
                                                                            aria-invalid="false"
-                                                                           th:field="*{name}"
-                                                                           >
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <div class="controls">
-                                                                    <label for="quantity">Quantity</label>
-                                                                    <input type="number" min="0" id="quantity"
-                                                                           class="form-control"
-                                                                           placeholder="Quantity"
-                                                                           value="" required aria-invalid="false"
-                                                                           th:field="*{qty}"
-                                                                           >
+                                                                           th:field="*{name}">
                                                                 </div>
                                                             </div>
 
@@ -101,6 +77,29 @@
                                                                         <option th:each="eachStatus : ${productStatuses}" th:value="${eachStatus}" th:text="${eachStatus.getValue()}"></option>
 
                                                                     </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="controls">
+                                                                    <label for="quantity">Quantity</label>
+                                                                    <input type="number" min="0" id="quantity"
+                                                                           class="form-control"
+                                                                           placeholder="Quantity"
+                                                                           value="" required aria-invalid="false"
+                                                                           th:field="*{qty}">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="controls">
+                                                                    <label for="product-low-limit">Low limit
+                                                                        Alert</label>
+                                                                    <input type="number" min="0" id="product-low-limit"
+                                                                           class="form-control"
+                                                                           placeholder="Quantity for low limit Alert"
+                                                                           required
+                                                                           th:field="*{lowLimitAlert}">
                                                                 </div>
                                                             </div>
 
@@ -126,8 +125,7 @@
                                                                            class="form-control"
                                                                            placeholder="Ex: Home product, Kitchen Tools "
                                                                            required
-                                                                           th:field="*{description}"
-                                                                           >
+                                                                           th:field="*{description}">
                                                                 </div>
                                                             </div>
 
@@ -142,19 +140,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <div class="controls">
-                                                                    <label for="product-low-limit">Low limit
-                                                                        Alert</label>
-                                                                    <input type="number" min="0" id="product-low-limit"
-                                                                           class="form-control"
-                                                                           placeholder="Quantity for low limit Alert"
-                                                                           required
-                                                                           th:field="*{lowLimitAlert}"
 
-                                                                    >
-                                                                </div>
-                                                            </div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-6 mt-sm-4">
 
                                                                 <form action="#" th:object="${product}" method="post">
