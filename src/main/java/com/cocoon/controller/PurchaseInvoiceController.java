@@ -13,8 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -176,6 +179,14 @@ public class PurchaseInvoiceController {
         Predicate<InvoiceProductDTO> selectedProductFinder = (obj) -> (""+obj.getName() + obj.getPrice() + obj.getQty() + obj.getTax()).equals(name);
         selectedInvoiceProducts.stream().filter(selectedProductFinder).forEach(obj -> deletedInvoiceProducts.add(obj));
         return "redirect:/purchase-invoice/update/"+id;
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        model.addAttribute("date", new Date());
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("localDate", LocalDate.now());
+        model.addAttribute("java8Instant", Instant.now());
     }
 
 }

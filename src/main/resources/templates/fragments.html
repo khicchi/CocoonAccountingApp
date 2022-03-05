@@ -118,9 +118,15 @@
                             class="ft-maximize font-medium-3"></i></a></li>
 
                 </ul>
-                <div class="navbar-brand-center"  >
+                <div class="navbar-brand-center">
                     <div class="navbar-header">
-                        <h3 class="navbar-text mr-1" th:text="${#authentication.getPrincipal().getUser().getCompany().getTitle()}" sec:authentication="principal.user.company.title" sec:authorize="hasAnyAuthority('ADMIN','MANAGER','EMPLOYEE')"></h3>
+                        <a th:href="@{/dashboard}">
+                            <h3 class="navbar-text mr-1"
+                                th:text="${#authentication.getPrincipal().getUser().getCompany().getTitle()}"
+                                sec:authentication="principal.user.company.title"
+                                sec:authorize="hasAnyAuthority('ADMIN','MANAGER','EMPLOYEE')">
+                            </h3>
+                        </a>
                     </div>
                 </div>
 
@@ -250,7 +256,7 @@
                     data-toggle="dropdown"><i class="ft-archive"></i><span data-i18n="Components">Administration</span></a>
                 <ul class="dropdown-menu">
 
-                    <li data-menu=""><a th:href="@{/payment/list}" class="dropdown-item d-flex align-items-center"
+                    <li data-menu=""><a th:href="@{/payment/list(year=${#temporals.year(localDateTime)})}"  class="dropdown-item d-flex align-items-center"
                                         data-toggle="dropdown"><i class="ft-arrow-right submenu-icon"></i><span
                             data-i18n="Grid">MemberShip Payment</span></a>
                     </li>
