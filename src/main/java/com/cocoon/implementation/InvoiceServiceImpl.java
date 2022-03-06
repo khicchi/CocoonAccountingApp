@@ -46,7 +46,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setInvoiceStatus(invoice.getInvoiceType().equals(InvoiceType.SALE) ? InvoiceStatus.PENDING : InvoiceStatus.APPROVED);
         invoice.setEnabled((byte) 1);
         invoice.setCompany(getCompanyByLoggedInUser());
-        Invoice savedInvoice = invoiceRepository.save(invoice);// TODO implementation a taşı...
+        Invoice savedInvoice = invoiceRepository.save(invoice);
         InvoiceDTO savedInvoiceDTO = mapperUtil.convert(savedInvoice, new InvoiceDTO());
         dto.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoiceDTO));
         invoiceProductService.save(dto.getInvoiceProduct());

@@ -23,6 +23,10 @@ public class Payment extends BaseEntity implements Serializable {
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @ManyToOne
+    @JoinColumn(name = "institution_id")
+    private Institution institution;
+
     @Enumerated(EnumType.STRING)
     private Months month;
 

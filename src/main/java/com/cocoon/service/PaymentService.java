@@ -9,5 +9,8 @@ public interface PaymentService {
 
     List<PaymentDTO> getAllPaymentsByYear(int year);
     void createPaymentsIfNotExist(int year);
+    PaymentDTO getPaymentById(Long id);
+
+    PaymentDTO updatePayment(PaymentDTO paymentDTO);
 
 }

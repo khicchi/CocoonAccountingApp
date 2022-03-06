@@ -1,9 +1,11 @@
 package com.cocoon.controller;
 
 import com.cocoon.dto.PaymentDTO;
-import com.cocoon.entity.Payment;
-import com.cocoon.enums.Months;
+import com.cocoon.service.InstitutionService;
 import com.cocoon.service.PaymentService;
+import com.cocoon.util.payment.GetInstitutions;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +13,23 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("/payment")
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final InstitutionService institutionService;
 
-    public PaymentController(PaymentService paymentService) {
+    public PaymentController(PaymentService paymentService, InstitutionService institutionService) {
         this.paymentService = paymentService;
+        this.institutionService = institutionService;
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void getInstitutionsAfterStartUp() {
+
     }
 
 
@@ -38,6 +43,28 @@ public class PaymentController {
         return "payment/payment-list";
     }
 
+
+    @GetMapping("/newpayment/{id}")
+    public String selectInstitution(@PathVariable("id") Long id, Model model){
+
+        //institutionService.saveIfNotExist(GetInstitutions.institutions);
+        model.addAttribute("institutions", institutionService.getAllInstitutions());
+        model.addAttribute("payment", paymentService.getPaymentById(id));
+
+        return "payment/payment-method";
+    }
+
+    @PostMapping("/newpayment")
+    public String selectInstitutionPost(PaymentDTO paymentDTO){
+        paymentService.updatePayment(paymentDTO);
+
+        return "redirect:/payment/list";
+    }
+//
+//    @PostMapping("/newpayment/{consentId}")
+//
+//    @GetMapping("/newpayment/complete")*/
+
     @ModelAttribute
     public void addAttributes(Model model) {
         model.addAttribute("date", new Date());
@@ -45,14 +72,6 @@ public class PaymentController {
         model.addAttribute("localDate", LocalDate.now());
         model.addAttribute("java8Instant", Instant.now());
     }
-
-//    @GetMapping("/newpayment/{id}")
-//
-//    @PostMapping("/newpayment/{consentId}")
-//
-//    @GetMapping("/newpayment/complete")*/
-
-
 
 
 }
