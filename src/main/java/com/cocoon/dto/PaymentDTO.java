@@ -1,11 +1,11 @@
 package com.cocoon.dto;
 
-import com.cocoon.entity.payment.Institution;
 import com.cocoon.enums.Months;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import yapily.sdk.Institution;
 
 import java.time.LocalDate;
 import java.time.Month;

@@ -4,10 +4,10 @@ public class Constants {
     /**
      * Yapily Auth API url and parameters
      */
-    public static final String PARAMETER_INSTITUTION_ID = "aibgb-sandbox";
+    public static final String PARAMETER_INSTITUTION_ID = "lloyds-sandbox";
     public static final String PARAMETER_APPLICATION_ID = "86e3ffea-61d8-4149-966c-3f321bebaa12";
     public static final String PARAMETER_USER_ID = "f5199cea-b807-494c-9c5f-bcc5f1204b0b";
-    public static final String PARAMETER_CALLBACK_URL = "https://display-parameters.com/";
+    public static final String PARAMETER_CALLBACK_URL = "http://127.0.0.1:8080/payment/list";
 
     /**
      * A default user all examples will run with
@@ -31,6 +31,6 @@ public class Constants {
      * Provide your callback URL to redirect the customer back to, following the institution's
      * authorisation
      */
-    public static final String CALLBACK_URL = "https://display-parameters.com/";
+    public static final String CALLBACK_URL = "http://127.0.0.1:8080/payment/list";
 
 }

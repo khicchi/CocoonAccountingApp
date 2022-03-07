@@ -15,7 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import yapily.ApiException;
+import yapily.sdk.Institution;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -65,10 +68,11 @@ public class PaymentController {
     }
 
     @PostMapping("/newpayment/{id}")
-    public String selectInstitutionPost(@PathVariable("id") Long id, PaymentDTO paymentDTO){
+    public String selectInstitutionPost(@PathVariable("id") Long id, PaymentDTO paymentDTO) throws ApiException, URISyntaxException, IOException {
 
         PaymentDTO convertedPaymentDto = paymentService.getPaymentById(id);
         convertedPaymentDto.setInstitution(paymentDTO.getInstitution());
+        paymentService.makePaymentWithSelectedInstitution(paymentDTO.getInstitution().getId());
         paymentService.updatePayment(convertedPaymentDto);
 
         return "redirect:/payment/list";
