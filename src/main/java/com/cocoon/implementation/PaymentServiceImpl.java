@@ -77,6 +77,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         Payment payment = paymentRepository.getById(paymentDTO.getId());
         payment.setInstitution(mapperUtil.convert(paymentDTO.getInstitution(), new Institution()));
+        payment.setPaid(true);
         return mapperUtil.convert(paymentRepository.save(payment), new PaymentDTO());
     }
 

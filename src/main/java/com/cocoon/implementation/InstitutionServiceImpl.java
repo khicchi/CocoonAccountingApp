@@ -6,11 +6,17 @@ import com.cocoon.entity.payment.InstitutionResponse;
 import com.cocoon.repository.InstitutionsRepo;
 import com.cocoon.service.InstitutionService;
 import com.cocoon.util.MapperUtil;
+import com.cocoon.util.payment.ApiClientUtils;
+import com.cocoon.util.payment.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import yapily.ApiClient;
+import yapily.ApiException;
+import yapily.auth.HttpBasicAuth;
+import yapily.sdk.InstitutionsApi;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -79,6 +85,14 @@ public class InstitutionServiceImpl implements InstitutionService {
         saveIfNotExist(result);
 
         return result;
+    }
 
+    @Override
+    public List<yapily.sdk.Institution> getInstitutionsFromApi() throws ApiException {
+
+        InstitutionsApi institutionsApi = new InstitutionsApi();
+        institutionsApi.setApiClient(ApiClientUtils.basicAuth());
+
+        return institutionsApi.getInstitutionsUsingGET("").getData();
     }
 }

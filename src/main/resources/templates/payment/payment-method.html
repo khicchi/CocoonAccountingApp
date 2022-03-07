@@ -35,7 +35,7 @@
                                                     Payment Method</p>
                                                 </h4>
                                                 <p>Please select your prefered payment method.</p>
-                                                <form th:object="${payment}" th:action="@{/payment/newpayment}" method="post">
+                                                <form th:object="${payment}" th:action="@{/payment/newpayment/{id}(id=${payment.id})}" method="post">
                                                     <div class="form-group mb-1">
                                                         <select th:field="*{institution}" class="custom-select" required="required" id="clientvendor">
                                                             <option th:value=" ''" th:text="Select"></option>

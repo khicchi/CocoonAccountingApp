@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
+import yapily.ApiException;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ import java.util.Map;
 public class PaymentController {
 
     private WebClient webClient = WebClient.builder().baseUrl("https://api.yapily.com").build();
+    private int selectedYear;
     private final PaymentService paymentService;
     private final InstitutionService institutionService;
 
@@ -45,27 +47,29 @@ public class PaymentController {
     @GetMapping({"/list", "/list/{year}"})
     public String createPayment(@RequestParam(value = "year", required = false) String selectedYear, Model model) {
 
-        int year = (selectedYear == null) ? LocalDate.now().getYear() : Integer.parseInt(selectedYear);
-        paymentService.createPaymentsIfNotExist(year);
-        model.addAttribute("payments",paymentService.getAllPaymentsByYear(year));
-        model.addAttribute("year", selectedYear);
+        this.selectedYear = (selectedYear == null || selectedYear.isEmpty()) ? LocalDate.now().getYear() : Integer.parseInt(selectedYear);
+        paymentService.createPaymentsIfNotExist(this.selectedYear);
+        model.addAttribute("payments",paymentService.getAllPaymentsByYear(this.selectedYear));
+        model.addAttribute("year", this.selectedYear);
         return "payment/payment-list";
     }
 
 
     @GetMapping("/newpayment/{id}")
-    public String selectInstitution(@PathVariable("id") Long id, Model model){
+    public String selectInstitution(@PathVariable("id") Long id, Model model) throws ApiException {
 
-        //institutionService.saveIfNotExist(GetInstitutions.institutions);
-        model.addAttribute("institutions", institutionService.getAllInstitutions());
+        model.addAttribute("institutions", institutionService.getInstitutionsFromApi());
         model.addAttribute("payment", paymentService.getPaymentById(id));
 
         return "payment/payment-method";
     }
 
-    @PostMapping("/newpayment")
-    public String selectInstitutionPost(PaymentDTO paymentDTO){
-        paymentService.updatePayment(paymentDTO);
+    @PostMapping("/newpayment/{id}")
+    public String selectInstitutionPost(@PathVariable("id") Long id, PaymentDTO paymentDTO){
+
+        PaymentDTO convertedPaymentDto = paymentService.getPaymentById(id);
+        convertedPaymentDto.setInstitution(paymentDTO.getInstitution());
+        paymentService.updatePayment(convertedPaymentDto);
 
         return "redirect:/payment/list";
     }
