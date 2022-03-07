@@ -44,18 +44,11 @@ public class InstitutionServiceImpl implements InstitutionService {
     @Override
     public List<InstitutionDTO> saveIfNotExist(List<String> institutionNames) {
 
-        Set<String> institutionSet = new HashSet<>(institutionNames);
-        List<Institution> institutions = institutionsRepo.findAll();
-        if (institutions.size() > 0){
-            institutions.stream()
-                    .peek(obj -> obj.setIsDeleted(true))
-                    .map(Institution::getName)
-                    .forEach(institutionSet::add);
-        }
+        institutionNames.stream()
+                .filter(name -> !name.equalsIgnoreCase(institutionsRepo.findDistinctByName(name).getName()))
+                .forEach(name1 -> institutionsRepo.save(new Institution(name1)));
 
-        return institutionSet.stream()
-                .map(Institution::new)
-                .peek(institutionsRepo::save)
+        return institutionsRepo.findAll().stream()
                 .map(obj -> mapperUtil.convert(obj, new InstitutionDTO()))
                 .collect(Collectors.toList());
     }
@@ -85,8 +78,9 @@ public class InstitutionServiceImpl implements InstitutionService {
                 .map(InstitutionResponse::getData)
                 .forEach(obj -> obj.stream()
                         .map(Institution::getName)
-                        .peek(obj1 -> institutionsRepo.save(new Institution(obj1)))
                         .forEach(result::add));
+
+        saveIfNotExist(result);
 
         return result;
 

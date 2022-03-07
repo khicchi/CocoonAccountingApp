@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InstitutionsRepo extends JpaRepository<Institution, Long> {
+
+    Institution findDistinctByName(String name);
 }
