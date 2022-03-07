@@ -37,7 +37,7 @@
                                                 <p>Please select your prefered payment method.</p>
                                                 <form th:object="${payment}" th:action="@{/payment/newpayment}" method="post">
                                                     <div class="form-group mb-1">
-                                                        <select th:field="*{id}" class="custom-select" required="required" id="clientvendor">
+                                                        <select th:field="*{institution}" class="custom-select" required="required" id="clientvendor">
                                                             <option th:value=" ''" th:text="Select"></option>
                                                             <option th:each="institude : ${institutions}" th:value="${institude.id}"
                                                                     th:text="${institude.name}"></option>
@@ -46,7 +46,7 @@
                                                     <div class="d-sm-flex justify-content-between mb-3 font-small-2">
                                                         <div class="remember-me mb-2 mb-sm-0">
                                                             <div class="checkbox auth-checkbox">
-                                                                <input type="checkbox" id="auth-ligin"
+                                                                <input type="checkbox" id="auth-ligin" class="mb-1"
                                                                        name="remember-me">
                                                                 <label for="auth-ligin"><span>Remember My Choice</span></label>
                                                             </div>

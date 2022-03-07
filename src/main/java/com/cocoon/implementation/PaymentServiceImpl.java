@@ -4,6 +4,7 @@ import com.cocoon.dto.CompanyDTO;
 import com.cocoon.dto.PaymentDTO;
 import com.cocoon.entity.Company;
 import com.cocoon.entity.Payment;
+import com.cocoon.entity.payment.Institution;
 import com.cocoon.enums.Months;
 import com.cocoon.repository.PaymentRepository;
 import com.cocoon.service.CompanyService;
@@ -75,7 +76,7 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDTO updatePayment(PaymentDTO paymentDTO) {
 
         Payment payment = paymentRepository.getById(paymentDTO.getId());
-        payment.setInstitution(payment.getInstitution());
+        payment.setInstitution(mapperUtil.convert(paymentDTO.getInstitution(), new Institution()));
         return mapperUtil.convert(paymentRepository.save(payment), new PaymentDTO());
     }
 

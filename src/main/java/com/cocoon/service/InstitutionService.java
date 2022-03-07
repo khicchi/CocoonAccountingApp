@@ -9,7 +9,7 @@ public interface InstitutionService {
 
     List<InstitutionDTO> getAllInstitutions();
 
-    InstitutionDTO getInstitutionById(Long id);
+    InstitutionDTO getInstitutionById(String id);
 
     List<InstitutionDTO> saveIfNotExist(List<String> names);
 

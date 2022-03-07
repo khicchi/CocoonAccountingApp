@@ -35,7 +35,7 @@ public class InstitutionServiceImpl implements InstitutionService {
     }
 
     @Override
-    public InstitutionDTO getInstitutionById(Long id) {
+    public InstitutionDTO getInstitutionById(String id) {
         Institution institution = institutionsRepo.getById(id);
         return mapperUtil.convert(institution, new InstitutionDTO());
     }
@@ -69,9 +69,6 @@ public class InstitutionServiceImpl implements InstitutionService {
                 .header("Authorization", "Basic ODZlM2ZmZWEtNjFkOC00MTQ5LTk2NmMtM2YzMjFiZWJhYTEyOmZkYTdkZGFlLTE5OWEtNDM3ZS1iMTRkLTI2ZmRjNGI2MmU4Nw==")
                 .retrieve()
                 .bodyToFlux(InstitutionResponse.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-
 
         response.toStream()
                 .map(InstitutionResponse::getData)

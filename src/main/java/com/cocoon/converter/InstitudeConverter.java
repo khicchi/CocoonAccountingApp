@@ -21,6 +21,6 @@ public class InstitudeConverter implements Converter<String, InstitutionDTO> {
     @Override
     public InstitutionDTO convert(String id) {
         if (id.equals("")) return null;
-        return institutionService.getInstitutionById(Long.parseLong(id));
+        return institutionService.getInstitutionById(id);
     }
 }

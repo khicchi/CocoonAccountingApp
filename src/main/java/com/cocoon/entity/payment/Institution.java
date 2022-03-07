@@ -15,13 +15,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Where(clause = "is_deleted=false")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer", "id"},ignoreUnknown = true)
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"},ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Institution {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String name;
     private Boolean isDeleted=false;
