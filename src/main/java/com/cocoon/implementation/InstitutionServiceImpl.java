@@ -1,8 +1,8 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.InstitutionDTO;
-import com.cocoon.entity.Institution;
-import com.cocoon.entity.InstitutionResponse;
+import com.cocoon.entity.payment.Institution;
+import com.cocoon.entity.payment.InstitutionResponse;
 import com.cocoon.repository.InstitutionsRepo;
 import com.cocoon.service.InstitutionService;
 import com.cocoon.util.MapperUtil;
@@ -14,7 +14,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class InstitutionServiceImpl implements InstitutionService {

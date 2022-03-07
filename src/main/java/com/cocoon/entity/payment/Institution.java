@@ -1,4 +1,4 @@
-package com.cocoon.entity;
+package com.cocoon.entity.payment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

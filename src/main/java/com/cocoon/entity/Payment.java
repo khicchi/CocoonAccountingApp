@@ -1,5 +1,6 @@
 package com.cocoon.entity;
 
+import com.cocoon.entity.payment.Institution;
 import com.cocoon.enums.Months;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,6 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.Month;
 
 @Entity
 @NoArgsConstructor

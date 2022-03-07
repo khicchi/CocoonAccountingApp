@@ -1,31 +1,18 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.CompanyDTO;
-import com.cocoon.dto.InstitutionDTO;
 import com.cocoon.dto.PaymentDTO;
 import com.cocoon.entity.Company;
-import com.cocoon.entity.Institution;
 import com.cocoon.entity.Payment;
 import com.cocoon.enums.Months;
 import com.cocoon.repository.PaymentRepository;
 import com.cocoon.service.CompanyService;
 import com.cocoon.service.PaymentService;
 import com.cocoon.util.MapperUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
