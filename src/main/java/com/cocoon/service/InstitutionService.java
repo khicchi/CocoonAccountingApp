@@ -1,9 +1,9 @@
 package com.cocoon.service;
 
 import com.cocoon.dto.InstitutionDTO;
-import com.cocoon.entity.Institution;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface InstitutionService {
 
@@ -14,4 +14,6 @@ public interface InstitutionService {
     List<InstitutionDTO> saveIfNotExist(List<String> names);
 
     InstitutionDTO save(InstitutionDTO institutionDTO);
+
+    List<String> getInstitutionsAtStartUp();
 }

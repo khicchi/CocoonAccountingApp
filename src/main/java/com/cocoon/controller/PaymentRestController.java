@@ -1,12 +1,15 @@
 package com.cocoon.controller;
 
 import com.cocoon.util.payment_old_one.Payment;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 @RestController
 public class PaymentRestController {
@@ -41,13 +44,14 @@ public class PaymentRestController {
     }
 
     @GetMapping("/institutions")
-    public Flux<Object> readMonoWithInstitutions(){
+    public Map<String,String> readMonoWithInstitutions(){
         return webClient
                 .get()
                 .uri("/institutions")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header("Authorization", "Basic ODZlM2ZmZWEtNjFkOC00MTQ5LTk2NmMtM2YzMjFiZWJhYTEyOmZkYTdkZGFlLTE5OWEtNDM3ZS1iMTRkLTI2ZmRjNGI2MmU4Nw==")
                 .retrieve()
-                .bodyToFlux(Object.class);
+                .bodyToFlux(new ParameterizedTypeReference<Map<String,String>>(){})
+                .blockFirst();
     }
 }
