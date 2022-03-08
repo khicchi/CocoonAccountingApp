@@ -11,13 +11,17 @@ import com.cocoon.service.CompanyService;
 import com.cocoon.service.UserService;
 import com.cocoon.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,12 +87,18 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepo.delete(companyRepo.getById(companyDTO.getId()));
     }
 
-
     @Override
     public List<CompanyDTO> getAllCompanies() {
-        List<Company> companyList = companyRepo.findAll();
-        return companyList.stream().map(company ->
-                mapperUtil.convert(company, new CompanyDTO())).collect(Collectors.toList());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+
+        if (roles.contains("ROOT")) {
+            List<Company> companyList = companyRepo.findAll();
+            return companyList.stream().map(company ->
+                    mapperUtil.convert(company, new CompanyDTO())).collect(Collectors.toList());
+        } else {
+            return Collections.singletonList(getCompanyByLoggedInUser());
+        }
     }
 
     @Override

@@ -1,12 +1,12 @@
 package com.cocoon.implementation;
 
 import com.cocoon.dto.ClientDTO;
+import com.cocoon.dto.CompanyDTO;
 import com.cocoon.entity.Client;
 import com.cocoon.entity.Company;
 import com.cocoon.enums.CompanyType;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.ClientVendorRepo;
-import com.cocoon.repository.CompanyRepo;
 import com.cocoon.service.ClientVendorService;
 import com.cocoon.service.CompanyService;
 import com.cocoon.util.MapperUtil;
@@ -20,27 +20,19 @@ public class ClientVendorServiceImpl implements ClientVendorService {
 
     private ClientVendorRepo clientVendorRepo;
     private MapperUtil mapperUtil;
-    private CompanyRepo companyRepo;
     private CompanyService companyService;
 
-    public ClientVendorServiceImpl(ClientVendorRepo clientVendorRepo, MapperUtil mapperUtil,
-                                   CompanyRepo companyRepo, CompanyService companyService) {
+    public ClientVendorServiceImpl(ClientVendorRepo clientVendorRepo, MapperUtil mapperUtil, CompanyService companyService) {
         this.clientVendorRepo = clientVendorRepo;
         this.mapperUtil = mapperUtil;
-        this.companyRepo = companyRepo;
         this.companyService = companyService;
     }
 
     @Override
-    public List<ClientDTO> getAllClientsVendors() {
-        List<Client> list = clientVendorRepo.findAll();
-        return list.stream().map(client -> mapperUtil.convert(client, new ClientDTO())).collect(Collectors.toList());
-    }
-
-    @Override
     public void save(ClientDTO clientDTO) throws CocoonException {
+        CompanyDTO userCompany = companyService.getCompanyByLoggedInUser();
         //if same client name already exists in client_vendor table an exception is thrown
-        if (clientVendorRepo.existsByCompanyNameAndCompanyId(clientDTO.getCompanyName(), 9L))
+        if (clientVendorRepo.existsByCompanyNameAndCompanyId(clientDTO.getCompanyName(), userCompany.getId()))
             throw new CocoonException("A company with the same name exists.");
 
         //when a client is saved it is assumed that it's status is enabled
@@ -51,20 +43,20 @@ public class ClientVendorServiceImpl implements ClientVendorService {
             throw new CocoonException("Address length should be lesser then 255");
 
         Client toSave = mapperUtil.convert(clientDTO, new Client());
-        toSave.setCompany(mapperUtil.convert(companyService.getCompanyByLoggedInUser(), new Company()));
+        toSave.setCompany(mapperUtil.convert(userCompany, new Company()));
 
         Client savedClient = clientVendorRepo.save(toSave);
     }
 
     public List<ClientDTO> getAllClientsVendorsActivesFirst() {
-        List<Client> list = clientVendorRepo.findAll();
+        List<Client> list = clientVendorRepo.findAllByCompanyId(companyService.getCompanyByLoggedInUser().getId());
         list.sort((o1, o2) -> o2.getEnabled().compareTo(o1.getEnabled()));
         return list.stream().map(client -> mapperUtil.convert(client, new ClientDTO())).collect(Collectors.toList());
     }
 
     @Override
     public ClientDTO findById(Long id) throws CocoonException {
-        Client client = clientVendorRepo.findById(id).orElseThrow(()-> new CocoonException("Vendor/Client with " + id + " not exist"));
+        Client client = clientVendorRepo.findByIdAndCompanyId(id, companyService.getCompanyByLoggedInUser().getId()).orElseThrow(() -> new CocoonException("Vendor/Client with " + id + " not exist"));
         return mapperUtil.convert(client, new ClientDTO());
     }
 
@@ -82,14 +74,14 @@ public class ClientVendorServiceImpl implements ClientVendorService {
 
     @Override
     public void deleteClientVendor(Long id) throws CocoonException {
-        Client client = clientVendorRepo.findById(id).orElseThrow(()-> new CocoonException("Vendor/Client with " + id + " not exist"));
+        Client client = clientVendorRepo.findByIdAndCompanyId(id, companyService.getCompanyByLoggedInUser().getId()).orElseThrow(()-> new CocoonException("Vendor/Client with " + id + " not exist"));
         client.setIsDeleted(true);
         clientVendorRepo.save(client);
     }
 
     @Override
     public List<ClientDTO> getAllClientVendorsByType(CompanyType type) {
-        List<Client> clients = clientVendorRepo.findAllByType(type);
+        List<Client> clients = clientVendorRepo.findAllByTypeAndCompanyId(type,companyService.getCompanyByLoggedInUser().getId());
         return clients.stream().map(obj -> mapperUtil.convert(obj, new ClientDTO())).collect(Collectors.toList());
     }
 }

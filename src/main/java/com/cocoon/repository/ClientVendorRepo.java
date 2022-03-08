@@ -1,6 +1,7 @@
 package com.cocoon.repository;
 
 import com.cocoon.entity.Client;
+import com.cocoon.entity.Company;
 import com.cocoon.enums.CompanyType;
 import com.cocoon.exception.CocoonException;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,12 +13,12 @@ import java.util.Optional;
 @Repository
 public interface ClientVendorRepo extends JpaRepository<Client, Long> {
 
-    boolean existsByCompanyName(String companyName) throws CocoonException;
+    List<Client> findAllByCompanyId(Long companyId);
 
     boolean existsByCompanyNameAndCompanyId(String companyName, Long usersCompanyId) throws CocoonException;
 
-    Optional<Client> findById(Long id);
+    Optional<Client> findByIdAndCompanyId(Long id, Long companyId);
 
-    List<Client> findAllByType(CompanyType type);
+    List<Client> findAllByTypeAndCompanyId(CompanyType type,Long companyId);
 
 }

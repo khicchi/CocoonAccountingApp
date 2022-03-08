@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id){
+    public String deleteUser(@PathVariable Long id) throws CocoonException {
         userService.delete(id);
         return "redirect:/user/list";
     }
