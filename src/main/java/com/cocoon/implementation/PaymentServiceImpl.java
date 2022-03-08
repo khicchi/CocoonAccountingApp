@@ -148,7 +148,7 @@ public class PaymentServiceImpl implements PaymentService {
                 // to implement with user input
                 //System.in.read();
                 // to implement WITHOUT user input
-                Thread.sleep(1000);
+                Thread.sleep(10000);
 
                 // Get user consents
                 final ConsentsApi consentsApi = new ConsentsApi(defaultClient);
@@ -199,13 +199,13 @@ public class PaymentServiceImpl implements PaymentService {
         } else {
             Runtime runtime = Runtime.getRuntime();
             try {
-                Process process = runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
+                runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
                 // After authentication, you should be redirected to a static page that can be closed
                 System.out.println("After completing authentication, press Enter to continue: [enter]");
                 // to implement with user input
-                System.in.read();
+                //System.in.read();
                 // to implement WITHOUT user input
-                //Thread.sleep(3000);
+                Thread.sleep(10000);
 
                 // Get user consents
                 final ConsentsApi consentsApi = new ConsentsApi(defaultClient);
@@ -240,7 +240,7 @@ public class PaymentServiceImpl implements PaymentService {
 
                 PaymentResponse.StatusEnum status = response.getData().getStatus();
                 // to get the payment id
-                //System.out.println("Payment Response Id = " + response.getData().getId());
+                System.out.println("Payment Response Id = " + response.getData().getId());
 
                 while (status == PaymentResponse.StatusEnum.PENDING) {
                     ApiResponseOfPaymentResponse apiResponseOfPaymentResponse = paymentsApi.getPaymentStatusUsingGET(response.getData().getId(), consentToken, "", "", "", "");
@@ -254,6 +254,4 @@ public class PaymentServiceImpl implements PaymentService {
             }
         }
     }
-
-
 }
