@@ -221,7 +221,6 @@
                         <div class="card">
                             <div class="card-body">
                                 <div id="invoice">
-
                                     <div class="invoice overflow-auto">
                                         <div style="min-width: 600px">
                                             <header>
@@ -250,7 +249,6 @@
                                                         <div class="address" th:text="${invoice.getClient().zipCode} + ' / ' + ${invoice.getClient().state.stateName}"></div>
                                                         <div class="email"><a href="mailto:john@example.com" th:text="${invoice.getClient().email}"></a></div>
                                                     </div>
-                                                    </div>
                                                     <div class="col invoice-details">
                                                         <h1 class="invoice-id" th:text="${invoice.invoiceNumber}"></h1>
                                                         <div class="date" th:text="'Invoice Date: '+${invoice.invoiceDate}"></div>
@@ -268,7 +266,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr th:each="invoiceProduct, iStat :${invoiceProducts}">
-                                                        <td class="unit" th:text="${iStat.count}"></td>
+                                                        <td class="total" th:text="${iStat.count}"></td>
                                                         <td class="text-left"><h3 th:text="${invoiceProduct.name}"></h3></td>
                                                         <td class="unit" th:text="'$ '+${invoiceProduct.price}"></td>
                                                         <td class="unit" th:text="${invoiceProduct.qty}"></td>
@@ -311,7 +309,6 @@
                             </div>
                         </div>
                     </div>
-
                 </section>
             </div>
         </div>

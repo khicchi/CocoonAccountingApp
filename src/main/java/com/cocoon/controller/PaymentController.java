@@ -1,31 +1,24 @@
 package com.cocoon.controller;
 
-import com.cocoon.dto.InstitutionDTO;
 import com.cocoon.dto.PaymentDTO;
+import com.cocoon.exception.CocoonException;
+import com.cocoon.service.CompanyService;
 import com.cocoon.service.InstitutionService;
 import com.cocoon.service.PaymentService;
-import com.cocoon.util.payment.GetInstitutions;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import yapily.ApiException;
-import yapily.sdk.Institution;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/payment")
@@ -35,10 +28,12 @@ public class PaymentController {
     private int selectedYear;
     private final PaymentService paymentService;
     private final InstitutionService institutionService;
+    private final CompanyService companyService;
 
-    public PaymentController(PaymentService paymentService, InstitutionService institutionService) {
+    public PaymentController(PaymentService paymentService, InstitutionService institutionService, CompanyService companyService) {
         this.paymentService = paymentService;
         this.institutionService = institutionService;
+        this.companyService = companyService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -77,10 +72,18 @@ public class PaymentController {
 
         return "redirect:/payment/list";
     }
-//
-//    @PostMapping("/newpayment/{consentId}")
-//
-//    @GetMapping("/newpayment/complete")*/
+
+    // To invoice
+
+    @GetMapping("/toInvoice/{id}")
+    public String toInvoice(@PathVariable("id") Long id, Model model) throws CocoonException {
+
+        model.addAttribute("payment", paymentService.getPaymentById(id));
+        model.addAttribute("company", companyService.getCompanyByLoggedInUser());
+
+        return "payment/payment-success";
+    }
+
 
     @ModelAttribute
     public void addAttributes(Model model) {

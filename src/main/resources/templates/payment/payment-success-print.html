@@ -1,9 +1,8 @@
-<!DOCTYPE html >
-<html class="loading" lang="en" xmlns:th="http://www.thymeleaf.org" style="zoom: 80%">
+<!DOCTYPE html>
+<html class="loading" lang="en" xmlns:th="http://www.thymeleaf.org">
 <!-- BEGIN : Head-->
 
 <head>
-
     <title>Payment Success</title>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/ico/favicon.ico}">
     <style>
@@ -59,12 +58,12 @@
         }
 
         .invoice main {
-            padding-bottom: 50px
+            padding-bottom: 10px
         }
 
         .invoice main .thanks {
             margin-top: -100px;
-            font-size: 1em;
+            font-size: 2em;
             margin-bottom: 50px
         }
 
@@ -207,13 +206,10 @@
 
 <body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  navbar-sticky" data-open="hover"
       data-menu="horizontal-menu" data-col="2-columns">
-
-
 <!-- Navbar (Header) Ends-->
 
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 <div class="wrapper">
-
 
     <div class="main-panel">
         <!-- BEGIN : Main Content-->
@@ -223,8 +219,8 @@
                 <section class="users-list-wrapper">
 
                     <div class="container">
-<!--                        <div class="card">-->
-<!--                            <div class="card-body">-->
+                        <div class="card">
+                            <div class="card-body">
                                 <div id="invoice">
                                     <div class="invoice overflow-auto">
                                         <div style="min-width: 600px">
@@ -236,14 +232,10 @@
                                                         </a>
                                                     </div>
                                                     <div class="col company-details">
-                                                        <h2 class="name">
-                                                            <a target="_blank" href="javascript:;">
-
-                                                            </a>
-                                                        </h2>
+                                                        <h2 class="name">CacoonCompany L.L.C.</h2>
                                                         <div>455 Foggy Heights, AZ 85004, US</div>
                                                         <div>(123) 456-789</div>
-                                                        <div>company@example.com</div>
+                                                        <div>CacoonCompany@example.com</div>
                                                     </div>
                                                 </div>
                                             </header>
@@ -251,21 +243,23 @@
                                                 <div class="row contacts">
                                                     <div class="col invoice-to">
                                                         <div class="text-gray-light">INVOICE TO:</div>
-                                                        <h2 class="to" ></h2>
-                                                        <div class="address">796 Silver Harbour, TX 79273, US</div>
-                                                        <div class="email"><a href="mailto:john@example.com" ></a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col invoice-details">
-                                                        <h1 class="invoice-id" ></h1>
-                                                        <div class="date" ></div>
-                                                        <div class="date">Due Date: 01/01/2022</div>
+                                                        <h2 class="to" th:text="${company.getTitle()}"></h2>
+                                                        <div class="address" th:text="${company.address1}"></div>
+                                                        <div class="address" th:text="${company.getZip()} + ' / ' + ${company.state.stateName}"></div>
+                                                        <div class="email"><a href="mailto:john@example.com" th:text="${company.email}"></a></div>
                                                     </div>
                                                 </div>
+                                                <div class="col invoice-details">
+                                                    <div class="date" th:text="'Invoice For: '+${payment.getMonth().value + ' / ' + payment.year.getYear()}">Due Date: 01/01/2022</div>
+                                                </div>
                                                 <table>
+                                                    <col style="width:10%">
+                                                    <col style="width:60%">
+                                                    <col style="width:15%">
+                                                    <col style="width:15%">
                                                     <thead>
                                                     <tr>
-                                                        <th>#</th>
+                                                        <th class="text-center">#</th>
                                                         <th class="text-left">DESCRIPTION</th>
                                                         <th class="text-right">MEMBERSHIP PRICE</th>
                                                         <th class="text-right">EXTRA</th>
@@ -274,63 +268,60 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr>
-                                                        <td class="no">01</td>
+                                                        <td class="text-center total" th:text="${payment.getMonth().ordinal() + 1}">01</td>
                                                         <td class="text-left">
                                                             <h3>
-                                                                    Cydeo Monthly Membership Payment
+                                                                <a target="_blank" href="javascript:;">
+                                                                    Cacoon-Pay Monthly Membership Payment
+                                                                </a>
                                                             </h3>
-
-                                                        <td class="unit" ></td>
-                                                        <td class="extra" ></td>
-                                                        <td class="total" ></td>
+                                                            <a target="_blank" href="javascript:;">
+                                                                MemberShip details<br>
+                                                            </a> You can reach out your agreement details with this link</td>
+                                                        <td class="unit" th:text="'$ '+${payment.getAmount() - 70}"></td>
+                                                        <td class="unit" >$ 20</td>
+                                                        <td class="total" th:text="'$ '+${payment.getAmount() - 50}"></td>
                                                     </tr>
                                                     </tbody>
                                                     <tfoot>
                                                     <tr>
                                                         <td colspan="2"></td>
                                                         <td colspan="2">SUBTOTAL</td>
-                                                        <td ></td>
+                                                        <td th:text="'$ '+${payment.getAmount() - 50}"></td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2"></td>
                                                         <td colspan="2">TAX 25%</td>
-                                                        <td ></td>
+                                                        <td th:text="'$ '+${payment.getAmount() - 200}"></td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2"></td>
                                                         <td colspan="2">GRAND TOTAL</td>
-                                                        <td ></td>
+                                                        <td th:text="'$ '+${payment.getAmount()}"></td>
                                                     </tr>
                                                     </tfoot>
                                                 </table>
-                                                <div class="thanks">Thank you for business!</div>
                                                 <div class="notices">
                                                     <div>NOTICE:</div>
                                                     <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
                                                 </div>
-
-
-
-                                            </main>
-                                            <footer>Invoice was created on a computer and is valid without the signature and seal.</footer>
-                                        </div>
-                                        <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
-
-                                    </div>
+                                                <footer>Invoice was created on a computer and is valid without the signature and seal.</footer>
+                                               </main>
+                                            </div>
+                                    <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+                                    <div></div>
                                 </div>
-<!--                            </div>-->
-<!--                        </div>-->
+                            </div>
+                        </div>
                     </div>
-
-                </section>
             </div>
+            </section>
         </div>
     </div>
-
-    <!-- END : End Main Content-->
-
 </div>
 
+<!-- END : End Main Content-->
+</div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
