@@ -154,7 +154,7 @@ public class PdfGenerateController {
         byte[] bytes = target.toByteArray();
 
         // send with email
-        emailSender.sendEmailWithAttachment(userPrincipal.getUsername(), "oltocoamazon@gmail.com", invoiceDTO.getInvoiceNumber(), "Your invoice ...", bytes);
+        emailSender.sendEmailWithAttachment("omererden18@gmail.com", updatedInvoiceDTO.getClient().getEmail(), invoiceDTO.getInvoiceNumber(), "Your invoice ...", bytes);
     }
 
     // Payment Invoice PDF generator................................................................................
@@ -249,7 +249,7 @@ public class PdfGenerateController {
         byte[] bytes = target.toByteArray();
 
         // send with email
-        emailSender.sendEmailWithAttachment(userPrincipal.getUsername(), "oltocoamazon@gmail.com", ""+paymentDTO.getMonth()+" / "+paymentDTO.getYear().getYear()+" Invoice", "Your invoice ...", bytes);
+        emailSender.sendEmailWithAttachment("omererden18@gmail.com", userPrincipal.getUsername(), ""+paymentDTO.getMonth()+" / "+paymentDTO.getYear().getYear()+" Invoice", "Your invoice ...", bytes);
     }
 
     @ModelAttribute

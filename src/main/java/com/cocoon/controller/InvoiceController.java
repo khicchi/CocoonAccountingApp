@@ -91,7 +91,6 @@ public class InvoiceController {
 
         if (!productService.validateProductQuantity(invoiceProductDTO) ||
             !invoiceProductService.validateProductQtyForPendingInvoicesIncluded(invoiceProductDTO)) {
-
             redirAttrs.addFlashAttribute("error", "Not enough quantity to sell, check your inventory... Your Pending Invoices might have this very same Product to be sold");
             return "redirect:/sales-invoice/create";
         }
@@ -126,7 +125,7 @@ public class InvoiceController {
         model.addAttribute("active", active);
         model.addAttribute("invoice", invoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.getAllProductsByCompany());
         model.addAttribute("clients", clientVendorService.getAllClientVendorsByType(CompanyType.CLIENT));
         model.addAttribute("invoiceProducts", currentInvoiceDTO.getInvoiceProduct());
 
@@ -134,10 +133,15 @@ public class InvoiceController {
     }
 
     @PostMapping("/create-product-update/{id}")
-    public String updateProductForInvoice(@PathVariable("id") Long id, InvoiceProductDTO invoiceProductDTO) {
+    public String updateProductForInvoice(@PathVariable("id") Long id, InvoiceProductDTO invoiceProductDTO, RedirectAttributes redirAttrs) throws CocoonException {
 
         String name = invoiceProductDTO.getProductDTO().getName();
         invoiceProductDTO.setName(name);
+        if (!productService.validateProductQuantity(invoiceProductDTO) ||
+                !invoiceProductService.validateProductQtyForPendingInvoicesIncluded(invoiceProductDTO)) {
+            redirAttrs.addFlashAttribute("error", "Not enough quantity to sell, check your inventory... Your Pending Invoices might have this very same Product to be sold");
+            return "redirect:/sales-invoice/update/"+id;
+        }
         this.addedInvoiceProducts.add(invoiceProductDTO);
         this.active = false;
         return "redirect:/sales-invoice/update/"+id;

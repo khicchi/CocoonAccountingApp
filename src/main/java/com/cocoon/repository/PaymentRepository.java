@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-        List<Payment> findAllByYearBetween(LocalDate start, LocalDate end);
+        List<Payment> findAllByYearBetweenAndCompanyId(LocalDate start, LocalDate end, Long id);
 }
