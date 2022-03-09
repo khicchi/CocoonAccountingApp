@@ -58,13 +58,13 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                            <tr >
-                                                            <td ></td>
-                                                            <td ></td>
-                                                            <td ></td>
-                                                            <td ></td>
-                                                            <td ></td>
-                                                            <td ></td>
+                                                            <tr th:each="item : ${profit}" >
+                                                                <td th:text="${item.name}"></td>
+                                                                <td th:text="${item.Quantity}"></td>
+                                                                <td th:text="${item.profit}"></td>
+                                                                <td>
+
+
                                                         </tr>
                                                     </tbody>
                                                     <tfoot>

@@ -1,6 +1,7 @@
 package com.cocoon.service;
 
 import com.cocoon.dto.InvoiceDTO;
+import com.cocoon.dto.ProfitDTO;
 import com.cocoon.entity.Company;
 import com.cocoon.enums.InvoiceType;
 
@@ -28,6 +29,12 @@ public interface InvoiceService {
     InvoiceDTO calculateInvoiceCost(InvoiceDTO currentDTO);
 
     Map<String,Integer> calculateTotalProfitLoss();
+
+    List<ProfitDTO>  getProfitList();
+
+
+
+
 
 
 }
