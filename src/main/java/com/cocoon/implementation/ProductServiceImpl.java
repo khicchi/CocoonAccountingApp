@@ -49,6 +49,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductDTO> getAllProductsByCompany() {
+        var company = companyService.getCompanyByLoggedInUser();
+        List<Product> products = productRepository.findAllByCompanyId(company.getId());
+        return products.stream().map(product-> mapperUtil.convert(product, new ProductDTO())).collect(Collectors.toList());
+    }
+
+    @Override
     public ProductDTO save(ProductDTO productDTO) {
         Product product = mapperUtil.convert(productDTO, new Product());
         product.setEnabled((byte) 1);

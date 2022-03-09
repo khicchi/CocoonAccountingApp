@@ -76,7 +76,7 @@ public class InvoiceController {
         model.addAttribute("active", active);
         model.addAttribute("invoice", currentInvoiceDTO);
         model.addAttribute("product", new InvoiceProductDTO());
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.getAllProductsByCompany());
         model.addAttribute("clients", clientVendorService.getAllClientVendorsByType(CompanyType.CLIENT));
         model.addAttribute("selectedproducts", currentInvoiceDTO.getInvoiceProduct());
 

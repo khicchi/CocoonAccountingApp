@@ -16,5 +16,6 @@ import java.util.Set;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByCategoryId(Long id);
+    List<Product> findAllByCompanyId(Long id);
 
 }

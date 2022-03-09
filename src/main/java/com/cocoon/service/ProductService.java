@@ -17,6 +17,7 @@ import java.util.Set;
 public interface ProductService {
 
     List<ProductDTO> getAllProducts();
+    List<ProductDTO> getAllProductsByCompany();
     ProductDTO save(ProductDTO productDTO);
     ProductDTO getProductById(Long id) throws CocoonException;
     void update(ProductDTO productDTO) throws CocoonException;
