@@ -155,8 +155,10 @@
                                                             <a type="button" class="btn btn-success mb-2 mb-sm-0 mr-sm-2"  th:if="${!company.isEnabled()}" th:href="@{/company/open/{id}(id=${company.id})}"   data-toggle="tooltip" data-placement="top" title="All the people are allowed by the Company can get access the system again">
                                                                 Re-Open Company</a>
 
-                                                            <a type="button" class="btn btn-outline-danger mb-2 mb-sm-0 mr-sm-2"   th:href="@{/company/delete/{id}(id=${company.id})}"   data-toggle="tooltip" data-placement="top" title="WARNING !!! This button executes HARD DELETE ..">
+                                                           <!-- <a type="button" class="btn btn-outline-danger mb-2 mb-sm-0 mr-sm-2"   th:href="@{/company/delete/{id}(id=${company.id})}"   data-toggle="tooltip" data-placement="top" title="WARNING !!! This button executes HARD DELETE ..">
                                                                 DELETE Company</a>
+
+                                                                -->
 
                                                             <button  class="btn btn-secondary" th:onclick="'javascript:Window.open('company-list.html','_top')'">Cancel
                                                             </button>

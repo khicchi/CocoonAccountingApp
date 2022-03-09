@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/dashboard")
 public class DashboardController {
 
-     private  final CompanyService companyService;
+    private  final CompanyService companyService;
     private final InvoiceService invoiceService;
 
     private WebClient webClient = WebClient.create("http://data.fixer.io");
