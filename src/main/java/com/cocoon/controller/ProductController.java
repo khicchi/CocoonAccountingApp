@@ -32,7 +32,7 @@ public class ProductController {
 
     @GetMapping("/list")
     public String getAllProducts(Model model){
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.getAllProductsByCompany());
         return "product/product-list";
     }
 
@@ -41,7 +41,7 @@ public class ProductController {
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("productStatus", ProductStatus.values());
         model.addAttribute("unit", Unit.values());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getCategoryByCompany_Id());
         return "product/product-add";
     }
 
@@ -58,7 +58,7 @@ public class ProductController {
         model.addAttribute("productStatus", productService.getProductStatusById(id));
         model.addAttribute("units", Unit.values());
         model.addAttribute("unit", productService.getUnitById(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getCategoryByCompany_Id());
         return "product/product-edit";
     }
 
