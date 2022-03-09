@@ -35,10 +35,10 @@ public class PaymentController {
         this.companyService = companyService;
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void getInstitutionsAfterStartUp() {
-        System.out.println(institutionService.getInstitutionsAtStartUp());
-    }
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void getInstitutionsAfterStartUp() {
+//        System.out.println(institutionService.getInstitutionsAtStartUp());
+//    }
 
 
     @GetMapping({"/list", "/list/{year}"})
