@@ -25,7 +25,6 @@ import java.util.*;
 public class PaymentController {
 
     private WebClient webClient = WebClient.builder().baseUrl("https://api.yapily.com").build();
-    private int selectedYear;
     private final PaymentService paymentService;
     private final InstitutionService institutionService;
     private final CompanyService companyService;
@@ -45,10 +44,10 @@ public class PaymentController {
     @GetMapping({"/list", "/list/{year}"})
     public String createPayment(@RequestParam(value = "year", required = false) String selectedYear, Model model) {
 
-        this.selectedYear = (selectedYear == null || selectedYear.isEmpty()) ? LocalDate.now().getYear() : Integer.parseInt(selectedYear);
-        paymentService.createPaymentsIfNotExist(this.selectedYear);
-        model.addAttribute("payments",paymentService.getAllPaymentsByYear(this.selectedYear));
-        model.addAttribute("year", this.selectedYear);
+        int selectedYear1 = (selectedYear == null || selectedYear.isEmpty()) ? LocalDate.now().getYear() : Integer.parseInt(selectedYear);
+        paymentService.createPaymentsIfNotExist(selectedYear1);
+        model.addAttribute("payments",paymentService.getAllPaymentsByYear(selectedYear1));
+        model.addAttribute("year", selectedYear1);
         return "payment/payment-list";
     }
 
