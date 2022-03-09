@@ -42,7 +42,7 @@ public class Invoice extends BaseEntity implements Serializable {
     private Company company;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sptable_id") //TODO foreign key will be replaced with "client_vendor_id"....
+    @JoinColumn(name = "sptable_id")
     private Client client;
 
     @OneToMany(mappedBy = "invoice")

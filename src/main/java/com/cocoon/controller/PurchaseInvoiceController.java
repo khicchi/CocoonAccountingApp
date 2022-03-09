@@ -88,7 +88,7 @@ public class PurchaseInvoiceController {
     public String createInvoiceProduct(InvoiceProductDTO invoiceProductDTO){
 
         String name = invoiceProductDTO.getProductDTO().getName();
-        invoiceProductDTO.setName(name); // TODO
+        invoiceProductDTO.setName(name);
         currentInvoiceDTO.getInvoiceProduct().add(invoiceProductDTO);
         this.active = false;
         return "redirect:/purchase-invoice/create";
