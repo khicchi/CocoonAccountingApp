@@ -207,7 +207,7 @@ public class PaymentServiceImpl implements PaymentService {
                 // to implement with user input
                 //System.in.read();
                 // to implement WITHOUT user input
-                Thread.sleep(10000);
+                Thread.sleep(12000);
 
                 // Get user consents
                 final ConsentsApi consentsApi = new ConsentsApi(defaultClient);

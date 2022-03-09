@@ -81,7 +81,7 @@
                                                                     <label for="state">State</label>
                                                                     <select id="state" class="form-control"
                                                                             required th:field="*{state}">
-                                                                        <option value="">Select Category</option>
+                                                                        <option value="">Select State</option>
                                                                         <option th:each="eachState : ${states}" th:value="${eachState.getId()}" th:text="${eachState.getStateName()}"></option>
                                                                     </select>
                                                                 </div>
