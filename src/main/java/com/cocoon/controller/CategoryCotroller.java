@@ -40,7 +40,7 @@ public class CategoryCotroller {
 
     @GetMapping("/list")
     public String getCompanies(Model model){
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getCategoryByCompany_Id());
         return "category/category-list";
     }
 

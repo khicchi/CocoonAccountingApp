@@ -49,13 +49,6 @@ public class CategoryServiceImpl implements CategoryService{
         throw new CocoonException("category is already exist");
         category.setEnabled(true);
 
-
-
-
-//        CompanyDTO companyDTO=new CompanyDTO();
-//        companyDTO.setId(8l);
-//        Company company = mapperUtil.convert(companyDTO, new Company());
-
         category.setCompany(mapperUtil.convert(companyService.getCompanyByLoggedInUser(), new Company()));
 
         categoryRepo.save(category);
@@ -98,6 +91,12 @@ public class CategoryServiceImpl implements CategoryService{
             throw new CocoonException("category has relation");
         category.setIsDeleted(true);
         categoryRepo.save(category);
+    }
+
+    @Override
+    public List<CategoryDTO> getCategoryByCompany_Id() {
+        List<Category> categories = categoryRepo.getCategoryByCompany_Id(companyService.getCompanyByLoggedInUser().getId());
+        return categories.stream().map(category -> mapperUtil.convert(category,new CategoryDTO())).collect(Collectors.toList());
     }
 
 

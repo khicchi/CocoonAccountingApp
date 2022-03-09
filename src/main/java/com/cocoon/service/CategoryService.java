@@ -1,6 +1,7 @@
 package com.cocoon.service;
 
 import com.cocoon.dto.CategoryDTO;
+import com.cocoon.entity.Category;
 import com.cocoon.exception.CocoonException;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface CategoryService {
     void update(CategoryDTO categoryDTO) throws CocoonException;
     CategoryDTO getById(Long id);
     void delete(CategoryDTO categoryDTO) throws CocoonException;
+    List<CategoryDTO> getCategoryByCompany_Id();
 }
