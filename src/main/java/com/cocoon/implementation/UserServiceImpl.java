@@ -4,8 +4,10 @@ import com.cocoon.dto.UserDTO;
 import com.cocoon.entity.User;
 import com.cocoon.exception.CocoonException;
 import com.cocoon.repository.UserRepo;
+import com.cocoon.service.CompanyService;
 import com.cocoon.service.UserService;
 import com.cocoon.util.MapperUtil;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,23 +24,33 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     private MapperUtil mapperUtil;
     private PasswordEncoder passwordEncoder;
+    private CompanyService companyService;
 
-    public UserServiceImpl(UserRepo userRepo, MapperUtil mapperUtil, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepo userRepo, MapperUtil mapperUtil, PasswordEncoder passwordEncoder, @Lazy CompanyService companyService) {
         this.userRepo = userRepo;
         this.mapperUtil = mapperUtil;
         this.passwordEncoder = passwordEncoder;
+        this.companyService = companyService;
     }
 
     @Override
     public List<UserDTO> findAllUsers() {
-        List<User> allUsers = userRepo.findAll();
-        return allUsers.stream().map(obj -> mapperUtil.convert(obj, new UserDTO()))
-                .collect(Collectors.toList());
+
+        if (isUserRoot()) {
+            List<User> allUsers = userRepo.findAll();
+            return allUsers.stream().map(obj -> mapperUtil.convert(obj, new UserDTO()))
+                    .collect(Collectors.toList());
+        } else {
+            List<User> allUsers = userRepo.findAllByCompanyId(companyService.getCompanyByLoggedInUser().getId());
+            return allUsers.stream().map(obj -> mapperUtil.convert(obj, new UserDTO()))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
     public UserDTO update(UserDTO userDTO) throws CocoonException {
         User updatedUser = mapperUtil.convert(userDTO, new User());
+        updatedUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User savedUser = userRepo.save(updatedUser);
         return mapperUtil.convert(savedUser, new UserDTO());
     }
@@ -55,11 +67,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findById(Long id) throws CocoonException {
-        User user = userRepo.findById(id).orElseThrow();
-        if (user == null) {
-            throw new CocoonException("User with " + id + " not exist");
+        if (isUserRoot()) {
+            User user = userRepo.findById(id).orElseThrow(() -> new CocoonException("User with " + id + " not exist"));
+            return mapperUtil.convert(user, new UserDTO());
+        } else {
+            User user = userRepo.findByIdAndCompanyId(id, companyService.getCompanyByLoggedInUser().getId()).orElseThrow(() -> new CocoonException("User with " + id + " not exist"));
+            return mapperUtil.convert(user, new UserDTO());
         }
-        return mapperUtil.convert(user, new UserDTO());
     }
 
     @Override
@@ -69,10 +83,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
-        User user = userRepo.findById(id).orElseThrow();
-        user.setIsDeleted(true);
-        userRepo.save(user);
+    public void delete(Long id) throws CocoonException {
+
+        if (isUserRoot()) {
+            User user = userRepo.findById(id).orElseThrow(() -> new CocoonException("User with " + id + " not exist"));
+            user.setIsDeleted(true);
+            userRepo.save(user);
+        } else {
+            User user = userRepo.findByIdAndCompanyId(id, companyService.getCompanyByLoggedInUser().getId()).orElseThrow(() -> new CocoonException("User with " + id + " not exist"));
+            user.setIsDeleted(true);
+            userRepo.save(user);
+        }
     }
 
     @Override
@@ -81,14 +102,20 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
-        if (roles.contains("ROOT")) return allUsers.stream().map(obj -> mapperUtil.convert(obj, new UserDTO())).collect(Collectors.toList());
-        else if (roles.contains("ADMIN")){
+        if (roles.contains("ROOT"))
+            return allUsers.stream().map(obj -> mapperUtil.convert(obj, new UserDTO())).collect(Collectors.toList());
+        else if (roles.contains("ADMIN")) {
             User user = userRepo.findByEmail(authentication.getName());
             return allUsers.stream().filter(o -> o.getCompany().getId().equals(user.getCompany().getId()))
                     .map(obj -> mapperUtil.convert(obj, new UserDTO()))
                     .collect(Collectors.toList());
-        }
-        else return null;
+        } else return null;
+    }
+
+    private Boolean isUserRoot() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+        return roles.contains("ROOT");
     }
 
 }

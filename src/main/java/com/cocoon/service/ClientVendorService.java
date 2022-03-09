@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface ClientVendorService {
 
-    List<ClientDTO> getAllClientsVendors();
-
     void save(ClientDTO clientDTO) throws CocoonException;
 
     List<ClientDTO> getAllClientsVendorsActivesFirst();

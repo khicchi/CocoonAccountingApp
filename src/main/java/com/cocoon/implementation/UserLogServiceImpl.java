@@ -35,14 +35,13 @@ public class UserLogServiceImpl implements UserLogService {
 
     @Override
     public void save(String username, String signature) {
+        ActionType actionType = getActionType(signature);
+        if (actionType == null) return;
         User user = userRepo.findByEmail(username);
         UserLog userLog = new UserLog();
         userLog.setUser(user);
-        ActionType actionType = getActionType(signature);
-        if (actionType != null) {
-            userLog.setActionType(actionType);
-            userLogRepository.save(userLog);
-        }
+        userLog.setActionType(actionType);
+        userLogRepository.save(userLog);
     }
 
     @Override
