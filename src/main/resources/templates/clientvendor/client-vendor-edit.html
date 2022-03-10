@@ -30,19 +30,13 @@
                 <section class="users-list-wrapper">
                     <!-- Filter starts -->
                     <div class="users-list-filter px-2">
-
-
                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
                             <a class="btn btn-primary bg-light-primary mb-1" th:href="@{/client-vendor/list}"><i
                                     class="fa fa-list mr-1"></i>Client/Vendor List</a>
                         </div>
                     </div>
-
                     <!-- Filter ends -->
-
                     <!-- Table starts -->
-
-
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -55,14 +49,19 @@
                                                  aria-labelledby="account-tab">
 
                                                 <!-- Account form starts -->
-                                                <form novalidate method="post" th:action="@{/client-vendor/update/{id}(id=${client.id})}" th:object="${client}">
+                                                <form novalidate method="post"
+                                                      th:action="@{/client-vendor/update/{id}(id=${client.id})}"
+                                                      th:object="${client}">
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-username">Name</label>
-                                                                    <input type="text" id="users-edit-username" th:field="*{companyName}"
-                                                                           class="form-control" placeholder="company name" required aria-invalid="false">
+                                                                    <input type="text" id="users-edit-username"
+                                                                           th:field="*{companyName}"
+                                                                           class="form-control"
+                                                                           placeholder="company name" required
+                                                                           aria-invalid="false">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -78,10 +77,13 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-state">State</label>
-                                                                    <select id="users-edit-state" name="state" class="form-control"
+                                                                    <select id="users-edit-state" name="state"
+                                                                            class="form-control"
                                                                             required>
-                                                                        <option th:each="eachstate : ${states}" th:text="${eachstate.stateName}"
-                                                                                th:value="${eachstate.id}" th:selected="${client.state.id} == ${eachstate.id}"></option>
+                                                                        <option th:each="eachstate : ${states}"
+                                                                                th:text="${eachstate.stateName}"
+                                                                                th:value="${eachstate.id}"
+                                                                                th:selected="${client.state.id} == ${eachstate.id}"></option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -92,40 +94,33 @@
                                                                         aria-invalid="false">
                                                                         <li class="d-inline-block mr-2">
                                                                             <div class="radio radio-primary">
-                                                                                <input type="radio" name="color-radio" th:field="*{type}" th:value="VENDOR"
+                                                                                <input type="radio" name="color-radio"
+                                                                                       th:field="*{type}"
+                                                                                       th:value="VENDOR"
                                                                                        id="color-radio-1" checked>
-                                                                                <label for="color-radio-1" >VENDOR</label>
+                                                                                <label for="color-radio-1">VENDOR</label>
                                                                             </div>
                                                                         </li>
                                                                         <li class="d-inline-block mr-2">
                                                                             <div class="radio radio-secondary">
                                                                                 <input type="radio" name="color-radio"
-                                                                                       th:field="*{type}" th:value="CLIENT"
+                                                                                       th:field="*{type}"
+                                                                                       th:value="CLIENT"
                                                                                        id="color-radio-2">
                                                                                 <label for="color-radio-2">CLIENT</label>
-                                                                            </div>
-                                                                        </li>
-                                                                        <li class="d-inline-block mr-2">
-                                                                            <div class="radio radio-secondary">
-                                                                                <input type="radio" name="color-radio"
-                                                                                       th:field="*{type}" th:value="BOTH"
-                                                                                       id="color-radio-3">
-                                                                                <label for="color-radio-3">BOTH</label>
                                                                             </div>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-12 col-md-6">
-
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-company">Phone</label>
                                                                     <input type="text" id="users-edit-company"
                                                                            class="form-control" th:field="*{phone}"
-                                                                           placeholder="(456) 789-5698" >
+                                                                           placeholder="(456) 789-5698">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -153,8 +148,12 @@
                                                                     <label for="users-edit-status">Status</label>
                                                                     <select id="users-edit-status" class="form-control"
                                                                             name="enabled">
-                                                                        <option th:selected="${client.getEnabled()==true}" th:value= true>Active</option>
-                                                                        <option th:selected="${client.getEnabled()==false}" th:value=false>Passive</option>
+                                                                        <option th:selected="${client.getEnabled()==true}"
+                                                                                th:value=true>Active
+                                                                        </option>
+                                                                        <option th:selected="${client.getEnabled()==false}"
+                                                                                th:value=false>Passive
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -164,16 +163,16 @@
                                                                     class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">
                                                                 Save Changes
                                                             </button>
-                                                            <a class="btn btn-danger mb-2 mb-sm-0 mr-sm-2" th:href="@{/client-vendor/delete/{id}(id=${client.id})}">Delete</a>
-                                                            <a th:href="@{/client-vendor/list}" class="btn btn-secondary">Cancel</a>
+                                                            <a class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
+                                                               th:href="@{/client-vendor/delete/{id}(id=${client.id})}">Delete</a>
+                                                            <a th:href="@{/client-vendor/list}"
+                                                               class="btn btn-secondary">Cancel</a>
                                                         </div>
                                                     </div>
                                                 </form>
                                                 <!-- Account form ends -->
                                             </div>
                                             <!-- Account content ends -->
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -182,10 +181,8 @@
                     </div>
                     <!-- Table ends -->
                 </section>
-
             </div>
         </div>
-
     </div>
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
@@ -205,5 +202,4 @@
 </script>
 </body>
 <!-- END : Body-->
-
 </html>

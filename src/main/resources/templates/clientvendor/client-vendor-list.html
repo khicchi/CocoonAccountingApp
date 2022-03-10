@@ -55,9 +55,7 @@
                                                         <th>Phone</th>
                                                         <th>Email</th>
                                                         <th>Type</th>
-                                                        <th>ZipCode</th>
                                                         <th>Address</th>
-                                                        <th>State</th>
                                                         <th>Status</th>
                                                         <th>Edit</th>
                                                     </tr>
@@ -69,9 +67,7 @@
                                                         <td style ="word-break:break-all;" th:text="${eachClientVendor.getPhone()}" ></td>
                                                         <td style ="word-break:break-all;" th:text="${eachClientVendor.getEmail()}" ></td>
                                                         <td style ="word-break:break-all;" th:text="${eachClientVendor.getType()}" ></td>
-                                                        <td style ="word-break:break-all;" th:text="${eachClientVendor.getZipCode()}"></td>
-                                                        <td style ="word-break:break-all;" th:text="${eachClientVendor.getAddress()}"></td>
-                                                        <td style ="word-break:break-all;" th:text="${eachClientVendor.getState().getStateCode()}" ></td>
+                                                        <td style ="word-break:break-all;" th:text="${eachClientVendor.getAddress()} + ' ' + ${eachClientVendor.getState().getStateCode()} + ' ' + ${eachClientVendor.getZipCode()}"></td>
                                                         <td style ="word-break:break-all;">
                                                             <span
                                                                     th:if="${eachClientVendor.getEnabled()}"

@@ -30,19 +30,13 @@
                 <section class="users-list-wrapper">
                     <!-- Filter starts -->
                     <div class="users-list-filter px-2">
-
-
                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-right">
                             <a class="btn btn-primary bg-light-primary mb-1" th:href="@{/client-vendor/list}"><i
                                     class="fa fa-list mr-1"></i>Client/Vendor List</a>
                         </div>
                     </div>
-
                     <!-- Filter ends -->
-
                     <!-- Table starts -->
-
-
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -53,9 +47,9 @@
                                             <!-- Account content starts -->
                                             <div class="tab-pane fade mt-2 show active" id="account" role="tabpanel"
                                                  aria-labelledby="account-tab">
-
                                                 <!-- Account form starts -->
-                                                <form novalidate method="post" th:method="post" th:action="@{/client-vendor/create}" th:object="${client}" >
+                                                <form novalidate method="post" th:method="post"
+                                                      th:action="@{/client-vendor/create}" th:object="${client}">
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
@@ -63,7 +57,9 @@
                                                                     <label for="users-edit-username">Name</label>
                                                                     <input type="text" id="users-edit-username"
                                                                            th:field="*{companyName}"
-                                                                           class="form-control" placeholder="Company Name" required aria-invalid="false">
+                                                                           class="form-control"
+                                                                           placeholder="Company Name" required
+                                                                           aria-invalid="false">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -82,15 +78,14 @@
                                                                     <select id="state" class="form-control"
                                                                             required th:field="*{state}">
                                                                         <option value="">Select State</option>
-                                                                        <option th:each="eachState : ${states}" th:value="${eachState.getId()}" th:text="${eachState.getStateName()}"></option>
+                                                                        <option th:each="eachState : ${states}"
+                                                                                th:value="${eachState.getId()}"
+                                                                                th:text="${eachState.getStateName()}"></option>
                                                                     </select>
                                                                 </div>
                                                             </div>
-
                                                         </div>
-
                                                         <div class="col-12 col-md-6">
-
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="users-edit-phonenumber">Phone</label>
@@ -122,58 +117,48 @@
                                                                            placeholder="zipcode" required>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group"
-                                                            >
-                                                                <div class="controls"
-
-                                                                >
+                                                            <div class="form-group">
+                                                                <div class="controls">
                                                                     <label>Type</label>
-
-
                                                                     <ul class="list-unstyled mb-0">
 
                                                                         <li class="d-inline-block mr-2">
                                                                             <div class="radio radio-primary">
-                                                                                <input type="radio" name="color-radio" required aria-invalid="false"
-                                                                                       th:field="*{type}" th:value="VENDOR"
+                                                                                <input type="radio" name="color-radio"
+                                                                                       required aria-invalid="false"
+                                                                                       th:field="*{type}"
+                                                                                       th:value="VENDOR"
                                                                                        id="color-radio-1" checked>
                                                                                 <label for="color-radio-1">VENDOR</label>
                                                                             </div>
                                                                         </li>
                                                                         <li class="d-inline-block mr-2">
                                                                             <div class="radio radio-secondary">
-                                                                                <input type="radio" name="color-radio" required aria-invalid="false"
-                                                                                       th:field="*{type}" th:value="CLIENT"
+                                                                                <input type="radio" name="color-radio"
+                                                                                       required aria-invalid="false"
+                                                                                       th:field="*{type}"
+                                                                                       th:value="CLIENT"
                                                                                        id="color-radio-2">
                                                                                 <label for="color-radio-2">CLIENT</label>
                                                                             </div>
                                                                         </li>
-                                                                        <li class="d-inline-block mr-2">
-                                                                            <div class="radio radio-secondary">
-                                                                                <input type="radio" name="color-radio" required aria-invalid="false"
-                                                                                       th:field="*{type}" th:value="BOTH"
-                                                                                       id="color-radio-3">
-                                                                                <label for="color-radio-3">BOTH</label>
-                                                                            </div>
-                                                                        </li>
                                                                     </ul>
-
-
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div th:if="${#fields.hasErrors('global')}">
-                                                            <p style="color: red;" th:each="err : ${#fields.errors('global')}" th:text="${err}"
-                                                               class="error" />
+                                                            <p style="color: red;"
+                                                               th:each="err : ${#fields.errors('global')}"
+                                                               th:text="${err}"
+                                                               class="error"/>
                                                         </div>
-
                                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
                                                             <button type="submit"
                                                                     class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">
                                                                 Create
                                                             </button>
-                                                            <a th:href="@{/client-vendor/list}" type="reset" class="btn btn-secondary">Cancel
+                                                            <a th:href="@{/client-vendor/list}" type="reset"
+                                                               class="btn btn-secondary">Cancel
                                                             </a>
                                                         </div>
                                                     </div>
@@ -181,8 +166,6 @@
                                                 <!-- Account form ends -->
                                             </div>
                                             <!-- Account content ends -->
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -191,10 +174,8 @@
                     </div>
                     <!-- Table ends -->
                 </section>
-
             </div>
         </div>
-
     </div>
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
@@ -214,5 +195,4 @@
 </script>
 </body>
 <!-- END : Body-->
-
 </html>
