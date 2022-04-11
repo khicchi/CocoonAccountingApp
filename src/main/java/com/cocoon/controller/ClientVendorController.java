@@ -1,6 +1,5 @@
 package com.cocoon.controller;
 
-import com.cocoon.annotation.ExecutionTimeLog;
 import com.cocoon.dto.ClientDTO;
 import com.cocoon.entity.Client;
 import com.cocoon.exception.CocoonException;
@@ -27,7 +26,6 @@ public class ClientVendorController {
         this.mapperUtil = mapperUtil;
     }
 
-    @ExecutionTimeLog()
     @GetMapping("/list")
     public String readAllClientVendor(Model model) {
 
@@ -36,7 +34,6 @@ public class ClientVendorController {
         return "clientvendor/client-vendor-list";
     }
 
-    @ExecutionTimeLog()
     @GetMapping("/update/{id}")
     public String editCompany(@PathVariable("id") long id, Model model) throws CocoonException {
         model.addAttribute("client", clientVendorService.findById(id));
@@ -44,21 +41,18 @@ public class ClientVendorController {
         return "clientvendor/client-vendor-edit";
     }
 
-    @ExecutionTimeLog()
     @PostMapping("/update/{id}")
     public String updateClientVendor(ClientDTO vendorClientDto) throws CocoonException {
         clientVendorService.update(vendorClientDto);
         return "redirect:/client-vendor/list";
     }
 
-    @ExecutionTimeLog()
     @GetMapping("/delete/{id}")
     public String deleteClientVendor(ClientDTO vendorClientDto) throws CocoonException {
         clientVendorService.deleteClientVendor(vendorClientDto.getId());
         return "redirect:/client-vendor/list";
     }
 
-    //@ExecutionTimeLog()
     @GetMapping("/create")
     public String getCreatePage(Model model){
         model.addAttribute("client", new Client());
@@ -67,7 +61,6 @@ public class ClientVendorController {
         return "clientvendor/client-vendor-add";
     }
 
-    //@ExecutionTimeLog()
     @PostMapping("/create")
     public String saveClient(Client client, BindingResult result, Model model) {
         try{
