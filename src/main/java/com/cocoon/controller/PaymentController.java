@@ -92,27 +92,6 @@ public class PaymentController {
 
     // charge controller
 
-    @PostMapping("/charge/{id}")
-    public String charge(ChargeRequest chargeRequest, @PathVariable("id") Long id, Model model)
-            throws StripeException {
-        chargeRequest.setDescription("Example charge");
-        chargeRequest.setCurrency(ChargeRequest.Currency.EUR);
-        Charge charge = stripeServiceImpl.charge(chargeRequest);
-        PaymentDTO dto = paymentService.updatePayment(id);
-        model.addAttribute("id", charge.getId());
-        model.addAttribute("status", charge.getStatus());
-        model.addAttribute("chargeId", charge.getId());
-        model.addAttribute("balance_transaction", charge.getBalanceTransaction());
-        model.addAttribute("company", companyService.getCompanyByLoggedInUser());
-        model.addAttribute("payment", dto);
-        return "payment/payment-success";
-    }
-
-    @ExceptionHandler(StripeException.class)
-    public String handleError(Model model, StripeException ex) {
-        model.addAttribute("error", ex.getMessage());
-        return "payment/payment-success";
-    }
 
 
 }

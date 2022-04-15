@@ -28,6 +28,7 @@ public class InvoiceProduct extends BaseEntity{
     private int qty;
     private int price;
     private int tax;
+    private int profit;
 
     public String getProductQuantityUnitText(){
         return qty + " / " + product.getUnit().getValue();

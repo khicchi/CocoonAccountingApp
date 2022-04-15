@@ -8,6 +8,9 @@ import com.cocoon.repository.StockRepository;
 import com.cocoon.service.StockService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 public class StockServiceImpl implements StockService {
@@ -21,7 +24,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public void saveToStock(InvoiceProduct invoiceProduct) {
+    public void saveToStockbyPurchase(InvoiceProduct invoiceProduct) {
 
         if (invoiceProduct.getInvoice().getInvoiceType().equals(InvoiceType.PURCHASE)){
             Stock productStock = Stock.builder()
@@ -29,11 +32,10 @@ public class StockServiceImpl implements StockService {
                     .quantity(invoiceProduct.getQty())
                     .price(invoiceProduct.getPrice())
                     .remainingQuantity(invoiceProduct.getQty())
-                    .profitLoss(0)
                     .invoiceDate(invoiceProduct.getInvoice().getInvoiceDate())
                     .build();
             stockRepository.save(productStock);
-        } else {
+        } /*else {
             int soldProductQty = invoiceProduct.getQty();
             while ( soldProductQty > 0){
                 Stock queuedProductStock = stockRepository.findFirstByProduct_IdAndRemainingQuantityNot(invoiceProduct.getProduct().getId(), 0);
@@ -51,7 +53,38 @@ public class StockServiceImpl implements StockService {
                     stockRepository.save(queuedProductStock);
                 }
             }
+        }*/
+    }
+
+    @Override
+    public int updateStockbySale(InvoiceProduct invoiceProduct) {
+
+
+        int profit = 0;
+        if (invoiceProduct.getInvoice().getInvoiceType().equals(InvoiceType.SALE)) {
+            profit = 0;
+            int soldProductQty = invoiceProduct.getQty();
+            while (soldProductQty > 0) {
+                Stock queuedProductStock = stockRepository.findFirstByProduct_IdAndRemainingQuantityNot(invoiceProduct.getProduct().getId(), 0);
+                if (soldProductQty < queuedProductStock.getRemainingQuantity()) {
+                    queuedProductStock.setRemainingQuantity(queuedProductStock.getRemainingQuantity() - soldProductQty);
+                    profit =  (soldProductQty * (invoiceProduct.getPrice() - queuedProductStock.getPrice()));
+
+                    stockRepository.save(queuedProductStock);
+                    break;
+                } else {
+                    soldProductQty -= queuedProductStock.getRemainingQuantity();
+                    profit = (queuedProductStock.getRemainingQuantity() * (invoiceProduct.getPrice() - queuedProductStock.getPrice()));
+
+                    queuedProductStock.setRemainingQuantity(0);
+                    stockRepository.save(queuedProductStock);
+                }
+            }
         }
+        return profit;
+
     }
 
 }
+
+

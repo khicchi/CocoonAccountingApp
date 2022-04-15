@@ -16,7 +16,7 @@ public class InvoiceProductDTO {
     private int qty;
     private int price;
     private int tax;
-
+    private int profit;
     private ProductDTO productDTO;
 
     private InvoiceDTO invoiceDTO;

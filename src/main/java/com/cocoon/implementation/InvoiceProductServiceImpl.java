@@ -40,7 +40,7 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
         return invoiceProductDTOSet
                 .stream()
                 .map(dto -> mapperUtil.convert(dto, new InvoiceProduct()))
-                .peek(stockService::saveToStock)
+                .peek(stockService::saveToStockbyPurchase)
                 .map(invoiceProductRepository::save)
                 .map(entity -> mapperUtil.convert(entity,new InvoiceProductDTO()))
                 .collect(Collectors.toSet());
@@ -74,9 +74,21 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
 
     @Override
     public void approveInvoiceProduct(Long id) {
+
         Invoice invoice = invoiceRepository.getById(id);
         Set<InvoiceProduct> invoiceProducts = invoiceProductRepository.findAllByInvoiceId(id);
-        invoiceProducts.forEach(obj -> productService.updateProductQuantity(invoice.getInvoiceType(), obj));
+        //invoiceProducts.stream().forEach(obj -> {
+            for (InvoiceProduct each:invoiceProducts){
+                int profit=stockService.updateStockbySale(each);
+                each.setProfit(profit);
+            }
+            invoice.setInvoiceStatus(InvoiceStatus.APPROVED);
+
+
+       // });
+            //productService.updateProductQuantity(invoice.getInvoiceType(), obj));
+        invoiceRepository.save(invoice);
+        invoiceProductRepository.saveAll(invoiceProducts);
     }
 
     @Override
