@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "users")
 @Where(clause = "is_deleted=false")
 public class User extends BaseEntity {
 
