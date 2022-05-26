@@ -13,6 +13,7 @@ import com.cocoon.enums.InvoiceStatus;
 import com.cocoon.enums.InvoiceType;
 import com.cocoon.repository.InvoiceProductRepository;
 import com.cocoon.repository.InvoiceRepository;
+import com.cocoon.service.CompanyService;
 import com.cocoon.service.InvoiceProductService;
 import com.cocoon.service.InvoiceService;
 import com.cocoon.service.UserService;
@@ -32,14 +33,14 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceProductRepository invoiceProductRepository;
     private final InvoiceProductService invoiceProductService;
-    private final UserService userService;
+    private final CompanyService companyService;
 
-    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepository invoiceProductRepository, InvoiceProductService invoiceProductService, UserService userService) {
+    public InvoiceServiceImpl(MapperUtil mapperUtil, InvoiceRepository invoiceRepository, InvoiceProductRepository invoiceProductRepository, InvoiceProductService invoiceProductService, CompanyService companyService) {
         this.mapperUtil = mapperUtil;
         this.invoiceRepository = invoiceRepository;
         this.invoiceProductRepository = invoiceProductRepository;
         this.invoiceProductService = invoiceProductService;
-        this.userService = userService;
+        this.companyService = companyService;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         Invoice invoice = mapperUtil.convert(dto, new Invoice());
         invoice.setEnabled((byte) 1);
-        invoice.setCompany(getCompanyByLoggedInUser());
+        invoice.setCompany(this.getCompany());
         Invoice savedInvoice = invoiceRepository.save(invoice);
         InvoiceDTO savedInvoiceDTO = mapperUtil.convert(savedInvoice, new InvoiceDTO());
         dto.getInvoiceProduct().forEach(obj -> obj.setInvoiceDTO(savedInvoiceDTO));
@@ -72,7 +73,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDTO> getAllInvoicesByCompanyAndType(InvoiceType type) {
-        List<Invoice> invoices = invoiceRepository.findInvoicesByCompanyAndInvoiceType(getCompanyByLoggedInUser(), type);
+        List<Invoice> invoices = invoiceRepository.findInvoicesByCompanyAndInvoiceType(this.getCompany(), type);
         List<InvoiceDTO> invoiceDTOS = invoices.stream().map(obj -> mapperUtil.convert(obj, new InvoiceDTO())).collect(Collectors.toList());
         return invoiceDTOS.stream().map(this::calculateInvoiceCost).collect(Collectors.toList());
     }
@@ -95,7 +96,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public String getInvoiceNumber(InvoiceType invoiceType) {
         List<Invoice> invoiceList = invoiceRepository
-                .findInvoicesByCompanyAndInvoiceType(getCompanyByLoggedInUser(), invoiceType)
+                .findInvoicesByCompanyAndInvoiceType(this.getCompany(), invoiceType)
                 .stream()
                 .sorted(Comparator.comparing(Invoice::getInvoiceNumber).reversed())
                 .collect(Collectors.toList());
@@ -119,14 +120,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         List<InvoiceDTO> purchaseInvoices = getAllInvoicesByCompanyAndType(InvoiceType.PURCHASE);
         List<Set<InvoiceProductDTO>> allPurchasedInvoiceProducts = purchaseInvoices.stream().map(obj -> invoiceProductService.getAllInvoiceProductsByInvoiceId(obj.getId())).collect(Collectors.toList());
 
-
-
         int totalIncomeFromSoldProductsWithoutTax = allSoldInvoiceProducts.stream().mapToInt(this::calculateCostWithoutTax).sum();
         int totalSpendForPurchasedProductsWithoutTax = allPurchasedInvoiceProducts.stream().mapToInt(this::calculateCostWithoutTax).sum();
         int totalSpendForPurchasedProductsWithTax = allPurchasedInvoiceProducts.stream().mapToInt(this::calculateCostWithTax).sum();
         int totalProfit=allSoldInvoiceProducts.stream().mapToInt(this::calculateTotalProfit).sum();
-
-
 
         map.put("totalCost", totalSpendForPurchasedProductsWithTax );
         map.put("totalTax", totalSpendForPurchasedProductsWithTax - totalSpendForPurchasedProductsWithoutTax);
@@ -187,7 +184,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         List<InvoiceDTO> saleInvoiceDTOS = getAllInvoicesByCompanyAndType(InvoiceType.SALE);
         List<InvoiceDTO> approvedSaleInvoiceDTOS = saleInvoiceDTOS.stream().filter(obj -> obj.getInvoiceStatus() == InvoiceStatus.APPROVED).filter(obj -> obj.getInvoiceDate().getMonth() == LocalDate.now().getMonth()).collect(Collectors.toList());
         List<Set<InvoiceProductDTO>> allSoldInvoiceProducts = approvedSaleInvoiceDTOS.stream().map(obj -> invoiceProductService.getAllInvoiceProductsByInvoiceId(obj.getId())).collect(Collectors.toList());
-        return (getProfit(allSoldInvoiceProducts.stream().flatMap(p -> p.stream()).collect(Collectors.toList())));
+        return (getProfit(allSoldInvoiceProducts.stream().flatMap(Collection::stream).collect(Collectors.toList())));
     }
 
 
@@ -204,7 +201,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                     break;
                 }
             }
-            if (pointer == false) {
+            if (!pointer) {
                 list.add(new ProfitDTO(product.getName(), product.getQty(), product.getProfit()));
             }
             pointer=false;
@@ -212,12 +209,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         return list;
     }
 
-
-    private Company getCompanyByLoggedInUser(){
-        var currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDTO userDTO = userService.findByEmail(currentUserEmail);
-        User user = mapperUtil.convert(userDTO, new User());
-        return user.getCompany();
+    private Company getCompany(){
+        return mapperUtil.convert(companyService.getCompanyByLoggedInUser(), new Company());
     }
 
 

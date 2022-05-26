@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface StockService {
 
-    void saveToStockbyPurchase(InvoiceProduct invoiceProduct);
-   int updateStockbySale(InvoiceProduct invoiceProduct);
+    void saveToStockByPurchase(InvoiceProduct invoiceProduct);
+   int updateStockBySale(InvoiceProduct invoiceProduct);
 }
