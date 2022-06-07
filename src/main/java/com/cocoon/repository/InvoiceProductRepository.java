@@ -2,6 +2,7 @@ package com.cocoon.repository;
 
 import com.cocoon.dto.InvoiceProductDTO;
 import com.cocoon.dto.ProfitDTO;
+import com.cocoon.entity.Invoice;
 import com.cocoon.entity.InvoiceProduct;
 import com.cocoon.enums.InvoiceStatus;
 import org.springframework.data.domain.Sort;
@@ -21,9 +22,10 @@ public interface InvoiceProductRepository extends JpaRepository<InvoiceProduct, 
     List<InvoiceProduct> findAllByProductIdAndInvoiceInvoiceStatus(Long id, InvoiceStatus status);
     InvoiceProduct findInvoiceProductByInvoiceIdAndNameAndQtyAndPriceAndTax(Long id, String name, int qty, int price, int tax);
 
-    List<InvoiceProduct> findAllByProfitIsGreaterThan(Integer num);
-    List<InvoiceProduct> findAllByProfitEquals(Integer num);
-
+//    List<InvoiceProduct> findAllByProfitIsGreaterThanOrProfitIsLessThan(Integer num);
+//    List<InvoiceProduct> findAllByProfitEquals(Integer num);
+//    List<InvoiceProduct> findAllByInvoiceMatchesAndProfitIsGreaterThanOrProfitIsLessThan(Invoice invoice,Integer num);
+    List<InvoiceProduct> findAllByInvoice(Invoice invoice);
 
 
 
