@@ -126,15 +126,16 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         Map<String, Integer> map = new HashMap<>();
 
-        int totalSpendForPurchasedProductsWithoutTax= invoiceProductRepository.findAllByProfitEquals(0).stream().mapToInt(p-> p.getPrice()*p.getQty()).sum();
-        int totalTaxForPurchasedProducts=invoiceProductRepository.findAllByProfitEquals(0).stream().mapToInt(p-> p.getTax()*p.getQty()).sum();
-        int totalIncomeFromSoldProductsWithoutTax=invoiceProductRepository.findAllByProfitIsGreaterThan(0).stream().mapToInt(p-> p.getPrice()*p.getQty()).sum();
-        int totalProfit=invoiceProductRepository.findAllByProfitIsGreaterThan(0).stream().mapToInt(InvoiceProduct::getProfit).sum();
-
-        map.put("totalCost", totalSpendForPurchasedProductsWithoutTax+totalTaxForPurchasedProducts );
-        map.put("totalTax",  totalTaxForPurchasedProducts);
-        map.put("totalSales", totalIncomeFromSoldProductsWithoutTax);
-        map.put("totalEarning", totalProfit);
+//        int totalSpendForPurchasedProductsWithoutTax= invoiceProductRepository.invoiceProductRepository.findAllByProfitEquals(0).stream().mapToInt(p-> p.getPrice()*p.getQty()).sum();
+//        int totalTaxForPurchasedProducts=invoiceProductRepository.findAllByProfitEquals(0).stream().mapToInt(p-> p.getTax()*p.getQty()).sum();
+//        int totalIncomeFromSoldProductsWithoutTax=invoiceProductRepository.findAllByProfitIsGreaterThanOrProfitIsLessThan(0).stream().mapToInt(p-> p.getPrice()*p.getQty()).sum();
+//        int totalProfit=invoiceProductRepository.findAllByProfitIsGreaterThanOrProfitIsLessThan(0).stream().mapToInt(InvoiceProduct::getProfit).sum();
+//
+//        map.put("totalCost", totalSpendForPurchasedProductsWithoutTax+totalTaxForPurchasedProducts );
+//        map.put("totalTax",  totalTaxForPurchasedProducts);
+//        map.put("totalSales", totalIncomeFromSoldProductsWithoutTax);
+//        map.put("totalEarning", totalProfit);
+        map.put("p",0);
 
         return map;
     }
@@ -144,13 +145,18 @@ public class InvoiceServiceImpl implements InvoiceService {
     public List<ProfitDTO> getProfitReport() {
 
         List<ProfitDTO> list=new ArrayList<>();
-        invoiceProductRepository.findAllByProfitIsGreaterThan(0).stream().forEach(p->{
 
-            int productProfit=invoiceProductRepository.findAllByProfitIsGreaterThan(0).stream()
+        List<Invoice> invoices=invoiceRepository.findInvoicesByCompanyAndInvoiceType(getCompanyByLoggedInUser(),InvoiceType.SALE);
+        List<InvoiceProduct> profitList= (List<InvoiceProduct>) invoices.stream().map(invoice -> {
+            return invoiceProductRepository.findAllByInvoice(invoice);
+        });
+
+
+       profitList.stream().forEach(p->{
+            int productProfit=profitList.stream()
                     .filter(product->product.getName().equals(p.getName()))
                     .mapToInt(InvoiceProduct::getProfit).sum();
-
-            int productQuantity=invoiceProductRepository.findAllByProfitIsGreaterThan(0).stream()
+            int productQuantity=profitList.stream()
                     .filter(product->product.getName().equals(p.getName()))
                     .mapToInt(InvoiceProduct::getQty).sum();
             list.add(new ProfitDTO(p.getName(),productQuantity,productProfit));
