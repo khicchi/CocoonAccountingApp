@@ -7,6 +7,7 @@ import com.cocoon.entity.Product;
 import com.cocoon.entity.State;
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
+import com.cocoon.exception.NoSuchProductException;
 import com.cocoon.repository.InvoiceProductRepository;
 import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.CompanyService;
@@ -55,6 +56,7 @@ class ProductServiceImplTest {
     static Product product2 = new Product();
     static ProductDTO productDTO = new ProductDTO();
     static List<Product> productList = new ArrayList<>();
+    static Company company = new Company();
 
     @BeforeAll
     static void setUp() {
@@ -84,8 +86,11 @@ class ProductServiceImplTest {
     public void getProductStatusById() {
 
         when(productRepository.findById(any())).thenReturn(Optional.of(product));
+        when(productRepository.findById(0L)).thenThrow(new NoSuchProductException());
 
-        assertEquals(ProductStatus.ACTIVE, productService.getProductStatusById(17L));
+        assertEquals(ProductStatus.ACTIVE, productService.getProductStatusById(product.getId()));
+        assertNotEquals(ProductStatus.PASSIVE, productService.getProductStatusById(product2.getId()));
+        assertThrows(NoSuchProductException.class, () -> productRepository.findById(0L).get());
 
     }
 
