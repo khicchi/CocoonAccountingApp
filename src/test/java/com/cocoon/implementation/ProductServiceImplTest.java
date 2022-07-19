@@ -90,7 +90,7 @@ class ProductServiceImplTest {
 
         assertEquals(ProductStatus.ACTIVE, productService.getProductStatusById(product.getId()));
         assertNotEquals(ProductStatus.PASSIVE, productService.getProductStatusById(product2.getId()));
-        assertThrows(NoSuchProductException.class, () -> productRepository.findById(0L).get());
+        assertThrows(NoSuchProductException.class, () -> productService.getProductStatusById(0L));
 
     }
 
