@@ -29,16 +29,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -49,11 +44,7 @@ class ProductServiceImplTest {
     @Mock
     private CompanyService companyService;
     @Mock
-    private ProductService productService;
-    @Mock
     private ProductRepository productRepository;
-    @Mock
-    private InvoiceProductRepository invoiceProductRepository;
     @Mock
     private MapperUtil mapperUtil;
     @InjectMocks
@@ -61,11 +52,8 @@ class ProductServiceImplTest {
 
     static Product product = new Product();
     static Product product2 = new Product();
-    static ProductDTO productDTO = new ProductDTO();
-    static ProductDTO productDTO2 = new ProductDTO();
     static List<Product> productList = new ArrayList<>();
     static CompanyDTO companyDTO = new CompanyDTO();
-    static Company company = new Company();
 
     @BeforeAll
     static void setUp() {
