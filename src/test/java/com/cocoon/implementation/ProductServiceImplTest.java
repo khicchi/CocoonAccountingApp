@@ -66,6 +66,7 @@ class ProductServiceImplTest {
     static void setUp() {
         product.setId(17L);
         product.setProductStatus(ProductStatus.ACTIVE);
+        product.setUnit(Unit.PIECES);
 
         product2.setId(18L);
         product2.setProductStatus(ProductStatus.ACTIVE);
@@ -138,6 +139,10 @@ class ProductServiceImplTest {
 
     @Test
     void getUnitById() {
+
+        when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
+
+        assertEquals(Unit.PIECES, productServiceImpl.getUnitById(product.getId()));
     }
 
     @Test
