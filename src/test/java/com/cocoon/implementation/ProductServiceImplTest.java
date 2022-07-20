@@ -65,6 +65,7 @@ class ProductServiceImplTest {
     static ProductDTO productDTO2 = new ProductDTO();
     static List<Product> productList = new ArrayList<>();
     static CompanyDTO companyDTO = new CompanyDTO();
+    static Company company = new Company();
 
     @BeforeAll
     static void setUp() {
@@ -134,6 +135,17 @@ class ProductServiceImplTest {
 
     @Test
     void update() {
+
+        when(mapperUtil.convert(any(), (Product) any())).thenReturn(new Product());
+        when(companyService.getCompanyByLoggedInUser()).thenReturn(companyDTO);
+        when(productRepository.save(product)).thenReturn(product);
+
+        assertNotNull(mapperUtil.convert(any(), any()));
+        assertNotNull(companyService.getCompanyByLoggedInUser());
+        assertNotNull(productRepository.save(product));
+
+        verify(productRepository).save(product);
+
     }
 
     @Test
@@ -164,17 +176,16 @@ class ProductServiceImplTest {
     @Test
     void deleteById() {
 
-      /*  when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
+        when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
         when(productRepository.save(product)).thenReturn(product);
-
-        productServiceImpl.deleteById(any());
-
-        verify(productRepository).deleteById(any());
 
         productServiceImpl.deleteById(product.getId());
 
-        assertEquals(true, productRepository.findById(product.getId()).isPresent());
-        assertEquals(true, product.getIsDeleted());*/
+        verify(productRepository).findById(product.getId());
+        verify(productRepository).save(product);
+
+        assertNotNull(productRepository.findById(product.getId()));
+
     }
 
     @Test
@@ -183,7 +194,6 @@ class ProductServiceImplTest {
         productServiceImpl.findProductsByCategoryId(1L);
 
         verify(productRepository).findAllByCategoryId(any());
-
 
     }
 
