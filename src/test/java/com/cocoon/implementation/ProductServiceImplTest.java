@@ -2,22 +2,13 @@ package com.cocoon.implementation;
 
 import com.cocoon.dto.CompanyDTO;
 import com.cocoon.dto.ProductDTO;
-import com.cocoon.entity.Category;
-import com.cocoon.entity.Company;
 import com.cocoon.entity.Product;
-import com.cocoon.entity.State;
-import com.cocoon.enums.InvoiceType;
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
 import com.cocoon.exception.NoSuchProductException;
-import com.cocoon.repository.InvoiceProductRepository;
 import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.CompanyService;
-import com.cocoon.service.ProductService;
 import com.cocoon.util.MapperUtil;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
