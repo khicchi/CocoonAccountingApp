@@ -36,6 +36,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -114,6 +115,8 @@ class ProductServiceImplTest {
         assertNotNull(companyService.getCompanyByLoggedInUser());
         assertNotNull(productRepository.save(product));
 
+        verify(productRepository).save(product);
+
     }
 
     @Test
@@ -121,10 +124,11 @@ class ProductServiceImplTest {
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
         when(mapperUtil.convert(any(), (ProductDTO) any())).thenReturn(new ProductDTO());
-
+        when(productRepository.findById(0L)).thenThrow(new NoSuchProductException(0L));
 
         assertEquals(true, productRepository.findById(product.getId()).isPresent());
         assertNotNull(productServiceImpl.getProductById(product.getId()));
+        assertThrows(NoSuchProductException.class, () -> productServiceImpl.getProductStatusById(0L));
 
     }
 
@@ -136,7 +140,7 @@ class ProductServiceImplTest {
     public void getProductStatusById() {
 
         when(productRepository.findById(any())).thenReturn(Optional.of(product));
-        when(productRepository.findById(0L)).thenThrow(new NoSuchProductException());
+        when(productRepository.findById(0L)).thenThrow(new NoSuchProductException(0L));
 
         assertEquals(true, productRepository.findById(product.getId()).isPresent());
         assertEquals(ProductStatus.ACTIVE, productServiceImpl.getProductStatusById(product.getId()));
@@ -149,10 +153,12 @@ class ProductServiceImplTest {
     void getUnitById() {
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
+        when(productRepository.findById(0L)).thenThrow(new NoSuchProductException(0L));
 
         assertEquals(true, productRepository.findById(product.getId()).isPresent());
-
         assertEquals(Unit.PIECES, productServiceImpl.getUnitById(product.getId()));
+        assertThrows(NoSuchProductException.class, () -> productServiceImpl.getProductStatusById(0L));
+
     }
 
     @Test
