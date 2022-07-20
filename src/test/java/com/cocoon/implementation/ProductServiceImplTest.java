@@ -21,14 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.test.context.ContextConfiguration;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ContextConfiguration(classes = {ProductServiceImpl.class})
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
@@ -165,12 +162,14 @@ class ProductServiceImplTest {
         when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
         when(productRepository.save(product)).thenReturn(product);
 
-        productServiceImpl.deleteById(product.getId());
+        assertNotNull(productRepository.findById(product.getId()));
+        assertNotNull(productRepository.save(product));
+
+        //assertNotNull(productServiceImpl.deleteById(product.getId()));
 
         verify(productRepository).findById(product.getId());
         verify(productRepository).save(product);
 
-        assertNotNull(productRepository.findById(product.getId()));
 
     }
 
