@@ -165,11 +165,8 @@ class ProductServiceImplTest {
         assertNotNull(productRepository.findById(product.getId()));
         assertNotNull(productRepository.save(product));
 
-        //assertNotNull(productServiceImpl.deleteById(product.getId()));
-
         verify(productRepository).findById(product.getId());
         verify(productRepository).save(product);
-
 
     }
 
