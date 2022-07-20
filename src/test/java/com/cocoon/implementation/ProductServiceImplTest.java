@@ -93,6 +93,8 @@ class ProductServiceImplTest {
 
         assertEquals(2, productServiceImpl.getAllProducts().size());
 
+        verify(productRepository).findAll();
+
     }
 
     @Test
@@ -103,6 +105,9 @@ class ProductServiceImplTest {
         when(mapperUtil.convert(any(), (ProductDTO) any())).thenReturn(new ProductDTO());
 
         assertEquals(2, productServiceImpl.getAllProductsByCompany().size());
+
+        verify(companyService).getCompanyByLoggedInUser();
+        verify(productRepository).findAllByCompanyId(any());
     }
 
     @Test
@@ -116,6 +121,7 @@ class ProductServiceImplTest {
         assertNotNull(companyService.getCompanyByLoggedInUser());
         assertNotNull(productRepository.save(product));
 
+        verify(companyService).getCompanyByLoggedInUser();
         verify(productRepository).save(product);
 
     }
@@ -144,6 +150,7 @@ class ProductServiceImplTest {
         assertNotNull(companyService.getCompanyByLoggedInUser());
         assertNotNull(productRepository.save(product));
 
+        verify(companyService).getCompanyByLoggedInUser();
         verify(productRepository).save(product);
 
     }
