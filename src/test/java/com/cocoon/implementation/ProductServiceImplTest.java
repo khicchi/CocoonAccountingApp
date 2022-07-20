@@ -6,6 +6,7 @@ import com.cocoon.entity.Category;
 import com.cocoon.entity.Company;
 import com.cocoon.entity.Product;
 import com.cocoon.entity.State;
+import com.cocoon.enums.InvoiceType;
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
 import com.cocoon.exception.NoSuchProductException;
@@ -51,6 +52,8 @@ class ProductServiceImplTest {
     @Mock
     private ProductRepository productRepository;
     @Mock
+    private InvoiceProductRepository invoiceProductRepository;
+    @Mock
     private MapperUtil mapperUtil;
     @InjectMocks
     private ProductServiceImpl productServiceImpl;
@@ -67,6 +70,7 @@ class ProductServiceImplTest {
         product.setId(17L);
         product.setProductStatus(ProductStatus.ACTIVE);
         product.setUnit(Unit.PIECES);
+        product.setIsDeleted(false);
 
         product2.setId(18L);
         product2.setProductStatus(ProductStatus.ACTIVE);
@@ -118,7 +122,9 @@ class ProductServiceImplTest {
         when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
         when(mapperUtil.convert(any(), (ProductDTO) any())).thenReturn(new ProductDTO());
 
+        assertEquals(true, productRepository.findById(product.getId()).isPresent());
         assertNotNull(productServiceImpl.getProductById(product.getId()));
+
     }
 
     @Test
@@ -131,6 +137,7 @@ class ProductServiceImplTest {
         when(productRepository.findById(any())).thenReturn(Optional.of(product));
         when(productRepository.findById(0L)).thenThrow(new NoSuchProductException());
 
+        assertEquals(true, productRepository.findById(product.getId()).isPresent());
         assertEquals(ProductStatus.ACTIVE, productServiceImpl.getProductStatusById(product.getId()));
         assertNotEquals(ProductStatus.PASSIVE, productServiceImpl.getProductStatusById(product2.getId()));
         assertThrows(NoSuchProductException.class, () -> productServiceImpl.getProductStatusById(0L));
@@ -142,15 +149,35 @@ class ProductServiceImplTest {
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
 
+        assertEquals(true, productRepository.findById(product.getId()).isPresent());
+
         assertEquals(Unit.PIECES, productServiceImpl.getUnitById(product.getId()));
     }
 
     @Test
     void deleteById() {
+
+      /*  when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
+        when(productRepository.save(product)).thenReturn(product);
+
+        productServiceImpl.deleteById(any());
+
+        verify(productRepository).deleteById(any());
+
+        productServiceImpl.deleteById(product.getId());
+
+        assertEquals(true, productRepository.findById(product.getId()).isPresent());
+        assertEquals(true, product.getIsDeleted());*/
     }
 
     @Test
     void findProductsByCategoryId() {
+
+        productServiceImpl.findProductsByCategoryId(1L);
+
+        verify(productRepository).findAllByCategoryId(any());
+
+
     }
 
     @Test
