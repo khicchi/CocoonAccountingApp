@@ -122,6 +122,7 @@ class ProductServiceImplTest {
         when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
         when(mapperUtil.convert(any(), (ProductDTO) any())).thenReturn(new ProductDTO());
 
+
         assertEquals(true, productRepository.findById(product.getId()).isPresent());
         assertNotNull(productServiceImpl.getProductById(product.getId()));
 
