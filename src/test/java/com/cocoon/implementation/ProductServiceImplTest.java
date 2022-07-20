@@ -2,20 +2,14 @@ package com.cocoon.implementation;
 
 import com.cocoon.dto.CompanyDTO;
 import com.cocoon.dto.ProductDTO;
-import com.cocoon.entity.Category;
-import com.cocoon.entity.Company;
 import com.cocoon.entity.Product;
-import com.cocoon.entity.State;
 import com.cocoon.enums.ProductStatus;
 import com.cocoon.enums.Unit;
 import com.cocoon.exception.NoSuchProductException;
-import com.cocoon.repository.InvoiceProductRepository;
 import com.cocoon.repository.ProductRepository;
 import com.cocoon.service.CompanyService;
 import com.cocoon.util.MapperUtil;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -28,9 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,7 +29,6 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ContextConfiguration(classes = {ProductServiceImpl.class})
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
@@ -76,7 +66,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    public void getAllProducts() {
+    void testGetAllProducts() {
 
         when(productRepository.findAll()).thenReturn(productList);
         when(mapperUtil.convert(any(), (ProductDTO) any())).thenReturn(new ProductDTO());
@@ -88,7 +78,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void getAllProductsByCompany() {
+    void testGetAllProductsByCompany() {
 
         when(companyService.getCompanyByLoggedInUser()).thenReturn(companyDTO);
         when(productRepository.findAllByCompanyId(any())).thenReturn(productList);
@@ -101,7 +91,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void save() {
+    void testSave() {
 
         when(mapperUtil.convert(any(), (Product) any())).thenReturn(new Product());
         when(companyService.getCompanyByLoggedInUser()).thenReturn(companyDTO);
@@ -117,7 +107,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void getProductById() {
+    void testGetProductById() {
 
         when(productRepository.findById((Long) any())).thenReturn(Optional.of(product));
         when(mapperUtil.convert((Object) any(), (ProductDTO) any())).thenReturn(productDTO);
@@ -130,7 +120,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void testGetProductById2() {
+    void testGetProductByIdWithException() {
 
         when(productRepository.findById((Long) any())).thenReturn(Optional.of(product));
         when(mapperUtil.convert((Object) any(), (ProductDTO) any()))
@@ -142,7 +132,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void update() {
+    void testUpdate() {
 
         when(mapperUtil.convert(any(), (Product) any())).thenReturn(new Product());
         when(companyService.getCompanyByLoggedInUser()).thenReturn(companyDTO);
@@ -158,7 +148,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    public void getProductStatusById() {
+    void testGetProductStatusById() {
 
         when(productRepository.findById(any())).thenReturn(Optional.of(product));
         when(productRepository.findById(0L)).thenThrow(new NoSuchProductException(0L));
@@ -171,7 +161,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void getUnitById() {
+    void testGetUnitById() {
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
         when(productRepository.findById(0L)).thenThrow(new NoSuchProductException(0L));
@@ -183,7 +173,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void deleteById() {
+    void testDeleteById() {
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.ofNullable(product));
         when(productRepository.save(product)).thenReturn(product);
@@ -197,7 +187,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void findProductsByCategoryId() {
+    void testFindProductsByCategoryId() {
 
         productServiceImpl.findProductsByCategoryId(1L);
 
@@ -206,10 +196,10 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void updateProductQuantity() {
+    void testUpdateProductQuantity() {
     }
 
     @Test
-    void validateProductQuantity() {
+    void testValidateProductQuantity() {
     }
 }
