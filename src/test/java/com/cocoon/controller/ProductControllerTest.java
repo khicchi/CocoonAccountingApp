@@ -1,5 +1,6 @@
 package com.cocoon.controller;
 
+import com.cocoon.dto.ProductDTO;
 import com.cocoon.service.CategoryService;
 import com.cocoon.service.ProductService;
 
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -67,5 +69,28 @@ class ProductControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("product"))
                 .andExpect(MockMvcResultMatchers.view().name("product/product-add"))
                 .andExpect(MockMvcResultMatchers.forwardedUrl("product/product-add"));
+    }
+
+    @Test
+    void saveProduct() throws Exception {
+        when(productService.save(any(ProductDTO.class))).thenReturn(new ProductDTO());
+
+        MockMvcBuilders.standaloneSetup(productController)
+                .build()
+                .perform(MockMvcRequestBuilders
+                        .post("/product/create"))
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/product/list"));
+    }
+
+    @Test
+    void getUpdateProductPage() {
+    }
+
+    @Test
+    void updateProduct() {
+    }
+
+    @Test
+    void deleteProduct() {
     }
 }
