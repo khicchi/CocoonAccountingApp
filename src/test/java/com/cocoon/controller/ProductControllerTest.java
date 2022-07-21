@@ -54,4 +54,18 @@ class ProductControllerTest {
                 .andExpect(MockMvcResultMatchers.forwardedUrl("product/product-list"));
     }
 
+    @Test
+    void getCreateProductPage() throws Exception {
+        when(categoryService.getCategoryByCompany_Id()).thenReturn(new ArrayList<>());
+
+        MockMvcBuilders.standaloneSetup(productController)
+                .build()
+                .perform(MockMvcRequestBuilders
+                        .get("/product/create"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().size(4))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("product"))
+                .andExpect(MockMvcResultMatchers.view().name("product/product-add"))
+                .andExpect(MockMvcResultMatchers.forwardedUrl("product/product-add"));
+    }
 }
