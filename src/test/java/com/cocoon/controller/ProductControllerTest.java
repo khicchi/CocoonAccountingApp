@@ -1,6 +1,8 @@
 package com.cocoon.controller;
 
 import com.cocoon.dto.ProductDTO;
+import com.cocoon.enums.ProductStatus;
+import com.cocoon.enums.Unit;
 import com.cocoon.service.CategoryService;
 import com.cocoon.service.ProductService;
 
@@ -12,18 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -83,14 +83,44 @@ class ProductControllerTest {
     }
 
     @Test
-    void getUpdateProductPage() {
+    void getUpdateProductPage() throws Exception {
+
+        when(productService.getProductById((Long) any())).thenReturn(new ProductDTO());
+        when(productService.getProductStatusById((Long) any())).thenReturn(ProductStatus.ACTIVE);
+        when(productService.getUnitById((Long) any())).thenReturn(Unit.PIECES);
+        when(categoryService.getCategoryByCompany_Id()).thenReturn(new ArrayList<>());
+
+        MockMvcBuilders.standaloneSetup(productController)
+                .build()
+                .perform(MockMvcRequestBuilders
+                        .get("/product/update/{id}", 17L))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().size(6))
+                .andExpect(MockMvcResultMatchers.model()
+                        .attributeExists("categories", "product", "productStatus", "productStatuses", "unit", "units"))
+                .andExpect(MockMvcResultMatchers.view().name("product/product-edit"))
+                .andExpect(MockMvcResultMatchers.forwardedUrl("product/product-edit"));
+
     }
 
     @Test
-    void updateProduct() {
+    void updateProduct() throws Exception {
+
+        MockMvcBuilders.standaloneSetup(productController)
+                .build()
+                .perform(MockMvcRequestBuilders
+                        .post("/product/update/{id}", 17L))
+               .andExpect(MockMvcResultMatchers.view().name("redirect:/product/list"));
+
     }
 
     @Test
-    void deleteProduct() {
+    void deleteProduct() throws Exception {
+
+        MockMvcBuilders.standaloneSetup(productController)
+                .build()
+                .perform(MockMvcRequestBuilders
+                        .post("/product/delete/{id}", 17L))
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/product/list"));
     }
 }
