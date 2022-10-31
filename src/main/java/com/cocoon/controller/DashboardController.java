@@ -41,7 +41,13 @@ public class DashboardController {
     }
 
     private void getInvoiceTopThreeList(Model model){
-        List<IInvoiceForDashBoard> updatedInvoices = invoiceService.getDashboardInvoiceTop3(companyService.getCompanyByLoggedInUser().getId());
+        List<IInvoiceForDashBoard> updatedInvoices= new ArrayList<>();
+        try{
+            updatedInvoices = invoiceService.getDashboardInvoiceTop3(companyService.getCompanyByLoggedInUser().getId());
+        }catch(Exception e ){
+            e.printStackTrace();
+        }
+
         model.addAttribute("invoices", updatedInvoices);
         model.addAttribute("result", invoiceService.calculateTotalProfitLoss());
     }
@@ -51,5 +57,6 @@ public class DashboardController {
     private void getExchangeRates(Model model){
         model.addAttribute("rates", currencyClient.retrieveCurrencyDetails().rates);
     }
+
 
 }

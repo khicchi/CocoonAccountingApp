@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:5.5.51
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+##      - MYSQL_DATABASE: $MYSQLDB_DATABASE
+##      - MYSQL_PASSWORD: $MYSQLDB_ROOT_PASSWORD
+      MYSQL_ROOT_PASSWORD:
+
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - cocoon-network
+  cocoonapp:
+    depends_on:
+      - db
+    build: .
+#    image: bahadockerhub/cocoonapp:10
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+    networks:
+      - cocoon-network
+
+volumes:
+  db:
+
+networks:
+  cocoon-network:
